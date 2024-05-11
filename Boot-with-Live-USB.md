@@ -1,0 +1,13 @@
+### 1. Boot with Live USB
+
+- Start interactive login shell as root user
+
+```shell
+sudo -i
+```
+
+- Change keyboard layout
+
+```shell
+loadkeys de
+```
