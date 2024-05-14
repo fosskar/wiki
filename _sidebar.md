@@ -1,9 +1,9 @@
 ### [NixOS](NixOS)
 
 - [Gaming](NixOS/Gaming)
- - [Network](NixOS/Gaming/Network)
- - [CS2](NixOS/Gaming/CS2)
- - [Hyprland](NixOS/Gaming/Hyprland)
+  - [Network](Network)
+  - [CS2](CS2)
+  - [Hyprland](Hyprland)
 
 ---
 
