@@ -1,3 +1,14 @@
+### [Home](home)
+
+- [Hello World](hello)
+- [Foo](foo)
+- [Bar](bar)
+
+---
+
+- [Sidebar](_sidebar)
+
+
 [NixOS](NixOS)
   [Gaming](NixOS/Gaming)
     [Network](NixOS/Gaming/Network)
