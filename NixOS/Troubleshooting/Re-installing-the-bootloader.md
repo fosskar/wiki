@@ -1,4 +1,4 @@
-# Re-installing the bootloader
+# Problem
 
 * Something happened, and the bootloader doesn't work as expected. For example BIOS-Update.
 * The ESP was re-made and nothing was kept.
