@@ -9,3 +9,5 @@
   - [Installation](NixOS/Installation)
 
   - [Troubleshooting](NixOS/Troubleshooting)
+
+    - [Re-installing bootloader](NixOS/Troubleshooting/Re-installing the bootloader)
