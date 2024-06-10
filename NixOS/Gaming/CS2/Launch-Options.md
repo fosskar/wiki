@@ -24,11 +24,10 @@ MESA_VK_WSI_PRESENT_MODE=immediate RADV_DEBUG=nogpl mangohud gamescope -w 1920 -
 ## wayland
 
 ```shell
-MESA_VK_WSI_PRESENT_MODE=immediate LD_BIND_NOW="1" RADV_TEX_ANISO="0" ENABLE_VKBASALT="1" mangohud gamemoderun %command% -vulkan
+MESA_VK_WSI_PRESENT_MODE=immediate LD_BIND_NOW="1" ENABLE_VKBASALT="1" mangohud gamemoderun %command% -vulkan
 ```
 `LD_BIND_NOW="1"`       binds code on game start
 
-`RADV_TEX_ANISO="0"`    disable anisotropefiltering
 
 `ENABLE_VKBASALT="1"`   enables vkbasalt
 
