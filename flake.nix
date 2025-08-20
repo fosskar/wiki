@@ -15,8 +15,20 @@
         devShells.default = pkgs.mkShell {
           name = "wiki";
           buildInputs = with pkgs; [
-            # Add any packages you need here
+            # markdown linting and formatting
+            markdownlint-cli2
+            marksman  # markdown language server
+            
+            # optional: static site generation
+            mdbook
           ];
+          
+          shellHook = ''
+            echo "📝 wiki development environment"
+            echo "available commands:"
+            echo "  markdownlint-cli2 **/*.md  - lint all markdown files"
+            echo "  mdbook serve                - serve as static site (if you add book.toml)"
+          '';
         };
       }
     );

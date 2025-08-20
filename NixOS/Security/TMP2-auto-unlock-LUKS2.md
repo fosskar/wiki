@@ -54,3 +54,4 @@ type in the password for your luks2 device
 
 if everything worked you get this notification:
 New TPM2 token enrolled as key slot 1.
+

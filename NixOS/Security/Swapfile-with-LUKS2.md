@@ -11,3 +11,4 @@
       "resume_offset=372736" # for hibernate resume get with "filefrag -v /var/swapfile" and use first physical_offset
     ];
   };
+

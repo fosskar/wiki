@@ -40,3 +40,4 @@ MESA_VK_WSI_PRESENT_MODE=immediate LD_BIND_NOW="1" ENABLE_VKBASALT="1" mangohud 
 `-vulkan`    cs2 specific commands
 
 ## x11
+
