@@ -1,1 +1,14 @@
-{}
+{
+  "showLineNumber": true,
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "tabSize": 2,
+  "useMarkdownLinks": true,
+  "newFileLocation": "current",
+  "attachmentFolderPath": "assets",
+  "alwaysUpdateLinks": true,
+  "spellcheck": true,
+  "foldHeading": true,
+  "foldIndent": true,
+  "showFrontmatter": true
+}
