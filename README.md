@@ -1,79 +1,79 @@
-# Personal Wiki - NixOS & Gaming
+# personal wiki - NixOS & gaming
 
-Welcome to my personal knowledge base focused on NixOS configuration, gaming setups, and system administration. This wiki is designed to work seamlessly with Obsidian.
+welcome to my personal knowledge base focused on NixOS configuration, gaming setups, and system administration. this wiki is designed to work seamlessly with Obsidian.
 
-## Quick Navigation
+## quick navigation
 
-### 🏠 [NixOS Setup](NixOS/README.md)
+### 🏠 [nixos setup](nixos/README.md)
 
-- [Installation Guide](NixOS/Installation/README.md)
-- [Configuration](NixOS/Configuration/README.md)
-- [Security](NixOS/Security/README.md)
+- [installation guide](nixos/installation/README.md)
+- [configuration](nixos/configuration/README.md)
+- [security](nixos/security/README.md)
 
-### 🎮 [Gaming](NixOS/Gaming/README.md)
+### 🎮 [gaming](nixos/gaming/README.md)
 
-- [CS2 Configuration](NixOS/Gaming/CS2/README.md)
-- [Hyprland Gaming](NixOS/Gaming/Hyprland/README.md)
-- [Network Optimization](NixOS/Gaming/Network/README.md)
+- [CS2 configuration](nixos/gaming/cs2/README.md)
+- [Hyprland gaming](nixos/gaming/hyprland/README.md)
+- [network optimization](nixos/gaming/network/README.md)
 
-### 🔧 [Troubleshooting](NixOS/Troubleshooting/README.md)
+### 🔧 [troubleshooting](nixos/troubleshooting/README.md)
 
-- [Bootloader Issues](NixOS/Troubleshooting/Bootloader.md)
-- [Common Problems](NixOS/Troubleshooting/Common-Issues.md)
+- [bootloader issues](nixos/troubleshooting/re-installing-the-bootloader.md)
+- [common problems](nixos/troubleshooting/README.md)
 
-### ☸️ [Kubernetes](NixOS/Kubernetes/README.md)
+### ☸️ [kubernetes](nixos/kubernetes/README.md)
 
-- [Minikube Setup](NixOS/Kubernetes/Minikube.md)
+- [minikube setup](nixos/kubernetes/minikube.md)
 
-## Obsidian Integration
+## obsidian integration
 
-This wiki is optimized for Obsidian with:
+this wiki is optimized for Obsidian with:
 
 - YAML frontmatter for metadata
-- Internal links using `[[Page Name]]` format
-- Tag support for categorization
-- Mermaid diagrams support
-- Code block syntax highlighting
+- internal links using `[[Page Name]]` format
+- tag support for categorization
+- mermaid diagrams support
+- code block syntax highlighting
 
-## Structure
+## structure
 
 ```markdown
-# File Naming Convention
+# file naming convention
 
-- Use kebab-case for file names
+- use kebab-case for file names
 - README.md files in each directory for navigation
-- Index pages for major topics
+- index pages for major topics
 
-# Frontmatter Template
+# frontmatter template
 
 ---
 
-title: "Page Title"
-description: "Brief description"
+title: "page title"
+description: "brief description"
 tags: [nixos, gaming, configuration]
 date: 2024-01-01
 
 ---
 
-# Linking
+# linking
 
-- Use [[Internal Links]] for cross-references
-- Use [External Links](https://example.com) for web resources
+- use [[internal links]] for cross-references
+- use [external links](https://example.com) for web resources
 ```bash
 
-## Getting Started
+## getting started
 
-1. **New to NixOS?** Start with [[NixOS/Installation/README|Installation Guide]]
-2. **Gaming Setup?** Check [[NixOS/Gaming/README|Gaming Configuration]]
-3. **Having issues?** Visit [[NixOS/Troubleshooting/README|Troubleshooting]]
+1. **new to NixOS?** start with [[nixos/installation/README|installation guide]]
+2. **gaming setup?** check [[nixos/gaming/README|gaming configuration]]
+3. **having issues?** visit [[nixos/troubleshooting/README|troubleshooting]]
 
-## Contributing
+## contributing
 
-This is a living document. When you find solutions or improvements:
+this is a living document. when you find solutions or improvements:
 
-1. Update the relevant page
-2. Add your experience to troubleshooting
-3. Link related pages together
+1. update the relevant page
+2. add your experience to troubleshooting
+3. link related pages together
 
 ---
 
