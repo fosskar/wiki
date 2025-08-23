@@ -47,9 +47,9 @@ kind: Secret
 metadata:
   name: proxmox-credentials
 stringData:
-  url: "https://192.168.1.100:8006"
-  token: "capi@pve!capi"
-  secret: "a8e7383d-5d63-4933-a640-68dcf0579df8"
+  url: "https://192.168.1.X:8006"
+  token: "username@pve!token"
+  secret: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
 ```bash
 
 ## cleanup automation
