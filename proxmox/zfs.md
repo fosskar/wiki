@@ -54,7 +54,7 @@ proxmox-boot-tool init /dev/nvme0n1p2
 attach the ZFS data partition (partition 3) of the new drive to your rpool mirror:
 
 ```bash
-zpool attach rpool /dev/disk/by-id/nvme-eui.002538b731b3c330-part3 /dev/disk/by-id/nvme-CT2000P3PSSD8_25094E7C8658-part3
+zpool attach rpool /dev/disk/by-id/nvme-eui.XXXXXXXXXXXXXXXX-part3 /dev/disk/by-id/nvme-CTXXXXXXXXXXXXXX-part3
 ```bash
 
 ## step 5: monitor and verify
