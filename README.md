@@ -1,80 +1,103 @@
-# personal wiki - NixOS & gaming
+# systems administration wiki
 
-welcome to my personal knowledge base focused on NixOS configuration, gaming setups, and system administration. this wiki is designed to work seamlessly with Obsidian.
+comprehensive knowledge base for modern infrastructure management covering nixos, kubernetes, and virtualization. battle-tested configurations and practical guides for production deployments.
 
-## quick navigation
+## what's inside
 
-### 🏠 [nixos setup](nixos/README.md)
+this wiki contains **production-ready configurations** and detailed guides for:
 
-- [installation guide](nixos/installation/README.md)
-- [configuration](nixos/configuration/README.md)
-- [security](nixos/security/README.md)
+- **nixos ecosystem** - flake-based configurations, luks encryption, hardware optimization
+- **kubernetes orchestration** - talos linux, cluster api, cilium networking, gitops workflows  
+- **virtualization platforms** - proxmox clustering, ZFS storage, network optimization
+- **security hardening** - yubikey authentication, gpg/ssh integration, automated secrets management
 
-### 🎮 [gaming](nixos/gaming/README.md)
+## quick start
 
-- [CS2 configuration](nixos/gaming/cs2/README.md)
-- [Hyprland gaming](nixos/gaming/hyprland/README.md)
-- [network optimization](nixos/gaming/network/README.md)
+| if you're... | start here |
+|--------------|-----------|
+| **new to nixos** | [[nixos/installation/README\|complete installation guide]] |
+| **setting up gaming** | [[nixos/gaming/cs2/launch-options\|cs2 optimization]] |
+| **deploying kubernetes** | [[kubernetes/README\|cluster architecture]] |
+| **managing proxmox** | [[proxmox/zfs\|ZFS raid setup]] |
+| **hardening security** | [[nixos/security/yubikey-gpg-ssh-setup\|yubikey guide]] |
 
-### 🔧 [troubleshooting](nixos/troubleshooting/README.md)
+## major sections
 
-- [bootloader issues](nixos/troubleshooting/re-installing-the-bootloader.md)
-- [common problems](nixos/troubleshooting/README.md)
+### nixos configuration
+complete linux desktop and server management with reproducible builds
 
-### ☸️ [kubernetes](nixos/kubernetes/README.md)
+**highlights:**
+- [step-by-step installation with luks encryption](nixos/installation/README.md)
+- [flake-based system configuration](nixos/configuration/README.md) 
+- [yubikey gpg/ssh setup guide](nixos/security/yubikey-gpg-ssh-setup.md)
+- [gaming optimization for cs2/hyprland](nixos/gaming/cs2/launch-options.md)
+- [bootloader recovery procedures](nixos/troubleshooting/re-installing-the-bootloader.md)
 
-- [minikube setup](nixos/kubernetes/minikube.md)
+### kubernetes orchestration  
+enterprise-grade cluster management with declarative infrastructure
 
-## obsidian integration
+**architecture:**
+- **talos linux** - immutable kubernetes os
+- **cluster api** - lifecycle management
+- **cilium** - cni with load balancing  
+- **argocd** - gitops deployments
+- **proxmox** - vm orchestration
 
-this wiki is optimized for Obsidian with:
+**key guides:**
+- [cilium argocd sync waves](kubernetes/cilium/cilium-argocd-sync-waves.md)
+- [cluster api secret management](kubernetes/clusterapi/secret-management.md)
+- [talos bootstrap troubleshooting](kubernetes/talos/bootstrap-issues.md)
 
-- YAML frontmatter for metadata
-- internal links using `[[Page Name]]` format
-- tag support for categorization
-- mermaid diagrams support
-- code block syntax highlighting
+### virtualization infrastructure
+proxmox-based virtualization with high availability storage
 
-## structure
+**coverage:**
+- [ZFS raid1 conversion guide](proxmox/zfs.md)
+- [opnsense firewall setup](proxmox/opnsense-setup.md)
+- [vm management automation](kubernetes/proxmox/vm-management.md)
 
-```markdown
-# file naming convention
+## practical approach
 
-- use kebab-case for file names
-- README.md files in each directory for navigation
-- index pages for major topics
+this wiki focuses on **real-world implementations** with:
 
-# frontmatter template
+- tested on actual production systems
+- complete command examples with explanations
+- comprehensive troubleshooting sections
+- security-first configuration patterns
+- performance optimization guides
+
+## conventions
+
+### documentation standards
+- **yaml frontmatter** with metadata (difficulty, time estimates, categories)
+- **obsidian-compatible** internal linking with `[[page|alias]]` syntax
+- **consistent formatting** following lowercase naming conventions
+- **practical examples** with bash/nix code blocks and verification steps
+
+### file organization
+```
+wiki/
+├── nixos/           # linux system management
+│   ├── installation/    # step-by-step setup guides
+│   ├── configuration/   # system config references  
+│   ├── security/       # hardening and authentication
+│   └── gaming/         # performance optimization
+├── kubernetes/      # container orchestration
+│   ├── cilium/         # networking configuration
+│   ├── clusterapi/     # lifecycle management
+│   └── talos/          # immutable os setup
+└── proxmox/         # virtualization platform
+    └── [vm management, storage, networking]
+```
+
+## target audience
+
+- **system administrators** managing modern linux infrastructure
+- **devops engineers** deploying kubernetes workloads  
+- **security professionals** implementing hardware-backed authentication
+- **gaming enthusiasts** optimizing nixos for performance
+- **homelab operators** running proxmox virtualization stacks
 
 ---
 
-title: "page title"
-description: "brief description"
-tags: [nixos, gaming, configuration]
-date: 2024-01-01
-
----
-
-# linking
-
-- use [[internal links]] for cross-references
-- use [external links](https://example.com) for web resources
-```bash
-
-## getting started
-
-1. **new to NixOS?** start with [[nixos/installation/README|installation guide]]
-2. **gaming setup?** check [[nixos/gaming/README|gaming configuration]]
-3. **having issues?** visit [[nixos/troubleshooting/README|troubleshooting]]
-
-## contributing
-
-this is a living document. when you find solutions or improvements:
-
-1. update the relevant page
-2. add your experience to troubleshooting
-3. link related pages together
-
----
-
-_Last updated: 2024-04-23_
+*comprehensive guides for the modern infrastructure stack*
