@@ -4,24 +4,35 @@
     "type": "split",
     "children": [
       {
-        "id": "85f9929108ac0d6b",
+        "id": "1604e58e8abac719",
         "type": "tabs",
         "children": [
           {
-            "id": "621ff59ee9575a27",
+            "id": "ae5615ca2155a0df",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "nas/overview.md",
+                "file": "nixos/configuration/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "overview"
+              "title": "README"
+            }
+          },
+          {
+            "id": "c0d6c3b7fd6ad6c5",
+            "type": "leaf",
+            "state": {
+              "type": "smart-chat-view",
+              "state": {},
+              "icon": "smart-chat",
+              "title": "Smart Chat"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -94,7 +105,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "nas/overview.md",
+                "file": "nixos/configuration/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +115,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for overview"
+              "title": "Backlinks for README"
             }
           },
           {
@@ -164,13 +175,43 @@
               "icon": "lucide-list",
               "title": "Outline of overview"
             }
+          },
+          {
+            "id": "5acb492d6766ed9f",
+            "type": "leaf",
+            "state": {
+              "type": "smart-connections-view",
+              "state": {},
+              "icon": "smart-connections",
+              "title": "Connections"
+            }
+          },
+          {
+            "id": "ef97325aa401f325",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {},
+              "icon": "spreadsheet",
+              "title": "Advanced Tables"
+            }
+          },
+          {
+            "id": "0720693981322a66",
+            "type": "leaf",
+            "state": {
+              "type": "git-view",
+              "state": {},
+              "icon": "git-pull-request",
+              "title": "Source Control"
+            }
           }
-        ]
+        ],
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -182,15 +223,26 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "smart-connections:Open: Smart Chat": false,
+      "smart-connections:Smart Connections: Open connections view": false,
+      "smart-connections:Smart Connections: Open random connection": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "621ff59ee9575a27",
+  "active": "c0d6c3b7fd6ad6c5",
   "lastOpenFiles": [
+    "kubernetes/cilium/cilium-argocd-sync-waves.md",
+    "nas/overview.md",
+    "Untitled.md",
+    "README.md",
+    "claude/commands",
+    "claude",
+    "Untitled",
     "proxmox/zfs.md",
     "proxmox/opnsense-setup.md",
     "proxmox/dns-resolution-setup.md",
-    "README.md",
     "Untitled.base",
     "Untitled 1.base",
     "Untitled.canvas",
