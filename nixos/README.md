@@ -45,7 +45,7 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 - graphics drivers
 - network optimization
 
-### [[nixos/kubernetes/README|☸️ kubernetes]]
+### [[kubernetes/README|☸️ kubernetes]]
 - minikube setup
 - container configuration
 - orchestration guides

@@ -17,6 +17,7 @@ this setup uses:
 - [clusterapi/](./ClusterAPI/) - cluster api setup and management
 - [proxmox/](./Proxmox/) - proxmox integration and networking
 - [cilium/](./Cilium/) - cilium cni and networking configuration
+- [nixos/](./nixos/) - nixos-specific kubernetes notes (minikube)
 
 ## architecture
 
