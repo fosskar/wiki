@@ -16,7 +16,7 @@ this wiki contains **production-ready configurations** and detailed guides for:
 | if you're... | start here |
 |--------------|-----------|
 | **new to nixos** | [[nixos/installation/README\|complete installation guide]] |
-| **setting up gaming** | [[nixos/gaming/cs2/launch-options\|cs2 optimization]] |
+| **setting up gaming** | [[nixos/gaming/cs2-launch-options\|cs2 optimization]] |
 | **deploying kubernetes** | [[kubernetes/README\|cluster architecture]] |
 | **managing proxmox** | [[proxmox/zfs\|ZFS raid setup]] |
 | **hardening security** | [[nixos/security/yubikey-gpg-ssh-setup\|yubikey guide]] |
