@@ -352,5 +352,5 @@ If system fails to boot:
 
 ---
 
-*Next: [[nixos/configuration/README|Configure Your System]]*
+*Next: [[nixos/configuration|Configure Your System]]*
 

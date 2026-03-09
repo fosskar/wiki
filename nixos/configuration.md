@@ -389,7 +389,7 @@ df -h
 
 +- [[nixos/gaming/README|Gaming Configuration]]
 +- [[nixos/security/README|security hardening]]
-+- [[nixos/troubleshooting/README|Troubleshooting Guide]]
++- [[nixos/troubleshooting-bootloader|Troubleshooting Guide]]
 +- [Official NixOS Manual](https://nixos.org/manual/nixos/stable/)
 
 ---
