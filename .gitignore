@@ -1,8 +1,7 @@
 .direnv
 .obsidian
-
-
-
+.site
+public
 
 # Ignore Smart Environment folder
 .smart-env
