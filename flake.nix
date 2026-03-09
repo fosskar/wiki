@@ -6,8 +6,10 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    { nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         quartzVersion = "v4.5.2";
@@ -91,8 +93,62 @@
           echo ""
           echo "static site built to $WIKI_ROOT/public/"
         '';
+        # only markdown content, no config/patches/flake files
+        content = pkgs.lib.cleanSourceWith {
+          src = ./.;
+          filter =
+            path: type:
+            let
+              baseName = baseNameOf path;
+            in
+            (
+              type == "directory"
+              && !builtins.elem baseName [
+                ".site"
+                "public"
+                "patches"
+                "result"
+                ".jj"
+                ".git"
+              ]
+            )
+            || pkgs.lib.hasSuffix ".md" baseName;
+        };
+
+        quartz-src = pkgs.fetchFromGitHub {
+          owner = "jackyzha0";
+          repo = "quartz";
+          rev = quartzVersion;
+          hash = "sha256-A6ePeNmcsbtKVnm7hVFOyjyc7gRYvXuG0XXQ6fvTLEw=";
+        };
+
+        site = pkgs.buildNpmPackage {
+          pname = "wiki";
+          version = "0.1.0";
+
+          src = quartz-src;
+
+          npmDepsHash = "sha256-xxK9qy04m1olekOJIyYJHfdkYFzpjsgcfyFPuKsHpKE=";
+
+          # copy our config + patches into quartz source
+          postPatch = ''
+            cp ${./quartz.config.ts} quartz.config.ts
+            cp ${./quartz.layout.ts} quartz.layout.ts
+            cp ${./custom.scss} quartz/styles/custom.scss
+            cp ${./patches/toc.inline.ts} quartz/components/scripts/toc.inline.ts
+            cp ${./patches/Footer.tsx} quartz/components/Footer.tsx
+          '';
+
+          buildPhase = ''
+            node ./quartz/bootstrap-cli.mjs build --directory ${content} --output $out
+          '';
+
+          dontInstall = true;
+        };
       in
       {
+        packages.default = site;
+
         devShells.default = pkgs.mkShell {
           name = "wiki";
           buildInputs = with pkgs; [
