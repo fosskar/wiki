@@ -16,8 +16,8 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 - [[nixos/installation/README|installation guide]] - essential first steps
 
 ### existing system?
-- [[nixos/configuration/README|configuration reference]] - system tweaks and optimizations
-- [[nixos/troubleshooting/README|problem solver]] - common issues and fixes
+- [[nixos/configuration|configuration reference]] - system tweaks and optimizations
+- [[nixos/troubleshooting-bootloader|problem solver]] - common issues and fixes
 
 ## 📁 categories
 
@@ -27,7 +27,7 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 - flake configuration
 - hardware-specific guides
 
-### [[nixos/configuration/README|⚙️ configuration]]
+### [[nixos/configuration|⚙️ configuration]]
 - system settings
 - desktop environments
 - package management
@@ -50,7 +50,7 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 - container configuration
 - orchestration guides
 
-### [[nixos/troubleshooting/README|🔧 troubleshooting]]
+### [[nixos/troubleshooting-bootloader|🔧 troubleshooting]]
 - boot issues
 - package problems
 - system recovery
@@ -58,10 +58,10 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 
 ## 🔗 quick links
 
-- [[nixos/flakes/templates|flake templates]]
+- [[nixos/flake-templates|flake templates]]
 - [[nixos/security/swapfile-with-luks2|encrypted swap]]
 - [[nixos/security/tmp2-auto-unlock-luks2|TPM2 unlock]]
-- [[nixos/troubleshooting/re-installing-the-bootloader|boot recovery]]
+- [[nixos/troubleshooting-bootloader|boot recovery]]
 
 ## 📝 notes
 
