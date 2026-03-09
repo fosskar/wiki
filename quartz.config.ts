@@ -1,5 +1,5 @@
-import { QuartzConfig } from "./quartz/cfg"
-import * as Plugin from "./quartz/plugins"
+import { QuartzConfig } from "./quartz/cfg";
+import * as Plugin from "./quartz/plugins";
 
 const config: QuartzConfig = {
   configuration: {
@@ -10,7 +10,16 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "localhost",
-    ignorePatterns: ["private", "templates", ".obsidian", ".git", ".jj", "node_modules", ".direnv", ".smart-env"],
+    ignorePatterns: [
+      "private",
+      "templates",
+      ".obsidian",
+      ".git",
+      ".jj",
+      "node_modules",
+      ".direnv",
+      ".smart-env",
+    ],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",
@@ -83,6 +92,6 @@ const config: QuartzConfig = {
       Plugin.NotFoundPage(),
     ],
   },
-}
+};
 
-export default config
+export default config;
