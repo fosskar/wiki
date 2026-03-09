@@ -6,6 +6,7 @@
 ## problem overview
 
 in a typical home lab setup with:
+
 - home router (OpenWrt) on network A
 - kubernetes cluster on network B (via OPNsense)
 - LoadBalancer services with L2 announcements
@@ -19,18 +20,21 @@ DNS resolution can become complex when domains need to resolve across network bo
 there are two main approaches for handling custom domains:
 
 1. **DNS server forwarding**: forward queries to another DNS server
+
    ```bash
    server=/domain.com/10.0.0.1
    ```
 
 2. **address resolution**: directly resolve domain to IP
-   ```bash
+   ````bash
    address=/domain.com/10.0.0.100
    ```bash
+   ````
 
 ### network interface considerations
 
 DNS servers (like Unbound) can listen on specific interfaces:
+
 - single interface: only accessible from that network
 - all interfaces: accessible from multiple networks
 - interface-specific overrides: different DNS entries per interface
@@ -38,10 +42,12 @@ DNS servers (like Unbound) can listen on specific interfaces:
 ## solution approaches
 
 ### method 1: DNS server forwarding
+
 configure your primary router to forward specific domain queries to another DNS server.
 
 **example in dnsmasq:**
-```bash
+
+````bash
 server=/cluster.local/192.168.1.100
 ```bash
 
@@ -132,4 +138,4 @@ for a kubernetes cluster with Cilium ingress using shared LoadBalancer mode:
 5. remove TLS configuration until certificates are properly set up
 
 this approach provides reliable access to kubernetes services via custom domain names in home lab environments.
-
+````

@@ -1,8 +1,8 @@
 # bootloader
 
-* something happened, and the bootloader doesn't work as expected. for example BIOS update.
-* the ESP was re-made and nothing was kept.
-* the ESP wasn't mounted and I want to re-generate the menu entries.
+- something happened, and the bootloader doesn't work as expected. for example BIOS update.
+- the ESP was re-made and nothing was kept.
+- the ESP wasn't mounted and I want to re-generate the menu entries.
 
 ## from a running system
 
@@ -31,9 +31,8 @@ nixos-enter
 
 ### re-install bootloader
 
- finally, run the [command that the installer would run](https://github.com/NixOS/nixpkgs/blob/e140d71d6330786c40b4bd9c0d59af7ad1a5e86a/nixos/modules/installer/tools/nixos-install.sh#L191-L192). this will re-install the bootloader.
+finally, run the [command that the installer would run](https://github.com/NixOS/nixpkgs/blob/e140d71d6330786c40b4bd9c0d59af7ad1a5e86a/nixos/modules/installer/tools/nixos-install.sh#L191-L192). this will re-install the bootloader.
 
 ```shell
 NIXOS_INSTALL_BOOTLOADER=1 /nix/var/nix/profiles/system/bin/switch-to-configuration boot
 ```
-

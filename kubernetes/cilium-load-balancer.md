@@ -3,9 +3,10 @@
 ## ippool configuration
 
 ### shared mode setup
+
 use single ip for all ingress services:
 
-```yaml
+````yaml
 # cilium/values.yaml
 loadBalancerIPPool:
   enabled: true
@@ -53,7 +54,7 @@ spec:
         backend:
           service:
             name: hubble-ui
-            port: 
+            port:
               number: 80
 ```bash
 
@@ -75,3 +76,4 @@ kubectl get pods -l app.kubernetes.io/name=cilium-agent
 
 ### dns not resolving
 check router dns configuration and cilium service status.
+````

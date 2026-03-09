@@ -5,6 +5,7 @@ comprehensive guide for setting up gpg keys on dual yubikeys for ssh authenticat
 ## overview
 
 this setup provides:
+
 - hardware-protected gpg keys stored on yubikey
 - ssh authentication without files on disk
 - git commit signing with hardware verification
@@ -74,6 +75,7 @@ gpg --expert --full-generate-key --pinentry-mode loopback
 ```
 
 choose:
+
 - 11 (ecc set your own capabilities)
 - toggle off sign (s), keep only certify [c]
 - q to finish capabilities
@@ -95,6 +97,7 @@ gpg --expert --edit-key --pinentry-mode loopback $KEYID
 add three subkeys:
 
 #### signing subkey [s]
+
 ```
 addkey
 11 (ecc set capabilities)
@@ -107,6 +110,7 @@ y (confirm)
 ```
 
 #### encryption subkey [e]
+
 ```
 addkey
 12 (ecc encrypt only)
@@ -117,6 +121,7 @@ y (confirm)
 ```
 
 #### authentication subkey [a] - ssh key
+
 ```
 addkey
 11 (ecc set capabilities)
@@ -129,6 +134,7 @@ y (confirm)
 ```
 
 #### save all changes
+
 ```
 save
 ```
@@ -260,12 +266,14 @@ git log --show-signature -1
 ### 9. add keys to github/servers
 
 #### ssh key
+
 ```bash
 # copy this to github ssh keys or server authorized_keys
 cat ~/.ssh/id_yubikey.pub
 ```
 
 #### gpg key for verified commits
+
 ```bash
 # copy this to github gpg keys
 gpg --armor --export $KEYID
@@ -282,7 +290,7 @@ gpg --card-status | grep Serial
 ssh-add -L  # should show your key
 ssh -T git@github.com  # test ssh
 
-# test yubikey 2  
+# test yubikey 2
 # swap yubikeys
 gpg --card-status | grep Serial
 ssh-add -L  # should show same key
@@ -296,10 +304,11 @@ gpg --list-secret-keys --keyid-format LONG
 ```
 
 should show:
+
 ```
 sec   ed25519/KEYID [C] (master key, no expiry)
 ssb>  ed25519/KEYID [S] (signing subkey, on card)
-ssb>  cv25519/KEYID [E] (encryption subkey, on card)  
+ssb>  cv25519/KEYID [E] (encryption subkey, on card)
 ssb>  ed25519/KEYID [A] (auth subkey, on card)
 ```
 
@@ -337,6 +346,7 @@ gpg --decrypt file.txt.gpg
 ### common issues
 
 #### pinentry loops with empty passphrase
+
 ```bash
 echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
 echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
@@ -344,12 +354,14 @@ gpgconf --kill gpg-agent
 ```
 
 #### multiple yubikeys detected
+
 ```bash
 # specify device by serial
 ykman --device SERIAL_NUMBER openpgp info
 ```
 
 #### ssh not using yubikey
+
 ```bash
 # check ssh agent
 echo $SSH_AUTH_SOCK
@@ -361,6 +373,7 @@ gpgconf --launch gpg-agent
 ```
 
 #### ssh "get_agent_identities: No such file or directory"
+
 this usually means ssh can't connect to the gpg-agent socket:
 
 ```bash
@@ -373,6 +386,7 @@ ssh-add -L
 ```
 
 #### ssh config identityagent path issues
+
 avoid hardcoding paths in ssh config. let ssh use SSH_AUTH_SOCK environment variable automatically:
 
 ```nix
@@ -391,9 +405,11 @@ programs.ssh = {
 ```
 
 #### "unusable secret key" when moving to second yubikey
+
 backup was made after moving to first yubikey. need to restore from backup made before any keytocard operations.
 
 #### sops-nix configuration for yubikey gpg
+
 ensure gpg key is in pgp section, not age section:
 
 ```yaml
@@ -408,11 +424,13 @@ creation_rules:
       - age:
           - *host_age
         pgp:
-          - *user_yubikey  # gpg key goes in pgp section
+          - *user_yubikey # gpg key goes in pgp section
 ```
 
 #### sops shamir threshold issues
+
 if sops requires multiple key groups but you only want to use yubikey:
+
 - put all keys in single key group (either age OR pgp can decrypt)
 - or reduce threshold by restructuring key groups
 
@@ -427,33 +445,40 @@ SOPS_AGE_KEY_FILE=/path/to/age/key sops secrets.yaml
 ### recovery scenarios
 
 #### lost yubikey
+
 use your backup:
+
 ```bash
 gpg --decrypt gpg-master-key-backup.gpg | gpg --import
 # move to replacement yubikey
 ```
 
 #### forgotten pin
+
 use admin pin to reset user pin, or use reset code if configured.
 
 #### yubikey completely locked
+
 factory reset yubikey (loses all keys) and restore from backup.
 
 ## security considerations
 
 ### what this setup protects against
+
 - key theft from compromised computer
 - remote attacks (need physical yubikey)
 - most real-world threats
 - accidental key exposure
 
 ### what it doesn't protect against
+
 - physical yubikey theft + pin compromise
 - compromised system during key generation
 - supply chain attacks on yubikey hardware
 - advanced persistent threats during setup
 
 ### recommendations
+
 - keep backup encrypted and separate from daily systems
 - use different pins for user/admin access
 - enable touch requirements for better security
@@ -499,7 +524,9 @@ services.gpg-agent = {
 ### yubikey limitations and alternatives
 
 #### openpgp application constraints
+
 each yubikey openpgp application supports exactly:
+
 - 1 signing subkey [S]
 - 1 encryption subkey [E]
 - 1 authentication subkey [A] (ssh)
@@ -507,15 +534,18 @@ each yubikey openpgp application supports exactly:
 you cannot have multiple signing keys or multiple ssh keys in the same openpgp application.
 
 #### piv smartcard alternative
+
 yubikey also supports piv (personal identity verification) for additional keys:
 
 **piv capabilities:**
+
 - 24 key slots vs openpgp's 3
 - x.509 certificates instead of openpgp keys
 - can act as certificate authority (ca)
 - separate ssh authentication method
 
 **basic piv ssh setup:**
+
 ```bash
 # generate rsa key in piv slot 9a
 ykman piv keys generate 9a /tmp/piv-public.pem --algorithm RSA2048
@@ -532,6 +562,7 @@ ssh -I /usr/lib/x86_64-linux-gnu/libykcs11.so user@server
 ```
 
 **piv as certificate authority:**
+
 ```bash
 # create root ca in slot 9c
 ykman piv keys generate 9c /tmp/ca-public.pem --algorithm RSA4096
@@ -545,6 +576,7 @@ ykman piv certificates sign 9c server.csr server.crt
 ```
 
 **use cases for piv:**
+
 - additional ssh keys beyond gpg authentication subkey
 - enterprise environments requiring x.509 certificates
 - personal pki for homelab/development
@@ -553,6 +585,7 @@ ykman piv certificates sign 9c server.csr server.crt
 ### integration with other tools
 
 #### git commit signing
+
 after yubikey setup, git automatically uses hardware signing:
 
 ```bash
@@ -565,6 +598,7 @@ git log --show-signature -1
 ```
 
 #### sops-nix integration
+
 yubikey gpg keys work seamlessly with sops-nix:
 
 ```bash
@@ -584,6 +618,6 @@ sops secrets.yaml
 
 ---
 
-*created: 2025-08-25*  
-*last updated: 2025-08-25*  
-*tested on: nixos unstable, yubikey 5 nano/5c nfc*
+_created: 2025-08-25_  
+_last updated: 2025-08-25_  
+_tested on: nixos unstable, yubikey 5 nano/5c nfc_

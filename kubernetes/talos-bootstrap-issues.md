@@ -3,21 +3,25 @@
 ## cilium 1.18.x regression
 
 ### problem
+
 cilium 1.18.x has a bootstrap regression with talos linux causing circular dependency:
+
 - kubelet needs serving certificates approved
 - kubelet-serving-cert-approver needs cni to run
 - cilium needs kubelet tls to work
 
 ### symptoms
+
 - cilium pods stuck in `Init:0/5` state
 - nodes remain `NotReady`
 - kubelet logs show tls internal errors
 - pending kubelet-serving csrs
 
 ### solution
+
 downgrade to cilium 1.17.7:
 
-```yaml
+````yaml
 # cluster/values.yaml
 cni:
   cilium:
@@ -54,3 +58,4 @@ machine:
 ```bash
 
 prevents coredns crashes when cilium restarts with bpf masquerading.
+````

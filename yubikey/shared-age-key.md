@@ -26,7 +26,7 @@ the cert is not used for crypto — only for discovery and policy metadata. the 
 ### policy bytes
 
 | policy | PIN (XX) | touch (YY) |
-|--------|----------|------------|
+| ------ | -------- | ---------- |
 | never  | 01       | 01         |
 | once   | 02       | —          |
 | always | 03       | 02         |
@@ -40,13 +40,13 @@ touch=cached means a touch is cached for 15 seconds (useful for batch decryption
 
 ### variables
 
-| variable | description | example |
-|----------|-------------|---------|
-| `<slot>` | PIV retired slot number | `82` (slot 1) |
-| `<pin-policy>` | PIN policy byte | `01` (never) |
-| `<touch-policy>` | touch policy byte | `01` (never) |
-| `<cn-name>` | certificate common name | `age-key` |
-| `<serial>` | yubikey serial number | `29507896` |
+| variable         | description             | example       |
+| ---------------- | ----------------------- | ------------- |
+| `<slot>`         | PIV retired slot number | `82` (slot 1) |
+| `<pin-policy>`   | PIN policy byte         | `01` (never)  |
+| `<touch-policy>` | touch policy byte       | `01` (never)  |
+| `<cn-name>`      | certificate common name | `age-key`     |
+| `<serial>`       | yubikey serial number   | `29507896`    |
 
 ### 1. generate shared key
 

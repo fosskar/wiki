@@ -5,8 +5,9 @@ documentation for kubernetes cluster management using talos linux, cluster api, 
 ## overview
 
 this setup uses:
+
 - **talos linux**: immutable kubernetes os
-- **cluster api (capi)**: declarative cluster lifecycle management  
+- **cluster api (capi)**: declarative cluster lifecycle management
 - **proxmox**: virtualization platform
 - **cilium**: cni with ingress and load balancing
 - **argocd**: gitops continuous deployment
@@ -21,7 +22,7 @@ this setup uses:
 
 ## architecture
 
-```bash
+````bash
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   kube-mgmt     │    │    kube-prd      │    │    proxmox      │
 │  (management)   │    │  (production)    │    │   (hardware)    │
@@ -31,3 +32,4 @@ this setup uses:
 │ • reflector     │    │ • workloads      │    │ • storage       │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```bash
+````

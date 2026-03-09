@@ -11,25 +11,30 @@ additionally, cilium ingress service depends on the loadbalancer ippool being av
 use argocd sync waves to control deployment order:
 
 ### wave 0 (default)
+
 - main cilium helm chart
 - installs crds and operator
 
 ### wave 1
+
 - `CiliumLoadBalancerIPPool`
 - `CiliumL2AnnouncementPolicy`
 
 ### wave 2
+
 - cilium ingress service (depends on ippool)
 
 ### wave 3
+
 - hubble ui (with ingress)
 
 ## configuration
 
 ### ippool and l2announcement templates
+
 add to `templates/loadbalancer-ippool.yaml` and `templates/l2announcement-policy.yaml`:
 
-```yaml
+````yaml
 metadata:
   name: {{ .Values.name }}
   annotations:
@@ -57,3 +62,4 @@ hubble:
 - argocd waits for each wave to be healthy before proceeding
 - prevents circular dependencies between resources
 - essential for cilium 1.17.7+ with talos linux
+````
