@@ -1,6 +1,7 @@
 # cluster api secret management
 
 ## problem
+
 proxmox credentials need to be available in every `cluster-*` namespace for cluster api to provision vms.
 
 manually creating secrets in each namespace is tedious and error-prone.
@@ -8,7 +9,8 @@ manually creating secrets in each namespace is tedious and error-prone.
 ## solution: reflector
 
 ### installation
-```yaml
+
+````yaml
 # bootstrap/kube-mgmt/reflector.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -64,3 +66,4 @@ metadata:
 ```bash
 
 prevents argocd from trying to uninstall helm charts from deleted clusters.
+````

@@ -7,4 +7,3 @@ use self to reference the flake itself. so you can reference your templates with
 nix flake init -t self#templates.<name-of-template>
 
 this creates the specified template in the current directory.
-

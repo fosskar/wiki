@@ -6,7 +6,7 @@ convert single drive ZFS setup to mirrored RAID1 with full boot redundancy.
 
 copy the partition layout from your 1TB drive (nvme1n1) to your 2TB drive (nvme0n1):
 
-```bash
+````bash
 sgdisk /dev/nvme1n1 -R /dev/nvme0n1
 ```bash
 
@@ -64,4 +64,4 @@ monitor the progress until the resilver is complete:
 ```bash
 zpool status
 ```bash
-
+````

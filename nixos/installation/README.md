@@ -15,31 +15,34 @@ this guide provides a comprehensive walkthrough for installing NixOS with full d
 ## 📋 prerequisites
 
 ### required
+
 - USB drive (8GB+)
 - Internet connection
 - 64-bit UEFI system
 - 20GB+ free disk space
 
 ### optional but recommended
+
 - backup of important data
 - wired internet connection (more reliable than WiFi)
 - external monitor (for troubleshooting)
 
 ## 🚀 quick navigation
 
-| Section | Time | Difficulty |
-|---------|------|------------|
-| [Live USB Setup](#live-usb-setup) | 15 min | Easy |
-| [Partitioning](#partitioning) | 30 min | Medium |
-| [Installation](#installation) | 45 min | Medium |
-| [Post-Install](#post-install-setup) | 30 min | Easy |
+| Section                             | Time   | Difficulty |
+| ----------------------------------- | ------ | ---------- |
+| [Live USB Setup](#live-usb-setup)   | 15 min | Easy       |
+| [Partitioning](#partitioning)       | 30 min | Medium     |
+| [Installation](#installation)       | 45 min | Medium     |
+| [Post-Install](#post-install-setup) | 30 min | Easy       |
 
 ---
 
 ## 1. Live USB Setup
 
 ### Download NixOS
-```bash
+
+````bash
 # Latest stable image
 wget https://channels.nixos.org/nixos-23.11/latest-nixos-gnome-x86_64-linux.iso
 
@@ -353,4 +356,4 @@ If system fails to boot:
 ---
 
 *Next: [[nixos/configuration|Configure Your System]]*
-
+````

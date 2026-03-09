@@ -2,6 +2,7 @@
 .obsidian
 .site
 public
+result
 
 # Ignore Smart Environment folder
 .smart-env

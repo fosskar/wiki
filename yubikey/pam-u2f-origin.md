@@ -24,6 +24,7 @@ pamu2fcfg -u <username> -o pam://yubikey > u2f_keys
 in this example, the origin is set to `pam://yubikey`.
 
 **note**: you can also specify the appid with `-i` if needed:
+
 ```bash
 pamu2fcfg -u <username> -o pam://yubikey -i pam://yubikey > u2f_keys
 ```
@@ -70,6 +71,6 @@ if you don't specify an origin with the `-o` parameter, `pamu2fcfg` will use the
 common issues when setting up u2f authentication:
 
 - **authentication fails silently**: check that origin values match exactly between `pamu2fcfg` and nixos config
-- **no prompt to use u2f device**: set `cue = true;` in your pam settings  
+- **no prompt to use u2f device**: set `cue = true;` in your pam settings
 - **key file not found**: verify the `authfile` path exists and is readable by the system
 - **hostname-dependent setup**: using default origins ties authentication to specific machines - use custom origins like `pam://yubikey` for portability

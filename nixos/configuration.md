@@ -14,12 +14,14 @@ this section covers everything you need to configure your NixOS system after ins
 ## 🚀 quick start
 
 ### essential configurations
+
 - [[System Settings|basic system configuration]]
 - [[User Management|user and group management]]
 - [[Package Management|installing and managing packages]]
 - [[Services|enabling system services]]
 
 ### advanced topics
+
 - [[Desktop Environments|GNOME, KDE, Hyprland setup]]
 - [[Graphics Drivers|NVIDIA, AMD, Intel configuration]]
 - [[Network Configuration|WiFi, VPN, firewall]]
@@ -28,7 +30,8 @@ this section covers everything you need to configure your NixOS system after ins
 ## 📁 Configuration Structure
 
 ### Basic Layout
-```bash
+
+````bash
 /etc/nixos/
 ├── configuration.nix      # Main system configuration
 ├── hardware-configuration.nix  # Auto-generated hardware config
@@ -52,16 +55,16 @@ this section covers everything you need to configure your NixOS system after ins
 {
   # Basic system settings
   system.stateVersion = "23.11"; # Don't change after initial install
-  
+
   # Hostname
   networking.hostName = "my-nixos";
-  
+
   # Time zone
   time.timeZone = "America/New_York";
-  
+
   # Locale
   i18n.defaultLocale = "en_US.UTF-8";
-  
+
   # Keyboard layout
   services.xserver.layout = "us";
   console.keyMap = "us";
@@ -81,7 +84,7 @@ this section covers everything you need to configure your NixOS system after ins
       thunderbird
     ];
   };
-  
+
   # Enable sudo
   security.sudo.wheelNeedsPassword = false;
 }
@@ -99,7 +102,7 @@ this section covers everything you need to configure your NixOS system after ins
     curl
     neofetch
   ];
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 }
@@ -130,7 +133,7 @@ this section covers everything you need to configure your NixOS system after ins
 {
   programs.hyprland.enable = true;
   programs.hyprland.xwayland.enable = true;
-  
+
   # Required for Wayland
   services.xserver.enable = false;
   services.displayManager = {
@@ -284,13 +287,13 @@ this section covers everything you need to configure your NixOS system after ins
       neovim
       firefox
     ];
-    
+
     programs.git = {
       enable = true;
       userName = "Alice";
       userEmail = "alice@example.com";
     };
-    
+
     services.gpg-agent = {
       enable = true;
       defaultCacheTtl = 1800;
@@ -394,4 +397,4 @@ df -h
 
 ---
 +*Configuration examples are tested with NixOS unstable. Adjust for your channel.*
-
+````
