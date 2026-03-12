@@ -70,12 +70,27 @@ openssl req -new -x509 -key age-key.pem \
 
 ### 3. import to yubikey
 
+> [!important]
+> `age-plugin-yubikey` decryption can fail if key policy and cert policy OID mismatch.
+> 
+> e.g. cert has `DER:01:01` (pin=never,touch=never) but key was imported with default pin=once.
+> this causes errors like `failed to decrypt yubikey stanza` even though recipient/key look correct.
+> 
+> always import key with explicit policy matching the cert OID bytes.
+
 ```bash
-ykman piv keys import <slot> age-key.pem
+ykman piv keys import <slot> --pin-policy NEVER --touch-policy NEVER age-key.pem
 ykman piv certificates import <slot> age-cert.pem
 ```
 
 if the slot already has a key, `ykman` will prompt to overwrite.
+
+verify after import:
+
+```bash
+ykman piv keys info <slot>
+# must match cert oid policy (e.g. never/never for DER:01:01)
+```
 
 ### 4. verify
 
