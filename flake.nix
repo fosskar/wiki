@@ -145,11 +145,8 @@
 
           dontInstall = true;
         };
-      in
-      {
-        packages.default = site;
 
-        devShells.default = pkgs.mkShell {
+        devShell = pkgs.mkShell {
           name = "wiki";
           buildInputs = with pkgs; [
             nodejs_22
@@ -167,6 +164,16 @@
             echo "  wiki-build  - build static site to public/"
           '';
         };
+      in
+      {
+        packages.default = site;
+
+        checks = {
+          build = site;
+          devshell = devShell;
+        };
+
+        devShells.default = devShell;
       }
     );
 }
