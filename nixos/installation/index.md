@@ -3,9 +3,6 @@ title: "complete NixOS installation guide"
 description: "step-by-step guide for installing NixOS with LUKS encryption, flake setup, and post-install configuration"
 tags: [nixos, installation, luks, encryption, flake, setup]
 date: 2024-04-23
-category: installation
-difficulty: intermediate
-estimated-time: "2-3 hours"
 ---
 
 # complete NixOS installation guide
@@ -348,8 +345,8 @@ If system fails to boot:
 ## 📚 Additional Resources
 
 - [[nixos/configuration/Advanced|Advanced Configuration]]
-- [[nixos/security/README|security hardening]]
-- [[nixos/gaming/README|Gaming Setup]]
+- [[nixos/security/index|security hardening]]
+- [[nixos/gaming/index|gaming setup]]
 - [Official NixOS Manual](https://nixos.org/manual/nixos/stable/)
 - [NixOS Wiki](https://nixos.wiki/)
 

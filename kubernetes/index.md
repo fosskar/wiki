@@ -1,3 +1,9 @@
+---
+title: "kubernetes"
+description: "kubernetes cluster management with talos, cluster api, and proxmox"
+tags: [kubernetes, talos, cilium, argocd, proxmox]
+---
+
 # kubernetes
 
 documentation for kubernetes cluster management using talos linux, cluster api, and proxmox.

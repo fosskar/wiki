@@ -1,5 +1,5 @@
 ---
-title: "nixos configuration hub"
+title: "nixos"
 description: "central hub for all NixOS-related documentation and configurations"
 tags: [nixos, linux, configuration, flake]
 date: 2024-04-23
@@ -13,8 +13,8 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 
 ### new installation?
 
-- [[nixos/installation/README|complete installation guide]] - fresh install with LUKS
-- [[nixos/installation/README|installation guide]] - essential first steps
+- [[nixos/installation/index|complete installation guide]] - fresh install with LUKS
+- [[nixos/installation/index|installation guide]] - essential first steps
 
 ### existing system?
 
@@ -23,7 +23,7 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 
 ## 📁 categories
 
-### [[nixos/installation/README|📦 installation]]
+### [[nixos/installation/index|📦 installation]]
 
 - fresh system installation
 - LUKS encryption setup
@@ -37,21 +37,21 @@ welcome to the NixOS section of my wiki. this contains everything from installat
 - package management
 - service configuration
 
-### [[nixos/security/README|🔐 security]]
+### [[nixos/security/index|🔐 security]]
 
 - LUKS encryption
 - TPM2 auto-unlock
 - secure boot
 - firewall configuration
 
-### [[nixos/gaming/README|🎮 gaming]]
+### [[nixos/gaming/index|🎮 gaming]]
 
 - game-specific optimizations
 - performance tuning
 - graphics drivers
 - network optimization
 
-### [[kubernetes/README|☸️ kubernetes]]
+### [[kubernetes/index|☸️ kubernetes]]
 
 - minikube setup
 - container configuration

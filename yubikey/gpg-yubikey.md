@@ -1,3 +1,8 @@
+---
+title: "gpg + yubikey setup"
+tags: [yubikey, gpg, security]
+---
+
 # gpg + yubikey setup
 
 ## overview

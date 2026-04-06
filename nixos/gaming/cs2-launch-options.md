@@ -1,3 +1,8 @@
+---
+title: "cs2 launch options"
+tags: [nixos, gaming, cs2]
+---
+
 ## gamescope
 
 ```shell

@@ -1,3 +1,8 @@
+---
+title: "opnsense networking setup"
+tags: [proxmox, opnsense, networking]
+---
+
 # opnsense networking setup
 
 ## overview

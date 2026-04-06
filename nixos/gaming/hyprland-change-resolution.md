@@ -1,3 +1,8 @@
+---
+title: "hyprland change resolution"
+tags: [nixos, gaming, hyprland]
+---
+
 # hyprland change resolution
 
 ```shell

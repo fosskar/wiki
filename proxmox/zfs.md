@@ -1,3 +1,8 @@
+---
+title: "proxmox ZFS RAID1 setup"
+tags: [proxmox, zfs, storage]
+---
+
 # proxmox ZFS RAID1 setup
 
 convert single drive ZFS setup to mirrored RAID1 with full boot redundancy.

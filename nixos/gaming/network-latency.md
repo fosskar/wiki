@@ -1,3 +1,8 @@
+---
+title: "network latency simulation"
+tags: [nixos, gaming, networking]
+---
+
 ## netem
 
 ### no delay

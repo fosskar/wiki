@@ -1,3 +1,8 @@
+---
+title: "lldap + sssd + samba (posix ids)"
+tags: [nixos, ldap, sssd, samba]
+---
+
 # lldap + sssd + samba (posix ids)
 
 ## flow

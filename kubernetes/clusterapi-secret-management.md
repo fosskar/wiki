@@ -1,3 +1,8 @@
+---
+title: "cluster api secret management"
+tags: [kubernetes, cluster-api, secrets]
+---
+
 # cluster api secret management
 
 ## problem

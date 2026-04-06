@@ -1,3 +1,8 @@
+---
+title: "swapfile with luks2"
+tags: [nixos, security, luks, swap]
+---
+
 swapDevices = [
 {
 device = "/var/swapfile";
