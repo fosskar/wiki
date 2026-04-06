@@ -1,15 +1,20 @@
 ---
-title: "flake templates"
+title: flake templates
+description: use `self` so your flake can expose templates from its own tree
 tags: [nixos, flakes]
 date: 2025-03-29
 ---
 
-# flake templates
+if your flake exports templates, `self` is the part that points back at the current flake. that is why the template import uses `self` instead of a hard-coded path.
 
+```nix
 templates = import "${self}/templates" { inherit self; };
+```
 
-use self to reference the flake itself. so you can reference your templates with self like this:
+then you can initialize from that flake with:
 
+```bash
 nix flake init -t self#templates.<name-of-template>
+```
 
-this creates the specified template in the current directory.
+that copies the selected template into the current directory.

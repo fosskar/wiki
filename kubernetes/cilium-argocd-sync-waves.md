@@ -1,53 +1,34 @@
 ---
-title: "cilium argocd sync waves"
+title: cilium + argocd sync waves
+description: use argocd sync waves so cilium crds, ippools, and ingress come up in the right order
 tags: [kubernetes, cilium, argocd]
 date: 2025-08-20
 ---
 
-# cilium argocd sync waves
+cilium's custom resources only work after the chart has installed its crds. the ingress service also depends on the load balancer ippool already existing. without ordering, argocd tries to apply everything at once and the first sync fails for no good reason.
 
-## problem
+## order
 
-when deploying cilium through argocd, custom resources like `CiliumLoadBalancerIPPool` and `CiliumL2AnnouncementPolicy` fail to deploy because they depend on crds that aren't installed yet.
+- wave `0`: main cilium chart
+- wave `1`: `CiliumLoadBalancerIPPool` and `CiliumL2AnnouncementPolicy`
+- wave `2`: cilium ingress service
+- wave `3`: hubble ui and its ingress
 
-additionally, cilium ingress service depends on the loadbalancer ippool being available.
+argocd waits for each wave to go healthy before moving on, so this turns an implicit dependency chain into an explicit one.
 
-## solution
+## ippool and l2 announcement templates
 
-use argocd sync waves to control deployment order:
+add this to `templates/loadbalancer-ippool.yaml` and `templates/l2announcement-policy.yaml`:
 
-### wave 0 (default)
-
-- main cilium helm chart
-- installs crds and operator
-
-### wave 1
-
-- `CiliumLoadBalancerIPPool`
-- `CiliumL2AnnouncementPolicy`
-
-### wave 2
-
-- cilium ingress service (depends on ippool)
-
-### wave 3
-
-- hubble ui (with ingress)
-
-## configuration
-
-### ippool and l2announcement templates
-
-add to `templates/loadbalancer-ippool.yaml` and `templates/l2announcement-policy.yaml`:
-
-````yaml
+```yaml
 metadata:
-  name: {{ .Values.name }}
+  name: { { .Values.name } }
   annotations:
     argocd.argoproj.io/sync-wave: "1"
-```bash
+```
 
-### cilium values.yaml
+## cilium values
+
 ```yaml
 ingressController:
   service:
@@ -60,12 +41,4 @@ hubble:
   ui:
     annotations:
       argocd.argoproj.io/sync-wave: "3"
-```bash
-
-## notes
-
-- sync waves ensure proper dependency order
-- argocd waits for each wave to be healthy before proceeding
-- prevents circular dependencies between resources
-- essential for cilium 1.17.7+ with talos linux
-````
+```

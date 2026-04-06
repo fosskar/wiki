@@ -1,82 +1,57 @@
 ---
-title: "yubikey pam u2f origin"
+title: pam u2f origin
+description: why `pam_u2f` origin and appid need to match between enrollment and login config
 tags: [yubikey, pam, u2f, security]
 date: 2025-09-04
 ---
 
-# yubikey pam u2f origin
+`origin` is the anti-phishing part of u2f. it tells the token which service is asking for authentication. if you enroll a key for one origin and later try to use it with another, auth fails because that mismatch looks exactly like impersonation.
 
-when configuring `pam_u2f` for yubikey authentication in nixos, it's crucial to understand the `origin` parameter. this parameter is a security feature of the u2f/fido2 protocol that prevents a malicious service from impersonating a legitimate service and tricking you into authenticating with your yubikey.
+for pam logins, `origin` and `appid` are usually the same value.
 
-## understanding origin vs appid
-
-the `origin` and `appid` are related but distinct parameters in u2f authentication:
-
-- **origin**: identifies the service making the authentication request (what you're logging into)
-- **appid**: identifies the application or service that registered the key (legacy u2f parameter)
-
-for pam authentication, both typically use the same value.
-
-## the `origin` parameter in `pamu2fcfg`
-
-the `pamu2fcfg` command is used to generate the u2f credentials file that is used by the `pam_u2f` module. when you generate this file, you need to specify the same origin that is configured in your `security.pam.u2f.settings` in your nixos configuration.
-
-the `-o` parameter in the `pamu2fcfg` command is used to specify the origin. for example:
+## enroll with an explicit origin
 
 ```bash
 pamu2fcfg -u <username> -o pam://yubikey > u2f_keys
 ```
 
-in this example, the origin is set to `pam://yubikey`.
-
-**note**: you can also specify the appid with `-i` if needed:
+if you also want to set `appid` explicitly:
 
 ```bash
 pamu2fcfg -u <username> -o pam://yubikey -i pam://yubikey > u2f_keys
 ```
 
-## matching the origin in your nixos configuration
-
-the origin that you specify with the `-o` parameter in the `pamu2fcfg` command must match the `origin` that is configured in your `security.pam.u2f.settings` in your nixos configuration.
-
-here is an example of how to configure the `origin` in your `u2f.nix` file:
+## use the same value in nixos
 
 ```nix
 security.pam = {
   u2f = {
     enable = true;
-    control = "sufficient";  # or "required" for multi-factor auth
+    control = "sufficient";
     settings = {
       origin = "pam://yubikey";
-      appid = "pam://yubikey";  # typically same as origin
-      cue = true;  # show reminder message to use u2f device
-      # authfile = "/etc/u2f_keys";  # optional: custom key file location
+      appid = "pam://yubikey";
+      cue = true;
     };
   };
-  # ...
 };
 ```
 
-if the origins don't match, the authentication will fail.
+if those strings do not match exactly, the token will refuse the login.
 
-## control options
+## control values
 
-the `control` parameter determines how u2f authentication integrates with other authentication methods:
+- `sufficient`: yubikey can satisfy auth by itself
+- `required`: yubikey must succeed alongside other auth
+- `requisite`: failure stops auth immediately
+- `optional`: success or failure does not decide the final result
 
-- `"sufficient"`: u2f can be used instead of password (fallback to password if u2f fails)
-- `"required"`: u2f must succeed (for multi-factor authentication with password + u2f)
-- `"requisite"`: u2f must succeed, failure terminates auth process
-- `"optional"`: u2f success/failure doesn't affect overall auth result
+## default behavior
 
-## default origin
+if you skip `-o`, `pamu2fcfg` uses `pam://<hostname>`. that ties the enrollment to one machine name, which is usually not what you want for a reusable setup.
 
-if you don't specify an origin with the `-o` parameter, `pamu2fcfg` will use the default origin, which is `pam://<hostname>`. this will likely not match the origin that is configured in your nixos configuration, so it's important to always specify the origin explicitly.
+## quick checks
 
-## troubleshooting
-
-common issues when setting up u2f authentication:
-
-- **authentication fails silently**: check that origin values match exactly between `pamu2fcfg` and nixos config
-- **no prompt to use u2f device**: set `cue = true;` in your pam settings
-- **key file not found**: verify the `authfile` path exists and is readable by the system
-- **hostname-dependent setup**: using default origins ties authentication to specific machines - use custom origins like `pam://yubikey` for portability
+- auth fails: compare the `origin` strings first
+- no prompt: set `cue = true`
+- wrong authfile: make sure the file exists and pam can read it

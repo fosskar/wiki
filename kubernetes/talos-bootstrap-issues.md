@@ -1,67 +1,60 @@
 ---
-title: "talos bootstrap issues"
+title: talos bootstrap issues
+description: notes on cilium bootstrap regressions, csr approval, and dns settings on talos
 tags: [kubernetes, talos, troubleshooting]
 date: 2025-08-20
 ---
 
-# talos bootstrap issues
-
 ## cilium 1.18.x regression
 
-### problem
+on this setup, cilium `1.18.x` can deadlock talos bootstrap:
 
-cilium 1.18.x has a bootstrap regression with talos linux causing circular dependency:
+- kubelet needs serving certs approved
+- the approver needs the cluster networking stack running
+- cilium needs kubelet tls working first
 
-- kubelet needs serving certificates approved
-- kubelet-serving-cert-approver needs cni to run
-- cilium needs kubelet tls to work
+symptoms:
 
-### symptoms
-
-- cilium pods stuck in `Init:0/5` state
-- nodes remain `NotReady`
-- kubelet logs show tls internal errors
+- cilium pods stuck in `Init:0/5`
+- nodes stuck `NotReady`
+- kubelet tls errors
 - pending kubelet-serving csrs
 
-### solution
+pin cilium to `1.17.7`:
 
-downgrade to cilium 1.17.7:
-
-````yaml
+```yaml
 # cluster/values.yaml
 cni:
   cilium:
     version: "1.17.7"
-```bash
+```
 
-### references
-- [cilium issue #40983](https://github.com/cilium/cilium/issues/40983)
-- kubelet-serving-cert-approver includes required tolerations for cloud-provider taints
+reference: [cilium issue #40983](https://github.com/cilium/cilium/issues/40983)
 
 ## certificate approval
 
-### automatic approval
-talos config includes kubelet-serving-cert-approver:
+talos config includes `kubelet-serving-cert-approver`:
+
 ```yaml
 - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
-```bash
+```
 
-### manual approval (emergency)
+if bootstrap is already wedged, approve the pending serving csrs manually:
+
 ```bash
 kubectl certificate approve $(kubectl get csr -o name | grep kubelet-serving)
-```bash
+```
 
-## dns configuration
+## coredns and host dns
 
-### coredns/cilium conflict
-add to worker node config:
+worker config:
+
 ```yaml
 machine:
   features:
     hostDNS:
       enabled: true
       forwardKubeDNSToHost: false
-```bash
+```
 
-prevents coredns crashes when cilium restarts with bpf masquerading.
-````
+this avoids coredns crashing when cilium restarts with bpf masquerading.

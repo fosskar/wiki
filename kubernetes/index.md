@@ -1,42 +1,8 @@
 ---
-title: "kubernetes"
-description: "kubernetes cluster management with talos, cluster api, and proxmox"
-tags: [kubernetes, talos, cilium, argocd, proxmox]
+title: kubernetes
+description: talos, cilium, cluster api, proxmox, and local dev notes
 date: 2025-08-20
+enableToc: false
 ---
 
-# kubernetes
-
-documentation for kubernetes cluster management using talos linux, cluster api, and proxmox.
-
-## overview
-
-this setup uses:
-
-- **talos linux**: immutable kubernetes os
-- **cluster api (capi)**: declarative cluster lifecycle management
-- **proxmox**: virtualization platform
-- **cilium**: cni with ingress and load balancing
-- **argocd**: gitops continuous deployment
-
-## components
-
-- [talos/](./Talos/) - talos linux configuration and troubleshooting
-- [clusterapi/](./ClusterAPI/) - cluster api setup and management
-- [proxmox/](./Proxmox/) - proxmox integration and networking
-- [cilium/](./Cilium/) - cilium cni and networking configuration
-- [nixos/](./nixos/) - nixos-specific kubernetes notes (minikube)
-
-## architecture
-
-````bash
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   kube-mgmt     │    │    kube-prd      │    │    proxmox      │
-│  (management)   │    │  (production)    │    │   (hardware)    │
-│                 │    │                  │    │                 │
-│ • argocd        │───▶│ • talos linux    │───▶│ • vms           │
-│ • cluster api   │    │ • cilium cni     │    │ • networking    │
-│ • reflector     │    │ • workloads      │    │ • storage       │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```bash
-````
+notes from a home-lab kubernetes stack built around talos, cilium, cluster api, and proxmox. mostly the parts that were annoying enough to need a second explanation later.

@@ -1,22 +1,17 @@
 ---
-title: "cluster api secret management"
+title: cluster api secret management
+description: reflect proxmox credentials into cluster namespaces so cluster api can create and delete vms
 tags: [kubernetes, cluster-api, secrets]
 date: 2025-08-20
 ---
 
-# cluster api secret management
+cluster api needs proxmox credentials inside every `cluster-*` namespace. copying the same secret by hand works once, then turns into drift and cleanup pain.
 
-## problem
+reflector fixes that by treating one secret as the source of truth and mirroring it into matching namespaces.
 
-proxmox credentials need to be available in every `cluster-*` namespace for cluster api to provision vms.
+## install reflector
 
-manually creating secrets in each namespace is tedious and error-prone.
-
-## solution: reflector
-
-### installation
-
-````yaml
+```yaml
 # bootstrap/kube-mgmt/reflector.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -30,10 +25,9 @@ spec:
     targetRevision: 9.1.26
   destination:
     namespace: reflector
-```bash
+```
 
-### configuration
-annotate the source secret in default namespace:
+## annotate the source secret
 
 ```bash
 kubectl annotate secret proxmox-credentials -n default \
@@ -41,14 +35,12 @@ kubectl annotate secret proxmox-credentials -n default \
   reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces="cluster-.*" \
   reflector.v1.k8s.emberstack.com/reflection-auto-enabled="true" \
   reflector.v1.k8s.emberstack.com/reflection-auto-namespaces="cluster-.*"
-```bash
+```
 
-### how it works
-1. reflector watches for new namespaces matching `cluster-.*`
-2. automatically creates `proxmox-credentials` secret in new namespaces
-3. keeps secrets synchronized with source secret
+that tells reflector to copy the secret into any namespace that matches `cluster-.*`, and to keep those copies synced when the source changes.
 
-### secret format
+## secret shape
+
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -58,18 +50,14 @@ stringData:
   url: "https://192.168.1.X:8006"
   token: "username@pve!token"
   secret: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-```bash
+```
 
-## cleanup automation
+## cleanup edge case
 
-### helmchartproxy finalizers
-add to argocd helmchartproxy to prevent stuck finalizers when vms are deleted:
+cluster deletion can get stuck on helmchartproxy finalizers if argocd still tries to uninstall addons from a cluster that already disappeared. this annotation skips that uninstall path:
 
 ```yaml
 metadata:
   annotations:
     addons.cluster.x-k8s.io/deletion-policy: "skip-delete"
-```bash
-
-prevents argocd from trying to uninstall helm charts from deleted clusters.
-````
+```

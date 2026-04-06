@@ -1,12 +1,8 @@
 ---
-title: "security"
-description: "NixOS security - encryption, tpm, keyring"
-tags: [nixos, security]
+title: security
+description: encryption, tpm, and keyring notes for NixOS
 date: 2026-04-06
+enableToc: false
 ---
 
-# security
-
-- [[nixos/security/kwallet-tpm-unlock|kwallet auto-unlock via tpm]] - kwallet with tpm-sealed credentials
-- [[nixos/security/tmp2-auto-unlock-luks2|tpm2 auto-unlock luks2]] - automatic disk decryption with tpm
-- [[nixos/security/swapfile-with-luks2|swapfile with luks2]] - encrypted swap configuration
+encryption, tpm, keyring, and related notes for NixOS. mostly the small security decisions that matter because they change how login, disk unlock, or secret storage behaves.
