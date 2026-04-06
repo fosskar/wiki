@@ -1,3 +1,8 @@
+---
+title: "shared age identity across multiple yubikeys"
+tags: [yubikey, age, encryption, security]
+---
+
 # shared age identity across multiple yubikeys
 
 ## problem
