@@ -1,25 +1,25 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg";
 import * as Component from "./quartz/components";
 
+const socialLinks = {
+  github: "https://github.com/fosskar",
+  gitlab: "https://gitlab.com/fosskar",
+  codeberg: "https://codeberg.org/fosskar",
+  tangled: "https://tangled.org/fosskar.eu",
+  matrix: "https://matrix.to/#/@fosscar:matrix.org",
+};
+
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [],
-  footer: Component.Footer({
-    links: {
-      github: "https://github.com/fosskar",
-      gitlab: "https://gitlab.com/fosskar",
-      codeberg: "https://codeberg.org/fosskar",
-      tangled: "https://tangled.org/fosskar.eu",
-      matrix: "https://matrix.to/#/@fosscar:matrix.org",
-    },
-  }),
+  footer: Component.Footer({ links: socialLinks }),
 };
 
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
+      component: Component.Breadcrumbs({ rootName: "home" }),
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
@@ -39,9 +39,10 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer({ folderClickBehavior: "collapse" }),
+    Component.Explorer({ title: "topics", folderClickBehavior: "link" }),
   ],
   right: [
+    Component.Footer({ links: socialLinks }),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.DesktopOnly(Component.Backlinks()),
   ],
@@ -49,7 +50,7 @@ export const defaultContentPageLayout: PageLayout = {
 
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [
-    Component.Breadcrumbs(),
+    Component.Breadcrumbs({ rootName: "home" }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
   ],
@@ -65,7 +66,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({ title: "topics", folderClickBehavior: "link" }),
   ],
-  right: [],
+  right: [Component.Footer({ links: socialLinks })],
 };
