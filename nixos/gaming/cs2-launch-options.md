@@ -1,6 +1,7 @@
 ---
 title: "cs2 launch options"
 tags: [nixos, gaming, cs2]
+date: 2024-05-11
 ---
 
 ## gamescope

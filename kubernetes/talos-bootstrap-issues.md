@@ -1,6 +1,7 @@
 ---
 title: "talos bootstrap issues"
 tags: [kubernetes, talos, troubleshooting]
+date: 2025-08-20
 ---
 
 # talos bootstrap issues

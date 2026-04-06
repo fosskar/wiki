@@ -2,6 +2,7 @@
 title: "proxmox"
 description: "proxmox virtualization - networking, storage, dns"
 tags: [proxmox, virtualization]
+date: 2026-04-06
 ---
 
 # proxmox

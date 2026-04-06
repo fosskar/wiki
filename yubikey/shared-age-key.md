@@ -1,6 +1,7 @@
 ---
 title: "shared age identity across multiple yubikeys"
 tags: [yubikey, age, encryption, security]
+date: 2026-02-26
 ---
 
 # shared age identity across multiple yubikeys

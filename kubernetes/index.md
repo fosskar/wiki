@@ -2,6 +2,7 @@
 title: "kubernetes"
 description: "kubernetes cluster management with talos, cluster api, and proxmox"
 tags: [kubernetes, talos, cilium, argocd, proxmox]
+date: 2025-08-20
 ---
 
 # kubernetes

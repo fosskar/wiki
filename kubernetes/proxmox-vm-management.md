@@ -1,6 +1,7 @@
 ---
 title: "proxmox vm management"
 tags: [kubernetes, proxmox, virtualization]
+date: 2025-08-20
 ---
 
 # proxmox vm management

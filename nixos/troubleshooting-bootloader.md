@@ -1,6 +1,7 @@
 ---
 title: "bootloader troubleshooting"
 tags: [nixos, bootloader, troubleshooting]
+date: 2024-05-14
 ---
 
 # bootloader

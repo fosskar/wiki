@@ -1,6 +1,7 @@
 ---
 title: "network latency simulation"
 tags: [nixos, gaming, networking]
+date: 2024-05-11
 ---
 
 ## netem

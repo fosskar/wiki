@@ -1,6 +1,7 @@
 ---
 title: "proxmox ZFS RAID1 setup"
 tags: [proxmox, zfs, storage]
+date: 2025-08-20
 ---
 
 # proxmox ZFS RAID1 setup
