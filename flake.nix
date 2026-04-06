@@ -112,7 +112,7 @@
 
           site = pkgs.buildNpmPackage {
             pname = "wiki";
-            version = "0.1.0";
+            version = "4.5.2";
 
             src = quartz-src;
 
@@ -136,8 +136,9 @@
               command = [
                 "nix-update"
                 "--flake"
-                "--version"
-                "branch=v4"
+                "--version-regex"
+                "v(4\\.\\d+\\.\\d+)"
+                "default"
               ];
               supportedFeatures = [ "commit" ];
             };
