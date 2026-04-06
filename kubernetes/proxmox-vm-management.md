@@ -1,3 +1,8 @@
+---
+title: "proxmox vm management"
+tags: [kubernetes, proxmox, virtualization]
+---
+
 # proxmox vm management
 
 ## protection mode

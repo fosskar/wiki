@@ -1,3 +1,8 @@
+---
+title: "cilium argocd sync waves"
+tags: [kubernetes, cilium, argocd]
+---
+
 # cilium argocd sync waves
 
 ## problem

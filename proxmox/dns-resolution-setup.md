@@ -1,3 +1,8 @@
+---
+title: "dns resolution for kubernetes ingress"
+tags: [proxmox, dns, kubernetes]
+---
+
 # dns resolution for kubernetes ingress
 
 > [!INFO] overview

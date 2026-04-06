@@ -1,3 +1,8 @@
+---
+title: "bootloader troubleshooting"
+tags: [nixos, bootloader, troubleshooting]
+---
+
 # bootloader
 
 - something happened, and the bootloader doesn't work as expected. for example BIOS update.

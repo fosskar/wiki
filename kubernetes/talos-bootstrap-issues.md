@@ -1,3 +1,8 @@
+---
+title: "talos bootstrap issues"
+tags: [kubernetes, talos, troubleshooting]
+---
+
 # talos bootstrap issues
 
 ## cilium 1.18.x regression

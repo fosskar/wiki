@@ -1,3 +1,8 @@
+---
+title: "minikube on NixOS"
+tags: [kubernetes, minikube, nixos]
+---
+
 # minikube
 
 ## run minikube with podman

@@ -1,3 +1,8 @@
+---
+title: "flake templates"
+tags: [nixos, flakes]
+---
+
 # flake templates
 
 templates = import "${self}/templates" { inherit self; };

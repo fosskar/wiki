@@ -3,8 +3,6 @@ title: "nixos configuration reference"
 description: "comprehensive guide to NixOS system configuration, packages, services, and optimization"
 tags: [nixos, configuration, flakes, services, optimization]
 date: 2024-04-23
-category: configuration
-difficulty: intermediate
 ---
 
 # nixos configuration reference

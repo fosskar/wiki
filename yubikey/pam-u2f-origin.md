@@ -1,3 +1,8 @@
+---
+title: "yubikey pam u2f origin"
+tags: [yubikey, pam, u2f, security]
+---
+
 # yubikey pam u2f origin
 
 when configuring `pam_u2f` for yubikey authentication in nixos, it's crucial to understand the `origin` parameter. this parameter is a security feature of the u2f/fido2 protocol that prevents a malicious service from impersonating a legitimate service and tricking you into authenticating with your yubikey.

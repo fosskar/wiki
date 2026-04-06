@@ -1,3 +1,8 @@
+---
+title: "yubikey gpg/ssh setup"
+tags: [yubikey, gpg, ssh, security]
+---
+
 # yubikey gpg/ssh setup guide
 
 comprehensive guide for setting up gpg keys on dual yubikeys for ssh authentication and git signing.

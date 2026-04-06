@@ -1,3 +1,8 @@
+---
+title: "cilium load balancer configuration"
+tags: [kubernetes, cilium, networking]
+---
+
 # cilium load balancer configuration
 
 ## ippool configuration

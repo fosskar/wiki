@@ -77,10 +77,10 @@ openssl req -new -x509 -key age-key.pem \
 
 > [!important]
 > `age-plugin-yubikey` decryption can fail if key policy and cert policy OID mismatch.
-> 
+>
 > e.g. cert has `DER:01:01` (pin=never,touch=never) but key was imported with default pin=once.
 > this causes errors like `failed to decrypt yubikey stanza` even though recipient/key look correct.
-> 
+>
 > always import key with explicit policy matching the cert OID bytes.
 
 ```bash
