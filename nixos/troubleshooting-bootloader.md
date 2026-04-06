@@ -1,44 +1,39 @@
 ---
-title: "bootloader troubleshooting"
+title: bootloader troubleshooting
+description: rebuild or reinstall the NixOS bootloader from a running system or a live usb
 tags: [nixos, bootloader, troubleshooting]
 date: 2024-05-14
 ---
 
-# bootloader
-
-- something happened, and the bootloader doesn't work as expected. for example BIOS update.
-- the ESP was re-made and nothing was kept.
-- the ESP wasn't mounted and I want to re-generate the menu entries.
+use this when the bootloader got out of sync with the installed system, the esp was recreated, or the esp simply was not mounted during a rebuild. the fix is not usually magical: make sure the installed system is mounted, then rerun the bootloader install step.
 
 ## from a running system
 
-```shell
+```bash
 sudo nixos-rebuild --install-bootloader boot
 ```
 
-## from an installation media
+this is enough when the system still boots and you just need fresh boot entries.
 
-### boot live USB and mount
+## from live media
 
-booting from the installation media, mount the root partition under /mnt and the boot partition under /mnt/boot.
+### mount the installed system
 
-```shell
+```bash
 mount /dev/[root partition] /mnt
 mount /dev/[boot partition] /mnt/boot
 ```
 
-### nixos-enter
+### enter it
 
-next, enter the installed system with nixos-enter, or by manually binding the virtual filesystems and then calling chroot.
-
-```shell
+```bash
 nixos-enter
 ```
 
-### re-install bootloader
+### reinstall the bootloader
 
-finally, run the [command that the installer would run](https://github.com/NixOS/nixpkgs/blob/e140d71d6330786c40b4bd9c0d59af7ad1a5e86a/nixos/modules/installer/tools/nixos-install.sh#L191-L192). this will re-install the bootloader.
-
-```shell
+```bash
 NIXOS_INSTALL_BOOTLOADER=1 /nix/var/nix/profiles/system/bin/switch-to-configuration boot
 ```
+
+that is the same switch step `nixos-install` would use, just rerun against the already-installed system.

@@ -1,64 +1,57 @@
 ---
-title: "lldap + sssd + samba (posix ids)"
+title: lldap + sssd + samba
+description: how lldap posix attributes feed sssd and then samba on this host
 tags: [nixos, ldap, sssd, samba]
 date: 2026-02-26
 ---
 
-# lldap + sssd + samba (posix ids)
+the important part here is the identity chain:
 
-## flow
+- `lldap` stores posix attributes
+- `sssd` exposes them to linux through `getent` and `id`
+- samba then uses that linux identity for uid, gid, and filesystem permissions
 
-- `lldap` stores posix attrs (`uidnumber`, `gidnumber`, `homedirectory`, `unixshell`)
-- `sssd` reads ldap and exposes users/groups to linux (`getent`, `id`)
-- samba uses linux/sssd identity for uid/gid + file permissions
-- samba smb passwords are still separate (`tdbsam`) in current setup
+samba passwords are still separate in this setup and live in `tdbsam`.
 
-## required lldap user fields (custom attrs)
+## required user attributes
 
-for each samba/linux user, set:
+for each linux or samba user, set:
 
-- `uidnumber`: unique linux uid (example `3002`)
-- `gidnumber`: primary group gid (example `3030`)
-- `homedirectory`: user path (example `/tank/shares/alice`)
-- `unixshell`: shell (for samba-only users use `/sbin/nologin`)
+- `uidnumber`: unique linux uid, for example `3002`
+- `gidnumber`: primary group gid, for example `3030`
+- `homedirectory`: for example `/tank/shares/alice`
+- `unixshell`: for samba-only users, `/sbin/nologin`
 
-normal profile fields (`displayname`, `mail`, etc) are optional for posix identity.
+normal profile fields like `displayname` or `mail` are optional for posix identity.
 
-## required lldap group fields
+## required group attributes
 
 for the shared group:
 
-- group name/cn: `shared`
+- group name or `cn`: `shared`
 - `gidnumber`: `3030`
-- add users as members
+- add the users as members
 
-## important rule
+## easy mistake
 
-user `gidnumber` and group `gidnumber` must match the group you expect.
+user `gidnumber` and group `gidnumber` need to agree. if the user points at `3030` but the `shared` group has `983`, `id` and `getent` will look wrong because linux is being told two different stories.
 
-example bad state:
-
-- user `gidnumber = 3030`
-- group `shared.gidnumber = 983`
-
-this causes weird group results in `id`/`getent`.
-
-## samba setup notes (this host)
+## samba notes for this host
 
 - per-user shares use `[homes]`
-- samba reads the user home path from ldap via `sssd` (`homedirectory`)
-- static shared share remains `/tank/shares/shared`
-- on first access, home dir can be created via `pam_mkhomedir` (`security.pam.services.samba.makeHomeDir = true`)
+- samba gets the home path through `sssd` from `homedirectory`
+- the shared share stays at `/tank/shares/shared`
+- first login can create the home directory through `pam_mkhomedir` with `security.pam.services.samba.makeHomeDir = true`
 
 ## new user checklist
 
-1. create user in lldap
+1. create the user in lldap
 2. set `uidnumber`, `gidnumber`, `homedirectory`, `unixshell`
-3. add user to group `shared` (gid `3030`)
-4. verify on host: `getent passwd <user>`, `id <user>`
-5. add/update samba smb password (separate from lldap password in current setup)
+3. add the user to `shared`
+4. verify on the host
+5. add or update the separate samba password
 
-## quick verify commands
+## verify
 
 ```bash
 getent passwd <user>

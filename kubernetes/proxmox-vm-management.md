@@ -1,67 +1,43 @@
 ---
-title: "proxmox vm management"
+title: proxmox vm management
+description: notes for running cluster api managed vms on proxmox
 tags: [kubernetes, proxmox, virtualization]
 date: 2025-08-20
 ---
 
-# proxmox vm management
+## disable protection for cluster api vms
 
-## protection mode
+proxmox protection is useful for pets. cluster api nodes are cattle. if protection is on, cluster api can shut a vm down but proxmox will refuse to delete it, which leaves dead clusters half-cleaned up.
 
-### issue
+disable protection for any vm or template that cluster api owns:
 
-when vms have protection mode enabled, cluster api cannot automatically delete them during cluster cleanup.
+1. proxmox ui → vm → options → protection → uncheck
+2. or make templates default to protection disabled
 
-### symptoms
+for safety, rely on rbac and separate proxmox users instead of vm protection on disposable worker and control plane nodes.
 
-- vms shutdown but remain in proxmox after cluster deletion
-- capmox controller logs show deletion failures
-- manual cleanup required
+## network ranges
 
-### solution
-
-disable protection mode for cluster api managed vms:
-
-1. in proxmox ui: vm → options → protection → uncheck
-2. or set default protection mode to disabled for cluster api vm templates
-
-### recommendations
-
-- rely on gitops/rbac for protection instead of vm protection mode
-- use separate proxmox users with limited permissions for cluster api
-- enable protection mode only for critical infrastructure vms
-
-## networking
-
-### vm ip assignment
-
-cluster api automatically assigns ips from configured range:
-
-````yaml
+```yaml
 # cluster/values.yaml
 network:
   ipRange: "10.10.10.101-10.10.10.110"
   gateway: 10.10.10.1
-```bash
+```
 
-### vm id allocation
-use predictable vm id ranges per cluster:
+## vm id ranges
 
 ```yaml
 proxmox:
-  vmIdRange: "111-115"  # 4 vms max
-```bash
+  vmIdRange: "111-115"
+```
 
-## storage
+a dedicated id range makes it obvious which vms belong to which cluster and avoids accidental collisions with hand-made vms.
 
-### disk configuration
-vms use local-lvm storage by default. ensure sufficient space for:
-- os disk: 20gb minimum
-- worker nodes: 100gb+ for container storage
-- control plane: 50gb sufficient
+## storage sizing
 
-### backup considerations
-- cluster api vms are cattle, not pets
-- backup cluster configurations (gitops repo) instead of individual vms
-- use persistent storage classes for stateful workloads
-````
+- os disk: `20gb` minimum
+- worker nodes: `100gb+` for container storage
+- control plane: `50gb` is enough
+
+back up the gitops repo and persistent workload data, not the cluster api nodes themselves.

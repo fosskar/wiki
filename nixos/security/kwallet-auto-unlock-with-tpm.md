@@ -1,47 +1,36 @@
 ---
-title: "kwallet auto-unlock via tpm"
-description: "auto-unlock kde kwallet on login using tpm-sealed credentials over dbus"
+title: kwallet auto-unlock via tpm
+description: auto-unlock kde kwallet on login with a tpm-sealed password and a small dbus helper
 tags: [nixos, kwallet, tpm, security, niri, wayland]
 date: 2026-04-06
 ---
 
-# kwallet auto-unlock via tpm
+this swaps out gnome-keyring for kwallet and removes the extra password prompt at login. the idea is simple: store the wallet password as a tpm-sealed credential, decrypt it in the user session, derive the hash kwallet expects, then ask `kwalletd6` to unlock the wallet over dbus.
 
-replace gnome-keyring with kde kwallet, auto-unlocked at login using a tpm-sealed password. no manual password entry needed after initial setup.
+## why this route
 
-## why kwallet over gnome-keyring
+- kwallet gives you a secret service implementation without depending on a kde desktop session
+- the password stays sealed to the machine tpm instead of being stored in plain text
+- no pam glue is needed for the unlock itself
 
-niri (and niri-flake) default to gnome-keyring. kwallet is a solid alternative if you:
+## flow
 
-- prefer kde's secret storage
-- want tpm-backed auto-unlock without pam integration
-- use apps that speak the freedesktop secret service api (browsers, etc.)
-
-## how it works
-
-1. wallet password is encrypted with `systemd-creds` using the tpm chip
-2. on graphical session start, a systemd user service decrypts the password
-3. derives the pbkdf2 hash using kwallet's salt file
-4. calls `kwalletd6` over dbus (`pamOpen`) to unlock the wallet
-
-```
-tpm → systemd-creds decrypt → pbkdf2(password, salt) → dbus → kwalletd6
+```text
+tpm -> systemd-creds decrypt -> pbkdf2(password, salt) -> dbus pamOpen -> kwalletd6
 ```
 
-## nixos configuration
+## nixos config
 
 ### disable gnome-keyring
 
-if using niri (nixpkgs module or niri-flake), it sets `gnome-keyring.enable = mkDefault true`. force-disable it:
+if niri or another module enables it by default, force it off so you do not end up with two secret services fighting each other.
 
 ```nix
 services.gnome.gnome-keyring.enable = lib.mkForce false;
 programs.seahorse.enable = lib.mkForce false;
 ```
 
-### portal secret routing
-
-route the freedesktop secret portal to kwallet instead of gnome-keyring:
+### route the secret portal to kwallet
 
 ```nix
 xdg.portal.config.niri = {
@@ -50,7 +39,7 @@ xdg.portal.config.niri = {
 };
 ```
 
-### kwallet packages
+### install kwallet
 
 ```nix
 environment.systemPackages = [
@@ -59,9 +48,7 @@ environment.systemPackages = [
 ];
 ```
 
-### unlock script
-
-python script that decrypts the tpm credential, derives the key, and unlocks via dbus:
+### unlock helper
 
 ```python
 import hashlib, subprocess, sys, dbus
@@ -111,15 +98,15 @@ systemd.user.services.kwallet-tpm-unlock = {
 
 ## one-time setup
 
-1. open kwallet once manually so the salt file is created at `~/.local/share/kwalletd/kdewallet.salt`
-2. seal your wallet password into the tpm:
+1. open kwallet once by hand so `~/.local/share/kwalletd/kdewallet.salt` exists
+2. seal the wallet password into a user credential
 
 ```bash
 echo -n 'YOUR_KWALLET_PASSWORD' | systemd-creds encrypt --user - ~/.config/kwallet-tpm/password.cred
 ```
 
-3. rebuild and reboot — wallet unlocks automatically on login
+3. rebuild and reboot
 
 ## credits
 
-approach based on [mic92's dotfiles](https://github.com/Mic92/dotfiles/tree/main/nixosModules/niri/kwallet-tpm) and [autokdewallet](https://github.com/Himalian/autokdewallet).
+based on [mic92's dotfiles](https://github.com/Mic92/dotfiles/tree/main/nixosModules/niri/kwallet-tpm) and [autokdewallet](https://github.com/Himalian/autokdewallet).

@@ -1,13 +1,8 @@
 ---
-title: "yubikey"
-description: "yubikey setup - gpg, ssh, pam, age encryption"
-tags: [yubikey, security, gpg, ssh]
+title: yubikey
+description: yubikey notes for gpg, ssh, pam, and age
 date: 2026-04-06
+enableToc: false
 ---
 
-# yubikey
-
-- [[yubikey/gpg-ssh|yubikey gpg/ssh setup]] - gpg keys on yubikeys for ssh and git signing
-- [[yubikey/gpg-yubikey|gpg + yubikey setup]] - initial gpg key generation and yubikey transfer
-- [[yubikey/pam-u2f-origin|yubikey pam u2f origin]] - pam_u2f origin parameter explained
-- [[yubikey/shared-age-key|shared age identity]] - one age identity across multiple yubikeys
+yubikey notes for authentication, encryption, and key management. mostly the parts where hardware-backed keys are nicer in theory than they are during first setup.
