@@ -172,6 +172,29 @@ ul.toc-content.overflow > li > a.in-view {
   color: var(--secondary);
 }
 
+:root[saved-theme="light"] {
+  .explorer-content li > a {
+    opacity: 0.92;
+  }
+
+  .explorer-content .folder-container {
+    opacity: 0.96;
+  }
+
+  ul.toc-content.overflow > li > a {
+    opacity: 0.55;
+  }
+
+  ul.toc-content.overflow > li > a.in-view {
+    opacity: 1;
+  }
+
+  a.internal.tag-link {
+    background-color: rgba(38, 77, 42, 0.08);
+    color: var(--secondary);
+  }
+}
+
 footer ul li a {
   font-size: 0;
   display: inline-block;
@@ -239,6 +262,36 @@ footer ul li a {
   justify-content: center;
   margin-top: 0.75rem;
   margin-bottom: 5rem;
+}
+
+li.section-li {
+  margin-bottom: 1.4rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+li.section-li:last-child {
+  border-bottom: none;
+}
+
+li.section-li > .section {
+  align-items: start;
+}
+
+li.section-li > .section > .tags {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+li.section-li > .section > .tags > li {
+  margin: 0;
+}
+
+li.section-li > .section > .tags a.internal.tag-link {
+  margin: 0;
 }
 
 footer {
