@@ -42,7 +42,7 @@
             cp "$WIKI_ROOT/custom.scss" "$SITE_DIR/quartz/styles/custom.scss"
             cp "$WIKI_ROOT/patches/toc.inline.ts" "$SITE_DIR/quartz/components/scripts/toc.inline.ts"
             cp "$WIKI_ROOT/patches/Footer.tsx" "$SITE_DIR/quartz/components/Footer.tsx"
-            [ -f "$WIKI_ROOT/icon.png" ] && cp "$WIKI_ROOT/icon.png" "$SITE_DIR/quartz/static/icon.png"
+            [ -f "$WIKI_ROOT/images/icon.png" ] && cp "$WIKI_ROOT/images/icon.png" "$SITE_DIR/quartz/static/icon.png"
           '';
 
           wiki = pkgs.writeShellScriptBin "wiki" ''
