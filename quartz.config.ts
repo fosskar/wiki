@@ -3,12 +3,12 @@ import * as Plugin from "./quartz/plugins";
 
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "wiki",
+    pageTitle: "fosskar's bliki",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
     analytics: null,
-    locale: "en-US",
+    locale: "en-GB",
     baseUrl: "localhost",
     ignorePatterns: [
       "private",
@@ -19,6 +19,7 @@ const config: QuartzConfig = {
       "node_modules",
       ".direnv",
       ".smart-env",
+      "README.md",
     ],
     defaultDateType: "created",
     theme: {
@@ -31,19 +32,19 @@ const config: QuartzConfig = {
       },
       colors: {
         lightMode: {
-          light: "#FAFAFA",
-          lightgray: "#EEEEEE",
-          gray: "#B0BEC5",
-          darkgray: "#616161",
-          dark: "#181818",
-          secondary: "#0E6655",
-          tertiary: "#16A085",
-          highlight: "rgba(163, 228, 215, 0.2)",
-          textHighlight: "#A3E4D788",
+          light: "#f3f1ed",
+          lightgray: "#e3dfd8",
+          gray: "#a8b0b5",
+          darkgray: "#5f6368",
+          dark: "#1f1f1f",
+          secondary: "#0f5c52",
+          tertiary: "#0a7a6c",
+          highlight: "rgba(15, 92, 82, 0.14)",
+          textHighlight: "#6fcfbd66",
         },
         darkMode: {
-          light: "#181818",
-          lightgray: "#282828",
+          light: "#202020",
+          lightgray: "#303030",
           gray: "#616161",
           darkgray: "#CCCCCC",
           dark: "#CCCCCC",
