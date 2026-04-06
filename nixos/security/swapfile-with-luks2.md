@@ -1,6 +1,7 @@
 ---
 title: "swapfile with luks2"
 tags: [nixos, security, luks, swap]
+date: 2024-07-22
 ---
 
 swapDevices = [

@@ -1,6 +1,7 @@
 ---
 title: "hyprland change resolution"
 tags: [nixos, gaming, hyprland]
+date: 2024-05-11
 ---
 
 # hyprland change resolution

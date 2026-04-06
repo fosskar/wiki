@@ -1,6 +1,8 @@
 ---
 title: "wiki"
 description: "personal knowledge base for nixos, kubernetes, proxmox, and yubikey"
+date: 2024-05-11
+enableToc: false
 ---
 
 # wiki

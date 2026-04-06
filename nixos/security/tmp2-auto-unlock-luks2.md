@@ -1,6 +1,7 @@
 ---
 title: "tpm2 auto-unlock luks2"
 tags: [nixos, security, tpm, luks]
+date: 2024-07-22
 ---
 
 - be sure TPM2 is enabled in BIOS

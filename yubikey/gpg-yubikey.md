@@ -1,6 +1,7 @@
 ---
 title: "gpg + yubikey setup"
 tags: [yubikey, gpg, security]
+date: 2026-02-26
 ---
 
 # gpg + yubikey setup

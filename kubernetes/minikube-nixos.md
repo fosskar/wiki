@@ -1,6 +1,7 @@
 ---
 title: "minikube on NixOS"
 tags: [kubernetes, minikube, nixos]
+date: 2025-03-29
 ---
 
 # minikube

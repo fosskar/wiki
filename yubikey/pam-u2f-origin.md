@@ -1,6 +1,7 @@
 ---
 title: "yubikey pam u2f origin"
 tags: [yubikey, pam, u2f, security]
+date: 2025-09-04
 ---
 
 # yubikey pam u2f origin

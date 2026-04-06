@@ -2,6 +2,7 @@
 title: "gaming"
 description: "gaming on NixOS - launch options, resolution, network tuning"
 tags: [nixos, gaming]
+date: 2026-04-06
 ---
 
 # gaming

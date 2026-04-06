@@ -1,6 +1,7 @@
 ---
 title: "lldap + sssd + samba (posix ids)"
 tags: [nixos, ldap, sssd, samba]
+date: 2026-02-26
 ---
 
 # lldap + sssd + samba (posix ids)

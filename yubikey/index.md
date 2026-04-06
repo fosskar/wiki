@@ -2,6 +2,7 @@
 title: "yubikey"
 description: "yubikey setup - gpg, ssh, pam, age encryption"
 tags: [yubikey, security, gpg, ssh]
+date: 2026-04-06
 ---
 
 # yubikey

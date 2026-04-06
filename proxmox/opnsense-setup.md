@@ -1,6 +1,7 @@
 ---
 title: "opnsense networking setup"
 tags: [proxmox, opnsense, networking]
+date: 2025-08-20
 ---
 
 # opnsense networking setup

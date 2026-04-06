@@ -2,6 +2,7 @@
 title: "security"
 description: "NixOS security - encryption, tpm, keyring"
 tags: [nixos, security]
+date: 2026-04-06
 ---
 
 # security

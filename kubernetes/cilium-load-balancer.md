@@ -1,6 +1,7 @@
 ---
 title: "cilium load balancer configuration"
 tags: [kubernetes, cilium, networking]
+date: 2025-08-20
 ---
 
 # cilium load balancer configuration

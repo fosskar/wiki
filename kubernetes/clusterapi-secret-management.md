@@ -1,6 +1,7 @@
 ---
 title: "cluster api secret management"
 tags: [kubernetes, cluster-api, secrets]
+date: 2025-08-20
 ---
 
 # cluster api secret management

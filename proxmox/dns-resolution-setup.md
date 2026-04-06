@@ -1,6 +1,7 @@
 ---
 title: "dns resolution for kubernetes ingress"
 tags: [proxmox, dns, kubernetes]
+date: 2025-08-23
 ---
 
 # dns resolution for kubernetes ingress

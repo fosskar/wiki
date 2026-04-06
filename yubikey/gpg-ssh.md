@@ -1,6 +1,7 @@
 ---
 title: "yubikey gpg/ssh setup"
 tags: [yubikey, gpg, ssh, security]
+date: 2025-08-23
 ---
 
 # yubikey gpg/ssh setup guide

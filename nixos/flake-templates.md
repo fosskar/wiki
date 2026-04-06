@@ -1,6 +1,7 @@
 ---
 title: "flake templates"
 tags: [nixos, flakes]
+date: 2025-03-29
 ---
 
 # flake templates

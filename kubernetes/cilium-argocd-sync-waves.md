@@ -1,6 +1,7 @@
 ---
 title: "cilium argocd sync waves"
 tags: [kubernetes, cilium, argocd]
+date: 2025-08-20
 ---
 
 # cilium argocd sync waves
