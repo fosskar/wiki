@@ -45,27 +45,56 @@ openssl ec -in age-key.pem -pubout -out age-key.pub
 
 ## create the certificate
 
+important: newer `age-plugin-yubikey` (e.g. `0.5.1`) ignores identities that have unrecognized **critical** cert extensions.
+in practice, `openssl req -x509` may add `basicConstraints: critical` via defaults, which breaks identity discovery (`--identity` / `--list` output empty).
+
+use an explicit config so only the needed extensions are present:
+
 ```bash
+cat > age-cert.cnf <<'EOF'
+[req]
+distinguished_name = dn
+x509_extensions = v3
+prompt = no
+
+[dn]
+CN = <cn-name>
+OU = <version>
+O = age-plugin-yubikey
+
+[v3]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+1.3.6.1.4.1.41482.3.8 = DER:<pin-policy>:<touch-policy>
+EOF
+
 openssl req -new -x509 -key age-key.pem \
-  -subj '/CN=<cn-name>/OU=0.5.0/O=age-plugin-yubikey/' \
+  -config age-cert.cnf -extensions v3 \
   -days 999999 \
-  -addext '1.3.6.1.4.1.41482.3.8=DER:<pin-policy>:<touch-policy>' \
   -out age-cert.pem
 ```
+
+verify cert extensions before import:
+
+```bash
+openssl x509 -in age-cert.pem -text -noout | rg -n "Basic Constraints|critical|1.3.6.1.4.1.41482.3.8"
+```
+
+you want the policy oid present, and no unsupported critical extensions.
 
 ## import to a yubikey
 
 the key import policy has to match the policy bytes baked into the certificate. if they differ, decrypt can fail even though the recipient looks correct.
 
 ```bash
-ykman piv keys import <slot> --pin-policy NEVER --touch-policy NEVER age-key.pem
-ykman piv certificates import <slot> age-cert.pem
+ykman piv keys import 82 --pin-policy NEVER --touch-policy NEVER age-key.pem
+ykman piv certificates import 82 age-cert.pem
 ```
 
 verify:
 
 ```bash
-ykman piv keys info <slot>
+ykman piv keys info 82
 age-plugin-yubikey --list
 ```
 
