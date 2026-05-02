@@ -24,20 +24,20 @@ use the attribute names that `sssd` is configured to read. default SSSD LDAP map
 
 user attributes:
 
-| attribute | value |
-| --- | --- |
-| `uidnumber` | unique linux uid |
-| `gidnumber` | primary linux gid |
-| `homedirectory` | unix home path used by `[homes]` |
-| `unixshell` | login shell; `/sbin/nologin` for SMB-only accounts |
+| attribute       | value                                              |
+| --------------- | -------------------------------------------------- |
+| `uidnumber`     | unique linux uid                                   |
+| `gidnumber`     | primary linux gid                                  |
+| `homedirectory` | unix home path used by `[homes]`                   |
+| `unixshell`     | login shell; `/sbin/nologin` for SMB-only accounts |
 
 group attributes:
 
-| attribute | value |
-| --- | --- |
-| `cn` | group name |
-| `gidnumber` | linux gid |
-| membership | users assigned to the group in LLDAP |
+| attribute   | value                                |
+| ----------- | ------------------------------------ |
+| `cn`        | group name                           |
+| `gidnumber` | linux gid                            |
+| membership  | users assigned to the group in LLDAP |
 
 ## invariants
 
