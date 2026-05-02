@@ -1,8 +1,9 @@
 ---
 title: gpg, ssh, and git signing with yubikey
-description: store gpg subkeys on yubikeys, use the auth subkey for ssh, and keep one backup good enough to recover onto a replacement key
-tags: [yubikey, gpg, ssh, security]
+description: store gpg subkeys on yubikeys, use the auth subkey for ssh, and keep a recovery backup
 date: 2025-08-23
+type: guide
+tags: [security, yubikey, gpg, ssh, git, signing, hardware-token]
 ---
 
 this setup keeps the offline master key out of daily use, moves the working subkeys onto yubikeys, and lets `gpg-agent` act as the ssh agent. the reason to do it this way is simple: ssh and git signing end up using hardware-backed keys without scattering private key files around the machine.

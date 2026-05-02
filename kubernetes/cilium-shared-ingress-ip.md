@@ -1,8 +1,9 @@
 ---
-title: cilium load balancer
-description: shared ingress ip setup with cilium ippools, l2 announcements, and local dns
-tags: [kubernetes, cilium, networking]
+title: cilium shared ingress ip
+description: configure cilium ippools and l2 announcements so multiple ingresses share one local load balancer ip
 date: 2025-08-20
+type: guide
+tags: [kubernetes, cilium, networking, ingress, load-balancer, l2]
 ---
 
 this setup uses one shared load balancer ip for all ingress traffic. that keeps local dns simple: every `*.kube-prd.lan` name points at one address, and ingress routes by host header after the request lands.

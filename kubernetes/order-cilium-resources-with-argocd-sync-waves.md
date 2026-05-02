@@ -1,8 +1,9 @@
 ---
-title: cilium + argocd sync waves
-description: use argocd sync waves so cilium crds, ippools, and ingress come up in the right order
-tags: [kubernetes, cilium, argocd]
+title: order cilium resources with argocd sync waves
+description: use argocd sync waves so cilium crds, ippools, ingress, and hubble come up in dependency order
 date: 2025-08-20
+type: guide
+tags: [kubernetes, cilium, argocd, gitops, helm]
 ---
 
 cilium's custom resources only work after the chart has installed its crds. the ingress service also depends on the load balancer ippool already existing. without ordering, argocd tries to apply everything at once and the first sync fails for no good reason.

@@ -1,8 +1,9 @@
 ---
-title: kwallet auto-unlock via tpm
-description: auto-unlock kde kwallet on login with a tpm-sealed password and a small dbus helper
-tags: [nixos, kwallet, tpm, security, niri, wayland]
+title: kwallet auto-unlock with tpm on NixOS
+description: auto-unlock kde kwallet on login with a tpm-sealed password and a dbus helper
 date: 2026-04-06
+type: guide
+tags: [nixos, security, kwallet, tpm2, systemd-creds, niri, Wayland]
 ---
 
 this swaps out gnome-keyring for kwallet and removes the extra password prompt at login. the idea is simple: store the wallet password as a tpm-sealed credential, decrypt it in the user session, derive the hash kwallet expects, then ask `kwalletd6` to unlock the wallet over dbus.

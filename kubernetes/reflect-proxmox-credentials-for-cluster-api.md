@@ -1,8 +1,9 @@
 ---
-title: cluster api secret management
-description: reflect proxmox credentials into cluster namespaces so cluster api can create and delete vms
-tags: [kubernetes, cluster-api, secrets]
+title: reflect proxmox credentials for cluster api
+description: mirror proxmox credentials into cluster namespaces so cluster api can create and delete vms
 date: 2025-08-20
+type: guide
+tags: [kubernetes, cluster-api, secrets, reflector, proxmox]
 ---
 
 cluster api needs proxmox credentials inside every `cluster-*` namespace. copying the same secret by hand works once, then turns into drift and cleanup pain.

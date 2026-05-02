@@ -1,8 +1,9 @@
 ---
 title: shared age identity across multiple yubikeys
 description: import the same piv key and certificate into multiple yubikeys so they share one age recipient
-tags: [yubikey, age, encryption, security]
 date: 2026-02-26
+type: guide
+tags: [security, yubikey, age, encryption, piv, backup]
 ---
 
 by default, `age-plugin-yubikey` generates a different key on each device. that means each yubikey gets a different recipient, so every secret has to be encrypted to every key.
