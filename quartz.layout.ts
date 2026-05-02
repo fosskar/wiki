@@ -3,9 +3,8 @@ import * as Component from "./quartz/components";
 
 const socialLinks = {
   github: "https://github.com/fosskar",
-  gitlab: "https://gitlab.com/fosskar",
   codeberg: "https://codeberg.org/fosskar",
-  tangled: "https://tangled.org/fosskar.eu",
+  radicle: "https://radicle.fosskar.eu",
   matrix: "https://matrix.to/#/@fosscar:matrix.org",
 };
 
@@ -39,7 +38,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer({ title: "topics", folderClickBehavior: "link" }),
+    Component.Explorer({
+      title: "topics",
+      folderClickBehavior: "collapse",
+      folderDefaultState: "open",
+      useSavedState: false,
+    }),
   ],
   right: [
     Component.Footer({ links: socialLinks }),
@@ -66,7 +70,12 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer({ title: "topics", folderClickBehavior: "link" }),
+    Component.Explorer({
+      title: "topics",
+      folderClickBehavior: "collapse",
+      folderDefaultState: "open",
+      useSavedState: false,
+    }),
   ],
   right: [Component.Footer({ links: socialLinks })],
 };
