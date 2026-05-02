@@ -1,8 +1,9 @@
 ---
-title: bootloader troubleshooting
-description: rebuild or reinstall the NixOS bootloader from a running system or a live usb
-tags: [nixos, bootloader, troubleshooting]
+title: reinstall the NixOS bootloader
+description: rebuild or reinstall the NixOS bootloader from a running system or live usb
 date: 2024-05-14
+type: troubleshooting
+tags: [nixos, bootloader, troubleshooting, uefi]
 ---
 
 use this when the bootloader got out of sync with the installed system, the esp was recreated, or the esp simply was not mounted during a rebuild. the fix is not usually magical: make sure the installed system is mounted, then rerun the bootloader install step.

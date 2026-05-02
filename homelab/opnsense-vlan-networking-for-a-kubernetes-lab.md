@@ -1,8 +1,9 @@
 ---
-title: opnsense networking setup
-description: proxmox and OPNsense notes for a vlan-based kubernetes lab network
-tags: [proxmox, opnsense, networking]
+title: OPNsense vlan networking for a kubernetes lab
+description: proxmox and OPNsense network layout for vlan-based kubernetes lab clusters
 date: 2025-08-20
+type: guide
+tags: [homelab, networking, opnsense, proxmox, vlan, kubernetes, dns]
 ---
 
 this layout keeps proxmox simple: one vlan-aware bridge, then use vlan tags to decide which network each vm lands on. OPNsense does the routing, dhcp, and dns work.

@@ -1,8 +1,9 @@
 ---
-title: pam u2f origin
-description: why `pam_u2f` origin and appid need to match between enrollment and login config
-tags: [yubikey, pam, u2f, security]
+title: pam u2f origin and appid
+description: why pam_u2f origin and appid must match between enrollment and login configuration
 date: 2025-09-04
+type: troubleshooting
+tags: [security, yubikey, pam, u2f, nixos, authentication]
 ---
 
 `origin` is the anti-phishing part of u2f. it tells the token which service is asking for authentication. if you enroll a key for one origin and later try to use it with another, auth fails because that mismatch looks exactly like impersonation.

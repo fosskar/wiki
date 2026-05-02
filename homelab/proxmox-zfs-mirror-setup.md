@@ -1,8 +1,9 @@
 ---
-title: zfs mirror setup
-description: convert a single-disk proxmox zfs install into a mirrored setup with boot on both drives
-tags: [proxmox, zfs, storage]
+title: proxmox zfs mirror setup
+description: convert a single-disk proxmox zfs install into a mirror and make both drives bootable
 date: 2025-08-20
+type: guide
+tags: [homelab, proxmox, zfs, storage, boot]
 ---
 
 this converts a single-disk proxmox install into a mirrored one. the extra boot steps matter because a mirrored zpool alone is not enough if the second disk is not also prepared as a boot target.

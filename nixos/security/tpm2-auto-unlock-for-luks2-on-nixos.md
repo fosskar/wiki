@@ -1,8 +1,9 @@
 ---
-title: tpm2 auto-unlock for luks2
-description: enroll a luks2 volume into the machine tpm so boot can unlock it automatically
-tags: [nixos, security, tpm, luks]
+title: tpm2 auto-unlock for luks2 on NixOS
+description: enroll a luks2 volume into the machine tpm and configure NixOS support for automatic boot unlock
 date: 2024-07-22
+type: guide
+tags: [nixos, security, tpm2, luks2, systemd-cryptenroll, disk-encryption]
 ---
 
 this is the basic systemd-cryptenroll path: keep the normal luks passphrase, then add a tpm-backed unlock method on top. the tpm only helps if the machine still looks like the one you enrolled, which is why the pcr list matters.
