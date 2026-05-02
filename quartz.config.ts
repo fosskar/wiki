@@ -9,7 +9,7 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: null,
     locale: "en-GB",
-    baseUrl: "localhost",
+    baseUrl: "bliki.fosskar.eu",
     ignorePatterns: [
       "private",
       "templates",

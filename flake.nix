@@ -74,6 +74,7 @@
                 setup
                 ${syncOverrides}
                 cd "$SITE_DIR" && npx quartz build --directory "$WIKI_ROOT" --output "$WIKI_ROOT/public"
+                cp "$WIKI_ROOT/robots.txt" "$WIKI_ROOT/public/robots.txt"
                 echo "static site built to $WIKI_ROOT/public/"
                 ;;
               *)
@@ -129,6 +130,7 @@
 
             buildPhase = ''
               node ./quartz/bootstrap-cli.mjs build --directory ${content} --output $out
+              cp ${./robots.txt} $out/robots.txt
             '';
 
             dontInstall = true;
