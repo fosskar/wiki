@@ -34,7 +34,7 @@ let
         access-tokens = github.com=$github_token"
 
         git config --global user.name nixbot
-        git config --global user.email nixbot@nx3.eu
+        git config --global user.email 117449098+fosskar@users.noreply.github.com
         git config --global safe.directory '*'
 
         git clone --depth 1 --progress "https://oauth2:$token@${forgeHost}/${repo}.git" repo
