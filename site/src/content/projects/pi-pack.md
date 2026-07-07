@@ -1,7 +1,7 @@
 ---
 title: pi-pack
 description: shareable pi agent assets — skills, prompts, extensions
-repo: https://codeberg.org/fosskar/pi-pack
+repo: https://github.com/fosskar/pi-pack
 tags: [pi, nix, agents]
 order: 2
 ---

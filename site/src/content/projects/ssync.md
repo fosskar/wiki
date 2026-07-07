@@ -1,7 +1,7 @@
 ---
 title: ssync
 description: peer-to-peer sync of coding-agent sessions across machines
-repo: https://codeberg.org/fosskar/ssync
+repo: https://github.com/fosskar/ssync
 tags: [rust, iroh, age, nixos, clan-core]
 order: 1
 ---

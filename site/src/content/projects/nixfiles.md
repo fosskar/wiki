@@ -1,7 +1,7 @@
 ---
 title: nixfiles
 description: personal nixos infrastructure managed with clan-core
-repo: https://codeberg.org/fosskar/nixfiles
+repo: https://github.com/fosskar/nixfiles
 tags: [nixos, clan-core, flake-parts, home-manager]
 order: 0
 ---
