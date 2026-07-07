@@ -1,4 +1,6 @@
 ---
+import Social from "../components/Social.astro";
+
 interface Props {
   title: string;
   description?: string;
@@ -52,8 +54,47 @@ const path = Astro.url.pathname;
     </main>
     <footer>
       <span>© {new Date().getFullYear()} fosskar</span>
-      <a href="/rss.xml">rss</a>
+      <Social />
     </footer>
+    <button id="to-top" aria-label="back to top" hidden>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m18 15-6-6-6 6"></path>
+      </svg>
+    </button>
+    <script>
+      const btn = document.getElementById("to-top")!;
+      const toggle = () => {
+        btn.hidden = window.scrollY < 400;
+      };
+      window.addEventListener("scroll", toggle, { passive: true });
+      toggle();
+      btn.addEventListener("click", () =>
+        window.scrollTo({ top: 0, behavior: "smooth" }),
+      );
+    </script>
+    <script>
+      // hover "#" anchors on article body headings
+      document
+        .querySelectorAll<HTMLElement>("article :is(h2, h3, h4)[id]")
+        .forEach((h) => {
+          const a = document.createElement("a");
+          a.href = `#${h.id}`;
+          a.className = "heading-anchor";
+          a.textContent = "#";
+          a.setAttribute("aria-hidden", "true");
+          a.tabIndex = -1;
+          h.appendChild(a);
+        });
+    </script>
   </body>
 </html>
 
@@ -83,7 +124,7 @@ const path = Astro.url.pathname;
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 2rem;
+    scroll-padding-top: 5rem;
   }
   * {
     box-sizing: border-box;
@@ -92,57 +133,109 @@ const path = Astro.url.pathname;
     margin: 0;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.6;
+    line-height: 1.65;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
   }
+
+  /* ---- header ---- */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
   header nav {
     max-width: 46rem;
     margin: 0 auto;
-    padding: 1.5rem 1rem;
+    padding: 0.9rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
   }
   .brand {
     font-weight: 700;
+    font-size: 1.05rem;
     text-decoration: none;
     color: var(--text);
+  }
+  .brand:hover {
+    color: var(--accent);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem;
   }
   .links a {
     color: var(--muted);
     text-decoration: none;
-    margin-left: 1rem;
+    font-size: 0.95rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
   }
-  .links a:hover,
+  .links a:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+  }
   .links a.active {
     color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
+
   main {
     max-width: 46rem;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 2rem 1rem 3rem;
     width: 100%;
     flex: 1;
   }
+
+  /* ---- footer ---- */
   footer {
+    border-top: 1px solid var(--border);
     max-width: 46rem;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     width: 100%;
     color: var(--muted);
     font-size: 0.85rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
   }
-  footer a {
-    color: var(--muted);
-  }
+
+  /* ---- typography ---- */
   h1,
   h2,
   h3 {
     line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 0.75rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 2rem 0 0.75rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  p {
+    margin: 0.75rem 0;
   }
   a {
     color: var(--accent);
@@ -160,7 +253,7 @@ const path = Astro.url.pathname;
   pre {
     background: var(--bg-alt) !important;
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 1rem;
     overflow-x: auto;
   }
@@ -181,19 +274,146 @@ const path = Astro.url.pathname;
   blockquote {
     border-left: 3px solid var(--accent);
     margin-left: 0;
-    padding-left: 1rem;
+    padding: 0.25rem 0 0.25rem 1rem;
     color: var(--muted);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+    border-radius: 0 8px 8px 0;
   }
   hr {
     border: none;
     border-top: 1px solid var(--border);
+    margin: 2rem 0;
   }
   table {
     border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
   }
   th,
   td {
     border: 1px solid var(--border);
     padding: 0.4rem 0.7rem;
+    text-align: left;
+  }
+  th {
+    background: var(--bg-alt);
+  }
+  img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  /* ---- shared components ---- */
+  .card {
+    display: block;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--dim);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--bg) 60%, black);
+  }
+  @media (prefers-color-scheme: light) {
+    .card:hover {
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+  }
+  a.card {
+    color: inherit;
+    text-decoration: none;
+  }
+  .chip {
+    display: inline-block;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .chip:hover {
+    color: var(--accent-bright);
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin: 2.5rem 0 1rem;
+  }
+  .section-head h2 {
+    margin: 0;
+  }
+  .section-head .view-all {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .section-head .view-all:hover {
+    color: var(--accent);
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0.35rem 0;
+  }
+
+  /* ---- back to top ---- */
+  #to-top {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-alt);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: pointer;
+    z-index: 10;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease;
+  }
+  #to-top:hover {
+    color: var(--accent);
+    border-color: var(--dim);
+  }
+  #to-top[hidden] {
+    display: none;
+  }
+  #to-top svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  /* ---- heading anchors ---- */
+  .heading-anchor {
+    margin-left: 0.4rem;
+    color: var(--accent);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  :is(h2, h3, h4):hover .heading-anchor,
+  .heading-anchor:focus {
+    opacity: 1;
   }
 </style>

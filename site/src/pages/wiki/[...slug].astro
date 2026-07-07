@@ -27,14 +27,38 @@ const toc = (entry.data.enableToc ?? true)
 
 <Layout title={`${entry.data.title} — fosskar`} description={entry.data.description}>
   <article>
-    <p class="crumbs">
-      <a href="/wiki/">wiki</a> / <a href={`/wiki/${section}/`}>{section}</a>
-    </p>
-    <h1>{entry.data.title}</h1>
-    <p class="meta">
-      {entry.data.date && <time>{entry.data.date.toISOString().slice(0, 10)}</time>}
-      {entry.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
-    </p>
+    <header class="article-head">
+      <p class="crumbs">
+        <a href="/wiki/">wiki</a> / <a href={`/wiki/${section}/`}>{section}</a>
+      </p>
+      <h1>{entry.data.title}</h1>
+      {entry.data.description && <p class="desc">{entry.data.description}</p>}
+      <div class="meta">
+        {
+          entry.data.date && (
+            <span class="date">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M8 2v4" />
+                <path d="M16 2v4" />
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <path d="M3 10h18" />
+              </svg>
+              <time>{entry.data.date.toISOString().slice(0, 10)}</time>
+            </span>
+          )
+        }
+        {entry.data.tags.map((tag) => <span class="chip">#{tag}</span>)}
+      </div>
+    </header>
     <Content />
   </article>
   {
@@ -57,19 +81,36 @@ const toc = (entry.data.enableToc ?? true)
   .crumbs {
     color: var(--muted);
     font-size: 0.85rem;
+    margin: 0 0 1rem;
   }
   .crumbs a {
     color: var(--muted);
+    text-decoration: none;
   }
-  .meta {
+  .crumbs a:hover {
+    color: var(--accent);
+  }
+  .article-head {
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .article-head h1 {
+    font-size: 2.1rem;
+    margin: 0 0 0.35rem;
+  }
+  .desc {
     color: var(--muted);
-    font-size: 0.85rem;
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+    margin: 0 0 0.75rem;
   }
-  .tag {
-    color: var(--accent-secondary);
+  .date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .date svg {
+    width: 0.9rem;
+    height: 0.9rem;
   }
   .toc {
     display: none;

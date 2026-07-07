@@ -3,6 +3,34 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="404 — fosskar">
-  <h1>404</h1>
-  <p>this page does not exist. try the <a href="/wiki/">wiki</a> or <a href="/">home</a>.</p>
+  <div class="wrap">
+    <div class="card lost">
+      <h1>404</h1>
+      <p>
+        this page does not exist. try the <a href="/wiki/">wiki</a> or <a href="/">home</a>.
+      </p>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .wrap {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 0;
+  }
+  .lost {
+    max-width: 24rem;
+    text-align: center;
+    padding: 2rem 2.5rem;
+  }
+  .lost h1 {
+    font-size: 3rem;
+    margin: 0 0 0.5rem;
+    color: var(--accent);
+  }
+  .lost p {
+    color: var(--muted);
+    margin: 0;
+  }
+</style>

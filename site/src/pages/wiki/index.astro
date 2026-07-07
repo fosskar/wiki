@@ -21,36 +21,73 @@ function noteSlug(id: string): string {
     working notes — the things i had to figure out once and refuse to figure
     out twice.
   </p>
-  {
-    sections.map((dir) => (
-      <section>
-        <h2>
-          <a href={`/wiki/${dir}/`}>{dir}</a>
-        </h2>
-        {indexOf(dir)?.data.description && (
-          <p class="muted">{indexOf(dir)!.data.description}</p>
-        )}
-        <ul>
-          {byDir(dir).map((note) => (
-            <li>
-              <a href={`/wiki/${noteSlug(note.id)}/`}>{note.data.title}</a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
+  <div class="stack">
+    {
+      sections.map((dir) => (
+        <section class="card">
+          <h2>
+            <a href={`/wiki/${dir}/`}>{dir}</a>
+          </h2>
+          {indexOf(dir)?.data.description && (
+            <p class="muted desc">{indexOf(dir)!.data.description}</p>
+          )}
+          <ul class="notes">
+            {byDir(dir).map((note) => (
+              <li>
+                <a href={`/wiki/${noteSlug(note.id)}/`}>{note.data.title}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </div>
 </Layout>
 
 <style>
   .muted {
     color: var(--muted);
   }
-  h2 a {
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .card h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.2rem;
+  }
+  .card h2 a {
     color: var(--text);
     text-decoration: none;
   }
-  h2 a:hover {
+  .card h2 a:hover {
     color: var(--accent);
+  }
+  .desc {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+  }
+  .notes {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .notes a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  .notes a:hover {
+    color: var(--accent);
+  }
+  .notes li::before {
+    content: "·";
+    color: var(--dim);
+    margin-right: 0.5rem;
   }
 </style>

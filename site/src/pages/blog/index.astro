@@ -9,34 +9,47 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 
 <Layout title="blog — fosskar" description="posts by fosskar">
   <h1>blog</h1>
-  <ul class="list">
+  <div class="stack">
     {
       posts.map((post) => (
-        <li>
-          <a href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
-            {post.data.title}
-          </a>
-          <time>{post.data.date.toISOString().slice(0, 10)}</time>
-        </li>
+        <a class="card entry" href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
+          <span class="entry-title">{post.data.title}</span>
+          {post.data.description && (
+            <span class="entry-desc">{post.data.description}</span>
+          )}
+          <span class="meta">
+            <time>{post.data.date.toISOString().slice(0, 10)}</time>
+          </span>
+        </a>
       ))
     }
-  </ul>
+  </div>
 </Layout>
 
 <style>
-  .list {
-    list-style: none;
-    padding: 0;
-  }
-  .list li {
+  .stack {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.3rem 0;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
   }
-  .list time {
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .entry-title {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .entry:hover .entry-title {
+    color: var(--accent);
+  }
+  .entry-desc {
     color: var(--muted);
-    font-size: 0.85rem;
-    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+  .entry .meta {
+    margin: 0;
   }
 </style>

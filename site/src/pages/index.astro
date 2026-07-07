@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Social from "../components/Social.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -16,73 +17,118 @@ function noteSlug(id: string): string {
 
 <Layout title="fosskar" description="declarative nixos infrastructure — blog, wiki, and projects">
   <section class="hero">
+    <img src="/icon.svg" alt="" class="avatar" width="88" height="88" />
     <h1>hi, i'm fosskar</h1>
-    <p>
+    <p class="tagline">
       i run my machines — desktop, laptop, home servers, router — as one
       declarative nixos flake, and write down what breaks along the way. this
       site is half blog, half wiki: most pages start from a real problem, and
       the point is to keep the useful part — what worked, why it worked, and
       what tradeoff was being made.
     </p>
+    <Social buttons />
   </section>
 
   <section>
-    <h2>latest posts</h2>
+    <div class="section-head">
+      <h2>latest posts</h2>
+      <a class="view-all" href="/blog/">view all →</a>
+    </div>
     {posts.length === 0 && <p class="muted">nothing here yet.</p>}
-    <ul class="list">
+    <div class="stack">
       {
         posts.map((post) => (
-          <li>
-            <a href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
-              {post.data.title}
-            </a>
-            <time>{post.data.date.toISOString().slice(0, 10)}</time>
-          </li>
+          <a class="card entry" href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
+            <span class="entry-title">{post.data.title}</span>
+            {post.data.description && (
+              <span class="entry-desc">{post.data.description}</span>
+            )}
+            <span class="meta">
+              <time>{post.data.date.toISOString().slice(0, 10)}</time>
+            </span>
+          </a>
         ))
       }
-    </ul>
+    </div>
   </section>
 
   <section>
-    <h2>recent wiki notes</h2>
-    <ul class="list">
+    <div class="section-head">
+      <h2>recent wiki notes</h2>
+      <a class="view-all" href="/wiki/">view all →</a>
+    </div>
+    <div class="stack">
       {
         notes.map((note) => (
-          <li>
-            <a href={`/wiki/${noteSlug(note.id)}/`}>{note.data.title}</a>
+          <a class="card entry compact" href={`/wiki/${noteSlug(note.id)}/`}>
+            <span class="entry-title">{note.data.title}</span>
             {note.data.date && (
-              <time>{note.data.date.toISOString().slice(0, 10)}</time>
+              <span class="meta">
+                <time>{note.data.date.toISOString().slice(0, 10)}</time>
+              </span>
             )}
-          </li>
+          </a>
         ))
       }
-    </ul>
+    </div>
   </section>
 </Layout>
 
 <style>
-  .hero h1 {
-    font-size: 2.2rem;
-    margin-bottom: 0.5rem;
-  }
-  .hero p {
-    color: var(--muted);
-    max-width: 38rem;
-  }
-  .list {
-    list-style: none;
-    padding: 0;
-  }
-  .list li {
+  .hero {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.3rem 0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 0 1rem;
   }
-  .list time {
+  .avatar {
+    width: 5.5rem;
+    height: 5.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    padding: 0.6rem;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    margin: 1rem 0 0.25rem;
+  }
+  .tagline {
     color: var(--muted);
-    font-size: 0.85rem;
-    white-space: nowrap;
+    max-width: 36rem;
+    margin: 0.5rem 0 1.25rem;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .entry-title {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .entry:hover .entry-title {
+    color: var(--accent);
+  }
+  .entry-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .entry .meta {
+    margin: 0;
+  }
+  .entry.compact {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.7rem 1.25rem;
   }
   .muted {
     color: var(--muted);
