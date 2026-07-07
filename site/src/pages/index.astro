@@ -1,0 +1,90 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const notes = (await getCollection("wiki", ({ data }) => data.type !== "index"))
+  .sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0))
+  .slice(0, 5);
+
+function noteSlug(id: string): string {
+  return id.split("/").pop()!.replace(/\.md$/, "");
+}
+---
+
+<Layout title="fosskar" description="declarative nixos infrastructure — blog, wiki, and projects">
+  <section class="hero">
+    <h1>hi, i'm fosskar</h1>
+    <p>
+      i run my machines — desktop, laptop, home servers, router — as one
+      declarative nixos flake, and write down what breaks along the way. this
+      site is half blog, half wiki: most pages start from a real problem, and
+      the point is to keep the useful part — what worked, why it worked, and
+      what tradeoff was being made.
+    </p>
+  </section>
+
+  <section>
+    <h2>latest posts</h2>
+    {posts.length === 0 && <p class="muted">nothing here yet.</p>}
+    <ul class="list">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
+              {post.data.title}
+            </a>
+            <time>{post.data.date.toISOString().slice(0, 10)}</time>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section>
+    <h2>recent wiki notes</h2>
+    <ul class="list">
+      {
+        notes.map((note) => (
+          <li>
+            <a href={`/wiki/${noteSlug(note.id)}/`}>{note.data.title}</a>
+            {note.data.date && (
+              <time>{note.data.date.toISOString().slice(0, 10)}</time>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  .hero h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero p {
+    color: var(--muted);
+    max-width: 38rem;
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+  .list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.3rem 0;
+  }
+  .list time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .muted {
+    color: var(--muted);
+  }
+</style>

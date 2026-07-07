@@ -1,0 +1,47 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const rendered = await Promise.all(
+  projects.map(async (project) => ({
+    project,
+    Content: (await render(project)).Content,
+  })),
+);
+---
+
+<Layout title="projects — fosskar" description="projects by fosskar">
+  <h1>projects</h1>
+  {
+    rendered.map(({ project, Content }) => (
+      <section class="project">
+        <h2>
+          {project.data.url ? (
+            <a href={project.data.url}>{project.data.title}</a>
+          ) : (
+            project.data.title
+          )}
+        </h2>
+        <p class="muted">{project.data.description}</p>
+        <Content />
+        {project.data.repo && <a href={project.data.repo}>source</a>}
+      </section>
+    ))
+  }
+</Layout>
+
+<style>
+  .project {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.25rem 1.25rem 1rem;
+    margin-bottom: 1.25rem;
+    background: var(--bg-alt);
+  }
+  .muted {
+    color: var(--muted);
+  }
+</style>

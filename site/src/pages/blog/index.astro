@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<Layout title="blog — fosskar" description="posts by fosskar">
+  <h1>blog</h1>
+  <ul class="list">
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
+            {post.data.title}
+          </a>
+          <time>{post.data.date.toISOString().slice(0, 10)}</time>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
+
+<style>
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+  .list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.3rem 0;
+  }
+  .list time {
+    color: var(--muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+</style>

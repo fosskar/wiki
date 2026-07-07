@@ -1,0 +1,199 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description } = Astro.props;
+const nav = [
+  { href: "/", label: "home" },
+  { href: "/blog/", label: "blog" },
+  { href: "/wiki/", label: "wiki" },
+  { href: "/projects/", label: "projects" },
+  { href: "/about/", label: "about" },
+];
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    {description && <meta name="description" content={description} />}
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/" class="brand">fosskar</a>
+        <div class="links">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class:list={{
+                  active:
+                    item.href === "/"
+                      ? path === "/"
+                      : path.startsWith(item.href),
+                }}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <span>© {new Date().getFullYear()} fosskar</span>
+      <a href="/rss.xml">rss</a>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* grey-teal — nixfiles modules/flake-parts/themes.nix */
+  :root {
+    --bg: #202020;
+    --bg-alt: #282828;
+    --border: #303030;
+    --text: #cccccc;
+    --muted: #9d9d9d;
+    --dim: #616161;
+    --accent: #16a085;
+    --accent-bright: #1abc9c;
+    --accent-secondary: #c79a3a;
+    font-family: Inter, system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-alt: #f2f2f2;
+      --border: #e0e0e0;
+      --text: #181818;
+      --muted: #616161;
+      --dim: #9d9d9d;
+    }
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  header nav {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .brand {
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .links a {
+    color: var(--muted);
+    text-decoration: none;
+    margin-left: 1rem;
+  }
+  .links a:hover,
+  .links a.active {
+    color: var(--accent);
+  }
+  main {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 1rem;
+    width: 100%;
+    flex: 1;
+  }
+  footer {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    width: 100%;
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  footer a {
+    color: var(--muted);
+  }
+  h1,
+  h2,
+  h3 {
+    line-height: 1.25;
+  }
+  a {
+    color: var(--accent);
+  }
+  a:hover {
+    color: var(--accent-bright);
+  }
+  code {
+    background: var(--bg-alt);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    font-family: "CommitMono Nerd Font Propo", "Commit Mono", ui-monospace, monospace;
+    font-size: 0.9em;
+  }
+  pre {
+    background: var(--bg-alt) !important;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  pre code {
+    background: none;
+    padding: 0;
+  }
+  /* shiki dual themes: tokens carry inline light colors plus --shiki-dark
+     variables; switch to them when the site renders dark */
+  @media (prefers-color-scheme: dark) {
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+      font-style: var(--shiki-dark-font-style) !important;
+      font-weight: var(--shiki-dark-font-weight) !important;
+    }
+  }
+  blockquote {
+    border-left: 3px solid var(--accent);
+    margin-left: 0;
+    padding-left: 1rem;
+    color: var(--muted);
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+  table {
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.7rem;
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.md$/, "") },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} — fosskar`} description={post.data.description}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="meta">
+      <time>{post.data.date.toISOString().slice(0, 10)}</time>
+      {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+    </p>
+    <Content />
+  </article>
+</Layout>
+
+<style>
+  .meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.6rem;
+  }
+  .tag {
+    color: var(--accent-secondary);
+  }
+</style>

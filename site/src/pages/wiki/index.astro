@@ -1,0 +1,56 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const all = await getCollection("wiki");
+const sections = [...new Set(all.map((e) => e.id.split("/")[0]))].sort();
+const byDir = (dir: string) =>
+  all
+    .filter((e) => e.id.startsWith(dir + "/") && e.data.type !== "index")
+    .sort((a, b) => a.data.title.localeCompare(b.data.title));
+const indexOf = (dir: string) => all.find((e) => e.id === dir);
+
+function noteSlug(id: string): string {
+  return id.split("/").pop()!;
+}
+---
+
+<Layout title="wiki — fosskar" description="notes on nixos, kubernetes, homelab">
+  <h1>wiki</h1>
+  <p class="muted">
+    working notes — the things i had to figure out once and refuse to figure
+    out twice.
+  </p>
+  {
+    sections.map((dir) => (
+      <section>
+        <h2>
+          <a href={`/wiki/${dir}/`}>{dir}</a>
+        </h2>
+        {indexOf(dir)?.data.description && (
+          <p class="muted">{indexOf(dir)!.data.description}</p>
+        )}
+        <ul>
+          {byDir(dir).map((note) => (
+            <li>
+              <a href={`/wiki/${noteSlug(note.id)}/`}>{note.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Layout>
+
+<style>
+  .muted {
+    color: var(--muted);
+  }
+  h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  h2 a:hover {
+    color: var(--accent);
+  }
+</style>

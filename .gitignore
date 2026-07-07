@@ -1,7 +1,6 @@
 .direnv
 .obsidian
-.site
-public
+.trash
 result
 
 # Ignore Smart Environment folder

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://bliki.fosskar.eu/sitemap.xml
