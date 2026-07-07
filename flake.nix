@@ -24,6 +24,7 @@
 
       imports = [
         inputs.treefmt-nix.flakeModule
+        ./effects.nix
       ];
 
       perSystem =
