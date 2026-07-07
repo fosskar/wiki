@@ -2,7 +2,7 @@
 let
   pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
 
-  forgeHost = "codeberg.org";
+  forgeHost = "github.com";
   repo = "fosskar/wiki";
 
   # Same plumbing as nixfiles' mkRepoEffect: request nixbot's forge token
@@ -52,7 +52,7 @@ in
       };
       # updater lives in the nixfiles flake; no flake input required
       outputs.effects.update-flake-inputs = mkRepoEffect "update-flake-inputs" ''
-        nix run "git+https://${forgeHost}/fosskar/nixfiles?shallow=1#updater-flake-inputs"
+        nix run "git+https://codeberg.org/fosskar/nixfiles?shallow=1#updater-flake-inputs"
       '';
     };
   };
