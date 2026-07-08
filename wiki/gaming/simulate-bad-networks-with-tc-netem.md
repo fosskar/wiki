@@ -3,7 +3,6 @@ title: simulate bad networks with tc netem
 description: use tc netem to add latency, jitter, and packet loss to one linux egress interface for network testing
 date: 2024-05-11
 type: note
-tags: [gaming, linux, networking, tc, netem, testing]
 ---
 
 use `tc netem` to reproduce latency, jitter, and packet loss on one linux egress interface. remove the qdisc after testing.

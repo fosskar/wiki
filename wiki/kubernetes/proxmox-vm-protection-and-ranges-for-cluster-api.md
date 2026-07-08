@@ -3,7 +3,6 @@ title: proxmox vm protection and ranges for cluster api
 description: avoid stuck cluster api cleanup by disabling proxmox vm protection and reserving vm ids, ip ranges, and storage sizes
 date: 2025-08-20
 type: note
-tags: [kubernetes, cluster-api, proxmox, virtualization, homelab]
 ---
 
 ## disable protection for cluster api vms

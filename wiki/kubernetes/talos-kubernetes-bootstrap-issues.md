@@ -3,7 +3,6 @@ title: talos kubernetes bootstrap issues
 description: troubleshoot talos bootstrap problems around cilium regressions, csr approval, and host dns
 date: 2025-08-20
 type: troubleshooting
-tags: [kubernetes, talos, cilium, bootstrap, troubleshooting, dns]
 ---
 
 ## cilium 1.18.x regression

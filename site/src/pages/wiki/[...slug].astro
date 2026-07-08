@@ -5,11 +5,13 @@ import type { CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const entries = await getCollection("wiki");
+  // notes route flat as /wiki/<basename>; guard against cross-section collisions
+  const seen = new Map<string, string>();
   return entries.map((entry) => {
-    // glob loader strips "index.md": dir indexes get id = dir path.
-    // dir index pages route as /wiki/<dir-path>, notes flat as /wiki/<basename>
-    const isIndex = entry.filePath?.endsWith("/index.md") ?? false;
-    const slug = isIndex ? entry.id : entry.id.split("/").pop()!;
+    const slug = entry.id.split("/").pop()!;
+    const prev = seen.get(slug);
+    if (prev) throw new Error(`duplicate wiki slug "${slug}": ${prev} vs ${entry.id}`);
+    seen.set(slug, entry.id);
     return { params: { slug }, props: { entry } };
   });
 }
@@ -29,7 +31,7 @@ const toc = (entry.data.enableToc ?? true)
   <article>
     <header class="article-head">
       <p class="crumbs">
-        <a href="/wiki/">wiki</a> / <a href={`/wiki/${section}/`}>{section}</a>
+        <a href="/wiki/">wiki</a> / <a href={`/wiki/#${section}`}>{section}</a>
       </p>
       <h1>{entry.data.title}</h1>
       {entry.data.description && <p class="desc">{entry.data.description}</p>}
@@ -56,7 +58,7 @@ const toc = (entry.data.enableToc ?? true)
             </span>
           )
         }
-        {entry.data.tags.map((tag) => <span class="chip">#{tag}</span>)}
+        {entry.data.type !== "note" && <span class="chip">{entry.data.type}</span>}
       </div>
     </header>
     <Content />

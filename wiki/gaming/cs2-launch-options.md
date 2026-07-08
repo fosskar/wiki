@@ -3,7 +3,6 @@ title: cs2 launch options
 description: cs2 launch strings for Steam on AMD/Mesa, with gamescope, MangoHud, vkBasalt, and latency-related flags separated by layer
 date: 2024-05-11
 type: reference
-tags: [gaming, cs2, linux, Wayland, gamescope, performance, amd, mesa]
 ---
 
 steam launch strings for cs2 on AMD/Mesa with a Wayland desktop.

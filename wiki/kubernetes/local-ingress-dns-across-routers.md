@@ -3,7 +3,6 @@ title: local ingress dns across routers
 description: make local dns resolve kubernetes ingress names across router and subnet boundaries
 date: 2025-08-23
 type: troubleshooting
-tags: [kubernetes, networking, dns, ingress, cilium, opnsense, homelab]
 ---
 
 when ingress is reachable by ip but not by name, the real problem is usually not kubernetes. it is dns between subnets. this page is about the three workable patterns and why `address=` ended up being the simplest one here.

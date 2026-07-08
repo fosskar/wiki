@@ -6,7 +6,6 @@ const noteSchema = z.object({
   description: z.string().optional(),
   date: z.coerce.date().optional(),
   type: z.string().default("note"),
-  tags: z.array(z.string()).default([]),
   enableToc: z.boolean().optional(),
   draft: z.boolean().default(false),
 });

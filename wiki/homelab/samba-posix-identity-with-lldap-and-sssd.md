@@ -3,7 +3,6 @@ title: samba posix identity with lldap and sssd
 description: use lldap posix attributes as linux identities for samba shares through sssd while keeping smb passwords in tdbsam
 date: 2026-02-26
 type: guide
-tags: [homelab, identity, lldap, sssd, samba, posix, linux, nixos]
 ---
 
 ## model
