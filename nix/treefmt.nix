@@ -14,7 +14,12 @@
         ];
         programs = {
           nixfmt.enable = true;
-          prettier.enable = true;
+          prettier = {
+            enable = true;
+            # never reformat code inside markdown fences; it mangles
+            # non-yaml syntax like helm's {{ .Values.name }}
+            settings.embeddedLanguageFormatting = "off";
+          };
         };
       };
 

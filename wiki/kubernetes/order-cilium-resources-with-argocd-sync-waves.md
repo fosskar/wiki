@@ -20,7 +20,6 @@ argocd waits for each wave to go healthy before moving on, so this turns an impl
 
 add this to `templates/loadbalancer-ippool.yaml` and `templates/l2announcement-policy.yaml`:
 
-<!-- prettier-ignore -->
 ```yaml
 # cluster chart templates (this setup), both files
 metadata:
