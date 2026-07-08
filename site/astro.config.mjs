@@ -6,6 +6,10 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://bliki.fosskar.eu",
   integrations: [sitemap()],
+  // node_modules is a read-only nix store symlink in the dev shell;
+  // keep caches (default node_modules/.astro, node_modules/.vite) outside it
+  cacheDir: "./.cache/astro",
+  vite: { cacheDir: "./.cache/vite" },
   markdown: {
     remarkPlugins: [
       [

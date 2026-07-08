@@ -3,8 +3,8 @@ dist/
 # generated types
 .astro/
 
-# dependencies
-node_modules/
+# dependencies (nix store symlink in the dev shell)
+node_modules
 
 # logs
 npm-debug.log*
@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# astro/vite caches (see astro.config.mjs)
+.cache/
