@@ -20,7 +20,7 @@ const wiki = defineCollection({
 });
 
 const blog = defineCollection({
-  loader: glob({ base: "./src/content/blog", pattern: "**/*.md" }),
+  loader: glob({ base: "../blog", pattern: "**/*.md" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -31,7 +31,7 @@ const blog = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ base: "./src/content/projects", pattern: "**/*.md" }),
+  loader: glob({ base: "../projects", pattern: "**/*.md" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

@@ -11,6 +11,8 @@
               (pkgs.lib.fileset.maybeMissing ../site/dist)
             ]
           ))
+          ../blog
+          ../projects
           ../wiki
         ];
       };
