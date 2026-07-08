@@ -23,7 +23,7 @@ symptoms:
 pin cilium to `1.17.7`:
 
 ```yaml
-# cluster/values.yaml
+# cluster/values.yaml (this setup)
 cni:
   cilium:
     version: "1.17.7"
@@ -36,6 +36,7 @@ reference: [cilium issue #40983](https://github.com/cilium/cilium/issues/40983)
 talos config includes `kubelet-serving-cert-approver`:
 
 ```yaml
+# talos machine config (this setup)
 - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
 ```
 
@@ -50,6 +51,7 @@ kubectl certificate approve $(kubectl get csr -o name | grep kubelet-serving)
 worker config:
 
 ```yaml
+# talos worker machine config (this setup)
 machine:
   features:
     hostDNS:
@@ -58,3 +60,7 @@ machine:
 ```
 
 this avoids coredns crashing when cilium restarts with bpf masquerading.
+
+## related
+
+- [[cilium-shared-ingress-ip|cilium shared ingress ip]]

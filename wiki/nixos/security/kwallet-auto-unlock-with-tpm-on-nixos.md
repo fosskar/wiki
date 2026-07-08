@@ -26,6 +26,7 @@ tpm -> systemd-creds decrypt -> pbkdf2(password, salt) -> dbus pamOpen -> kwalle
 if niri or another module enables it by default, force it off so you do not end up with two secret services fighting each other.
 
 ```nix
+# modules/nixos/common/workstation/keyring.nix (this setup)
 services.gnome.gnome-keyring.enable = lib.mkForce false;
 programs.seahorse.enable = lib.mkForce false;
 ```
@@ -33,6 +34,7 @@ programs.seahorse.enable = lib.mkForce false;
 ### route the secret portal to kwallet
 
 ```nix
+# modules/nixos/common/workstation/keyring.nix (this setup)
 xdg.portal.config.niri = {
   default = [ "gtk" "gnome" ];
   "org.freedesktop.impl.portal.Secret" = [ "kwallet" ];
@@ -42,6 +44,7 @@ xdg.portal.config.niri = {
 ### install kwallet
 
 ```nix
+# modules/nixos/common/workstation/keyring.nix (this setup)
 environment.systemPackages = [
   pkgs.kdePackages.kwallet
   pkgs.kdePackages.kwalletmanager
@@ -51,6 +54,7 @@ environment.systemPackages = [
 ### unlock helper
 
 ```python
+# kwallet-tpm-unlock helper, inlined in modules/nixos/common/workstation/keyring.nix (this setup)
 import hashlib, subprocess, sys, dbus
 from pathlib import Path
 
@@ -82,6 +86,7 @@ if __name__ == "__main__":
 ### systemd user service
 
 ```nix
+# modules/nixos/common/workstation/keyring.nix (this setup)
 systemd.user.services.kwallet-tpm-unlock = {
   description = "unlock kwallet using tpm-sealed credentials";
   after = [ "dbus.socket" "graphical-session.target" ];
@@ -102,11 +107,24 @@ systemd.user.services.kwallet-tpm-unlock = {
 2. seal the wallet password into a user credential
 
 ```bash
-echo -n 'YOUR_KWALLET_PASSWORD' | systemd-creds encrypt --user - ~/.config/kwallet-tpm/password.cred
+echo -n '<kwallet-password>' | systemd-creds encrypt --user - ~/.config/kwallet-tpm/password.cred
 ```
 
 3. rebuild and reboot
 
+## verify
+
+```bash
+busctl --user call org.kde.kwalletd6 /modules/kwalletd6 org.kde.KWallet isOpen s kdewallet
+```
+
+expected: `b true` after login, without a kwallet password prompt having appeared.
+
 ## credits
 
 based on [mic92's dotfiles](https://github.com/Mic92/dotfiles/tree/main/nixosModules/niri/kwallet-tpm) and [autokdewallet](https://github.com/Himalian/autokdewallet).
+
+## related
+
+- [[luks2-swapfile-hibernate-resume-on-nixos|luks2 swapfile hibernate resume on NixOS]]
+- [[tpm2-auto-unlock-for-luks2-on-nixos|tpm2 auto-unlock for luks2 on NixOS]]

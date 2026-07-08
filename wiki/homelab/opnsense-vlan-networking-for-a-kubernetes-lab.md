@@ -5,11 +5,12 @@ date: 2025-08-20
 type: guide
 ---
 
-this layout keeps proxmox simple: one vlan-aware bridge, then use vlan tags to decide which network each vm lands on. OPNsense does the routing, dhcp, and dns work.
+this layout keeps proxmox simple: one vlan-aware bridge, then use vlan tags to decide which network each vm lands on. OPNsense does the routing, dhcp, and dns work. the addresses, vlan ids, and `.lan` names below come from this setup.
 
 ## topology
 
 ```text
+# proxmox vmbr1 topology (this setup)
 intel nic -> vmbr1 (vlan-aware)
 ├── opnsense net0: no vlan tag (wan - 192.168.10.101)
 ├── opnsense net1: vlan 101 (lan - 10.10.10.1/24)
@@ -38,7 +39,7 @@ otherwise OPNsense drops the very traffic you actually want from `192.168.x.x`.
 set wan to a static address so it does not fight with upstream dhcp:
 
 ```text
-interfaces -> wan
+# OPNsense web ui: interfaces -> wan (this setup)
 type: static ipv4
 ipv4 address: 192.168.10.101/24
 ipv4 upstream gateway: 192.168.10.1
@@ -51,7 +52,7 @@ by default, wan access to the web ui is blocked. to allow it:
 ### administration settings
 
 ```text
-system -> settings -> administration
+# OPNsense web ui: system -> settings -> administration
 listen interfaces: all
 protocol: http+https or https only
 ```
@@ -92,3 +93,18 @@ both clusters share the same segment here for simplicity.
 ## load balancer range
 
 reserve a small block for cilium load balancers, for example `10.10.10.120-10.10.10.129`, and keep that range out of dhcp.
+
+## verify
+
+from a host on the lan vlan, resolve a name behind the wildcard override:
+
+```bash
+nslookup grafana.kube-prd.lan
+```
+
+expected: the name resolves to `10.10.10.120` (the cilium load balancer ip behind the wildcard), and the page loads at `https://grafana.kube-prd.lan`.
+
+## related
+
+- [[local-ingress-dns-across-routers|local ingress dns across routers]]
+- [[cilium-shared-ingress-ip|cilium shared ingress ip]]

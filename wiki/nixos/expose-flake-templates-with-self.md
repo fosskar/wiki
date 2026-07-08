@@ -8,6 +8,7 @@ type: note
 if your flake exports templates, `self` is the part that points back at the current flake. that is why the template import uses `self` instead of a hard-coded path.
 
 ```nix
+# flake.nix (outputs)
 templates = import "${self}/templates" { inherit self; };
 ```
 

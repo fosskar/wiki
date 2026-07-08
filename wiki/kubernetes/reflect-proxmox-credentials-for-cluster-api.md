@@ -12,7 +12,7 @@ reflector fixes that by treating one secret as the source of truth and mirroring
 ## install reflector
 
 ```yaml
-# bootstrap/kube-mgmt/reflector.yaml
+# bootstrap/kube-mgmt/reflector.yaml (this setup)
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -42,14 +42,15 @@ that tells reflector to copy the secret into any namespace that matches `cluster
 ## secret shape
 
 ```yaml
+# proxmox-credentials secret, namespace default (this setup)
 apiVersion: v1
 kind: Secret
 metadata:
   name: proxmox-credentials
 stringData:
-  url: "https://192.168.1.X:8006"
-  token: "username@pve!token"
-  secret: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+  url: "https://<proxmox-host>:8006"
+  token: "<user>@pve!<token-name>"
+  secret: "<token-secret>"
 ```
 
 ## cleanup edge case
@@ -57,7 +58,20 @@ stringData:
 cluster deletion can get stuck on helmchartproxy finalizers if argocd still tries to uninstall addons from a cluster that already disappeared. this annotation skips that uninstall path:
 
 ```yaml
+# annotation on the HelmChartProxy resource
 metadata:
   annotations:
     addons.cluster.x-k8s.io/deletion-policy: "skip-delete"
 ```
+
+## verify
+
+```bash
+kubectl get secrets -A --field-selector metadata.name=proxmox-credentials
+```
+
+expected: the secret listed in `default` and mirrored into every existing `cluster-*` namespace. editing the source secret should propagate to the copies.
+
+## related
+
+- [[proxmox-vm-protection-and-ranges-for-cluster-api|proxmox vm protection and ranges for cluster api]]

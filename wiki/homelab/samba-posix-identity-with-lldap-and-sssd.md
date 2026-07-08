@@ -90,6 +90,7 @@ LLDAP + SSSD + `tdbsam` is identity sharing, not password sharing. single-passwo
 NixOS home creation for Samba logins:
 
 ```nix
+# configuration.nix (this setup)
 security.pam.services.samba.makeHomeDir = true;
 ```
 

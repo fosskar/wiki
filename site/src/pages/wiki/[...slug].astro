@@ -54,7 +54,9 @@ const toc = (entry.data.enableToc ?? true)
                 <rect width="18" height="18" x="3" y="4" rx="2" />
                 <path d="M3 10h18" />
               </svg>
-              <time>{entry.data.date.toISOString().slice(0, 10)}</time>
+              <time datetime={entry.data.date.toISOString().slice(0, 10)}>
+                last verified {entry.data.date.toISOString().slice(0, 10)}
+              </time>
             </span>
           )
         }

@@ -24,6 +24,7 @@ in `gpg -K` output:
 ## nixos packages
 
 ```nix
+# configuration.nix (this setup: modules/nixos/hardware/yubikey/default.nix)
 environment.systemPackages = with pkgs; [
   yubikey-manager
   yubikey-personalization
@@ -36,7 +37,7 @@ services = {
   udev.packages = [ pkgs.yubikey-personalization ];
 };
 
-users.users.USERNAME.extraGroups = [ "pcscd" ];
+users.users.<username>.extraGroups = [ "pcscd" ];
 ```
 
 ## fix common gpg annoyances first
@@ -141,16 +142,16 @@ for each yubikey:
 
 ```bash
 ykman list
-ykman --device SERIAL_NUMBER openpgp access change-pin
-ykman --device SERIAL_NUMBER openpgp access change-admin-pin
+ykman --device <serial> openpgp access change-pin
+ykman --device <serial> openpgp access change-admin-pin
 ```
 
 optional touch settings:
 
 ```bash
-ykman --device SERIAL_NUMBER openpgp keys set-touch sig on
-ykman --device SERIAL_NUMBER openpgp keys set-touch aut on
-ykman --device SERIAL_NUMBER openpgp keys set-touch dec off
+ykman --device <serial> openpgp keys set-touch sig on
+ykman --device <serial> openpgp keys set-touch aut on
+ykman --device <serial> openpgp keys set-touch dec off
 ```
 
 ## 5. move subkeys to the first yubikey
@@ -205,6 +206,7 @@ export GPG_TTY=$(tty)
 nixos or home-manager agent config:
 
 ```nix
+# home-manager services.gpg-agent (this setup: modules/home-manager/system/gpg.nix + yubikey-gpg.nix)
 services.gpg-agent = {
   enable = true;
   enableSshSupport = true;
@@ -311,3 +313,8 @@ you backed up after moving keys to the first yubikey. restore from the backup ma
 - [drduh yubikey guide](https://github.com/drduh/yubikey-guide)
 - [arch wiki gpg](https://wiki.archlinux.org/title/GnuPG)
 - [yubikey docs](https://docs.yubico.com/)
+
+## related
+
+- [[pam-u2f-origin-and-appid|pam u2f origin and appid]]
+- [[shared-age-identity-across-multiple-yubikeys|shared age identity across multiple yubikeys]]

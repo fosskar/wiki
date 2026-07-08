@@ -130,8 +130,22 @@ shred -u age-key.pem age-key.pub
 
 if you replace the age key later, add the new recipient first, re-encrypt the secrets, then remove the old recipient. you need at least one still-working decryption key during that migration.
 
+## verify
+
+```bash
+age-plugin-yubikey --list
+age -d -i age-identity.txt test.age
+```
+
+expected: every yubikey reports the same recipient, and the decrypt prints `test` no matter which of them is inserted.
+
 ## references
 
 - [one age identity, multiple yubikeys](https://pablo.tools/blog/computers/one-age-identity-multiple-yubikeys/)
 - [yubico piv pin/touch policies](https://docs.yubico.com/yesdk/users-manual/application-piv/pin-touch-policies.html)
 - [age-plugin-yubikey](https://github.com/str4d/age-plugin-yubikey)
+
+## related
+
+- [[gpg-ssh-and-git-signing-with-yubikey|gpg, ssh, and git signing with yubikey]]
+- [[pam-u2f-origin-and-appid|pam u2f origin and appid]]

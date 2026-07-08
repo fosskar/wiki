@@ -19,7 +19,7 @@ for safety, rely on rbac and separate proxmox users instead of vm protection on 
 ## network ranges
 
 ```yaml
-# cluster/values.yaml
+# cluster/values.yaml (this setup)
 network:
   ipRange: "10.10.10.101-10.10.10.110"
   gateway: 10.10.10.1
@@ -28,6 +28,7 @@ network:
 ## vm id ranges
 
 ```yaml
+# cluster/values.yaml (this setup)
 proxmox:
   vmIdRange: "111-115"
 ```
@@ -41,3 +42,7 @@ a dedicated id range makes it obvious which vms belong to which cluster and avoi
 - control plane: `50gb` is enough
 
 back up the gitops repo and persistent workload data, not the cluster api nodes themselves.
+
+## related
+
+- [[reflect-proxmox-credentials-for-cluster-api|reflect proxmox credentials for cluster api]]

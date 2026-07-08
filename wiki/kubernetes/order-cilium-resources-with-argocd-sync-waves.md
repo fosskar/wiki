@@ -21,8 +21,9 @@ argocd waits for each wave to go healthy before moving on, so this turns an impl
 add this to `templates/loadbalancer-ippool.yaml` and `templates/l2announcement-policy.yaml`:
 
 ```yaml
+# cluster chart templates (this setup), both files
 metadata:
-  name: { { .Values.name } }
+  name: {{ .Values.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 ```
@@ -30,6 +31,7 @@ metadata:
 ## cilium values
 
 ```yaml
+# cilium helm values (this setup)
 ingressController:
   service:
     annotations:
@@ -42,3 +44,11 @@ hubble:
     annotations:
       argocd.argoproj.io/sync-wave: "3"
 ```
+
+## verify
+
+```bash
+argocd app get <cilium-app>
+```
+
+expected: `Sync Status: Synced` and `Health Status: Healthy` on the first sync, without manual retries — the ippool, ingress service, and hubble resources come up in wave order instead of failing on missing crds.

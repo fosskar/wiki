@@ -96,3 +96,7 @@ tc qdisc show dev <interface>
 
 - [tc-netem(8)](https://man7.org/linux/man-pages/man8/tc-netem.8.html)
 - [tc(8)](https://man7.org/linux/man-pages/man8/tc.8.html)
+
+## related
+
+- [[cs2-launch-options|cs2 launch options]]

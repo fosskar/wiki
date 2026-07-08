@@ -19,9 +19,10 @@ layer split:
 
 ## with gamescope
 
-for fixed virtual resolution, ultrawide output, FSR upscaling, fullscreen isolation, or gamescope overlay data.
+for fixed virtual resolution, ultrawide output, FSR upscaling, fullscreen isolation, or gamescope overlay data. the resolutions and refresh rate below come from this setup's 3440x1440@165 display.
 
 ```bash
+# Steam > cs2 > Properties > Launch Options
 MESA_VK_WSI_PRESENT_MODE=immediate RADV_DEBUG=nogpl gamescope \
   --mangoapp \
   -w 1920 -h 1080 \
@@ -50,6 +51,7 @@ MESA_VK_WSI_PRESENT_MODE=immediate RADV_DEBUG=nogpl gamescope \
 for direct launch into the desktop session.
 
 ```bash
+# Steam > cs2 > Properties > Launch Options
 MESA_VK_WSI_PRESENT_MODE=immediate LD_BIND_NOW=1 ENABLE_VKBASALT=1 mangohud gamemoderun %command% -vulkan
 ```
 
@@ -102,3 +104,7 @@ normal MangoHud wraps the game process. gamescope needs mangoapp for the composi
 - [MangoHud](https://github.com/flightlessmango/MangoHud)
 - [GameMode](https://github.com/FeralInteractive/gamemode)
 - [vkBasalt](https://github.com/DadSchoorse/vkBasalt)
+
+## related
+
+- [[simulate-bad-networks-with-tc-netem|simulate bad networks with tc netem]]

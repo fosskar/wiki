@@ -10,7 +10,7 @@ this setup uses one shared load balancer ip for all ingress traffic. that keeps 
 ## shared ippool
 
 ```yaml
-# cilium/values.yaml
+# cluster chart values (this setup), rendered into cilium CRDs
 loadBalancerIPPool:
   enabled: true
   name: kube-prd-lb-pool
@@ -25,6 +25,7 @@ ingressController:
 ## l2 announcement policy
 
 ```yaml
+# cluster chart values (this setup), rendered into cilium CRDs
 l2AnnouncementPolicy:
   enabled: true
   name: kube-prd-l2-policy
@@ -46,6 +47,7 @@ configure local dns so service names resolve to the shared ingress ip:
 ## example ingress
 
 ```yaml
+# example ingress manifest (this setup)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -82,3 +84,16 @@ kubectl get pods -l app.kubernetes.io/name=cilium-agent
 ### dns not resolving
 
 check the router dns entry and make sure it points at the same ip from the ippool.
+
+## verify
+
+```bash
+kubectl get svc cilium-ingress
+```
+
+expected: `EXTERNAL-IP` shows `10.10.10.120` (the single ip from the pool). then any `*.kube-prd.lan` name should resolve to that ip and the corresponding page should load.
+
+## related
+
+- [[local-ingress-dns-across-routers|local ingress dns across routers]]
+- [[talos-kubernetes-bootstrap-issues|talos kubernetes bootstrap issues]]

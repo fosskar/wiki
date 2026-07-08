@@ -24,6 +24,7 @@ pamu2fcfg -u <username> -o pam://yubikey -i pam://yubikey > u2f_keys
 ## use the same value in nixos
 
 ```nix
+# configuration.nix (this setup: modules/nixos/hardware/yubikey/u2f.nix)
 security.pam = {
   u2f = {
     enable = true;
@@ -55,3 +56,8 @@ if you skip `-o`, `pamu2fcfg` uses `pam://<hostname>`. that ties the enrollment 
 - auth fails: compare the `origin` strings first
 - no prompt: set `cue = true`
 - wrong authfile: make sure the file exists and pam can read it
+
+## related
+
+- [[gpg-ssh-and-git-signing-with-yubikey|gpg, ssh, and git signing with yubikey]]
+- [[shared-age-identity-across-multiple-yubikeys|shared age identity across multiple yubikeys]]
