@@ -1,11 +1,10 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 import type { APIContext } from "astro";
+import { published, postHref } from "../lib/posts";
 
 export async function GET(context: APIContext) {
-  const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-  );
+  const posts = published(await getCollection("blog"));
   return rss({
     title: "fosskar",
     description: "homelab, nixos, kubernetes — notes and projects",
@@ -14,7 +13,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/blog/${post.id.replace(/\.md$/, "")}/`,
+      link: postHref(post.id),
     })),
   });
 }
