@@ -1,0 +1,52 @@
+---
+// entry card for post/note listings; compact renders title and date on one row
+interface Props {
+  href: string;
+  title: string;
+  description?: string;
+  date?: Date;
+  compact?: boolean;
+}
+const { href, title, description, date, compact = false } = Astro.props;
+---
+
+<a class:list={["card", "entry", { compact }]} href={href}>
+  <span class="entry-title">{title}</span>
+  {description && <span class="entry-desc">{description}</span>}
+  {
+    date && (
+      <span class="meta">
+        <time>{date.toISOString().slice(0, 10)}</time>
+      </span>
+    )
+  }
+</a>
+
+<style>
+  .entry {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .entry-title {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .entry:hover .entry-title {
+    color: var(--accent);
+  }
+  .entry-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .entry .meta {
+    margin: 0;
+  }
+  .entry.compact {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.7rem 1.25rem;
+  }
+</style>

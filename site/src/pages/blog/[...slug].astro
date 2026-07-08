@@ -1,12 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ArticleHead from "../../components/ArticleHead.astro";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { published, postSlug } from "../../lib/posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = published(await getCollection("blog"));
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/\.md$/, "") },
+    params: { slug: postSlug(post.id) },
     props: { post },
   }));
 }
@@ -20,70 +22,16 @@ const { Content } = await render(post);
 
 <Layout title={`${post.data.title} — fosskar`} description={post.data.description}>
   <article>
-    <header class="article-head">
-      <p class="back">
-        <a href="/blog/">← blog</a>
-      </p>
-      <h1>{post.data.title}</h1>
-      {post.data.description && <p class="desc">{post.data.description}</p>}
-      <div class="meta">
-        <span class="date">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M8 2v4"></path>
-            <path d="M16 2v4"></path>
-            <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-            <path d="M3 10h18"></path>
-          </svg>
-          <time>{post.data.date.toISOString().slice(0, 10)}</time>
-        </span>
+    <ArticleHead
+      title={post.data.title}
+      description={post.data.description}
+      date={post.data.date}
+    >
+      <a slot="topline" href="/blog/">← blog</a>
+      <Fragment slot="chips">
         {post.data.tags.map((tag) => <span class="chip">#{tag}</span>)}
-      </div>
-    </header>
+      </Fragment>
+    </ArticleHead>
     <Content />
   </article>
 </Layout>
-
-<style>
-  .back {
-    margin: 0 0 1rem;
-    font-size: 0.85rem;
-  }
-  .back a {
-    color: var(--muted);
-    text-decoration: none;
-  }
-  .back a:hover {
-    color: var(--accent);
-  }
-  .article-head {
-    margin-bottom: 2rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .article-head h1 {
-    font-size: 2.1rem;
-    margin: 0 0 0.35rem;
-  }
-  .desc {
-    color: var(--muted);
-    margin: 0 0 0.75rem;
-  }
-  .date {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-  .date svg {
-    width: 0.9rem;
-    height: 0.9rem;
-  }
-</style>

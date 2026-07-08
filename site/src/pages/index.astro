@@ -1,18 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Social from "../components/Social.astro";
+import EntryCard from "../components/EntryCard.astro";
 import { getCollection } from "astro:content";
+import { published, postHref } from "../lib/posts";
+import { noteHref } from "../lib/notes";
 
-const posts = (await getCollection("blog", ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
+const posts = published(await getCollection("blog")).slice(0, 3);
 const notes = (await getCollection("wiki"))
   .sort((a, b) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0))
   .slice(0, 5);
-
-function noteSlug(id: string): string {
-  return id.split("/").pop()!.replace(/\.md$/, "");
-}
 ---
 
 <Layout title="fosskar" description="declarative nixos infrastructure — blog, wiki, and projects">
@@ -38,15 +35,12 @@ function noteSlug(id: string): string {
     <div class="stack">
       {
         posts.map((post) => (
-          <a class="card entry" href={`/blog/${post.id.replace(/\.md$/, "")}/`}>
-            <span class="entry-title">{post.data.title}</span>
-            {post.data.description && (
-              <span class="entry-desc">{post.data.description}</span>
-            )}
-            <span class="meta">
-              <time>{post.data.date.toISOString().slice(0, 10)}</time>
-            </span>
-          </a>
+          <EntryCard
+            href={postHref(post.id)}
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+          />
         ))
       }
     </div>
@@ -60,14 +54,12 @@ function noteSlug(id: string): string {
     <div class="stack">
       {
         notes.map((note) => (
-          <a class="card entry compact" href={`/wiki/${noteSlug(note.id)}/`}>
-            <span class="entry-title">{note.data.title}</span>
-            {note.data.date && (
-              <span class="meta">
-                <time>{note.data.date.toISOString().slice(0, 10)}</time>
-              </span>
-            )}
-          </a>
+          <EntryCard
+            href={noteHref(note.id)}
+            title={note.data.title}
+            date={note.data.date}
+            compact
+          />
         ))
       }
     </div>
@@ -103,32 +95,6 @@ function noteSlug(id: string): string {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-  .entry {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-  .entry-title {
-    font-weight: 600;
-    color: var(--text);
-  }
-  .entry:hover .entry-title {
-    color: var(--accent);
-  }
-  .entry-desc {
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  .entry .meta {
-    margin: 0;
-  }
-  .entry.compact {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 0.7rem 1.25rem;
   }
   .muted {
     color: var(--muted);
