@@ -1,42 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
-
-// section metadata lives here so folders need no index.md
-const SECTIONS: Record<string, string> = {
-  nixos: "NixOS-specific system, security, and troubleshooting notes",
-  kubernetes:
-    "talos, cilium, cluster api, networking, gitops, and local development notes",
-  homelab: "proxmox, networking, identity, storage, and infrastructure notes",
-  security:
-    "hardware tokens, authentication, encryption, and key management notes",
-};
+import {
+  SECTIONS,
+  groupsOf,
+  noteHref,
+  orderedSections,
+  sectionOf,
+} from "../../lib/notes";
 
 const all = await getCollection("wiki");
-const found = [...new Set(all.map((e) => e.id.split("/")[0]))];
-const sections = [
-  ...Object.keys(SECTIONS).filter((s) => found.includes(s)),
-  ...found.filter((s) => !(s in SECTIONS)).sort(),
-];
-
-// within a section, group notes by subdirectory ("" = section root)
-function groupsOf(dir: string): [string, typeof all][] {
-  const notes = all
-    .filter((e) => e.id.startsWith(dir + "/"))
-    .sort((a, b) => a.data.title.localeCompare(b.data.title));
-  const groups = new Map<string, typeof all>();
-  for (const note of notes) {
-    const parts = note.id.split("/");
-    const sub = parts.slice(1, -1).join("/");
-    if (!groups.has(sub)) groups.set(sub, []);
-    groups.get(sub)!.push(note);
-  }
-  return [...groups.entries()].sort(([a], [b]) => a.localeCompare(b));
-}
-
-function noteSlug(id: string): string {
-  return id.split("/").pop()!;
-}
+const sections = orderedSections(all.map((e) => sectionOf(e.id)));
 ---
 
 <Layout
@@ -56,15 +30,13 @@ function noteSlug(id: string): string {
         <section class="card" id={dir}>
           <h2>{dir}</h2>
           {SECTIONS[dir] && <p class="muted desc">{SECTIONS[dir]}</p>}
-          {groupsOf(dir).map(([sub, notes]) => (
+          {groupsOf(dir, all).map(([sub, notes]) => (
             <>
               {sub && <h3 class="subgroup">{sub}</h3>}
               <ul class="notes">
                 {notes.map((note) => (
                   <li>
-                    <a href={`/wiki/${noteSlug(note.id)}/`}>
-                      {note.data.title}
-                    </a>
+                    <a href={noteHref(note.id)}>{note.data.title}</a>
                     {note.data.type !== "note" && (
                       <span class="type">{note.data.type}</span>
                     )}
