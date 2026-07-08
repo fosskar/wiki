@@ -1,7 +1,0 @@
-# supply-chain cooldown: refuse package versions younger than 3 days,
-# so compromised releases get caught and pulled before we can resolve them
-minimumReleaseAge: 4320
-
-# node_modules is a read-only nix store symlink in the dev shell;
-# don't let pnpm try to reinstall it before running scripts
-verifyDepsBeforeRun: false
