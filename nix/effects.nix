@@ -45,7 +45,7 @@ in
   flake.effects = _args: {
     onSchedule.update-flake-inputs = {
       when = {
-        hour = 5;
+        hour = 21;
         minute = 0;
       };
       # updater lives in the nixfiles flake; no flake input required
