@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ArticleHead from "../../components/ArticleHead.astro";
+import WikiTree from "../../components/WikiTree.astro";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import {
@@ -25,12 +26,20 @@ interface Props {
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
 const section = sectionOf(entry.id);
+const all = await getCollection("wiki");
 const toc = (entry.data.enableToc ?? true)
   ? headings.filter((h) => h.depth >= 2 && h.depth <= 3)
   : [];
 ---
 
 <Layout title={`${entry.data.title} — fosskar`} description={entry.data.description}>
+  <nav class="wiki-sidebar" aria-label="wiki notes">
+    <WikiTree notes={all} current={entry.id} />
+  </nav>
+  <details class="wiki-browse">
+    <summary>browse wiki</summary>
+    <WikiTree notes={all} current={entry.id} />
+  </details>
   <article>
     <ArticleHead
       title={entry.data.title}
@@ -64,6 +73,40 @@ const toc = (entry.data.enableToc ?? true)
 </Layout>
 
 <style>
+  .wiki-sidebar {
+    display: none;
+    position: fixed;
+    top: 6rem;
+    /* left gutter, mirrors .toc */
+    right: calc(50% + 24rem);
+    width: 15rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .wiki-browse {
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .wiki-browse > summary {
+    cursor: pointer;
+    color: var(--muted);
+  }
+  .wiki-browse[open] > summary {
+    margin-bottom: 0.5rem;
+  }
+  @media (min-width: 82rem) {
+    .wiki-sidebar {
+      display: block;
+    }
+    .wiki-browse {
+      display: none;
+    }
+  }
   .toc {
     display: none;
     position: fixed;
@@ -94,7 +137,7 @@ const toc = (entry.data.enableToc ?? true)
     border-left: 1px solid var(--border);
   }
   .toc li {
-    padding: 0.15rem 0 0.15rem 0.75rem;
+    padding: 0.125rem 0 0.125rem 0.75rem;
   }
   .toc li.depth-3 {
     padding-left: 1.75rem;

@@ -1,0 +1,133 @@
+---
+import type { CollectionEntry } from "astro:content";
+import {
+  SECTIONS,
+  groupsOf,
+  noteHref,
+  orderedSections,
+  sectionOf,
+} from "../lib/notes";
+
+interface Props {
+  notes: CollectionEntry<"wiki">[];
+  current?: string;
+  index?: boolean;
+}
+const { notes, current, index = false } = Astro.props;
+const sections = orderedSections(notes.map((e) => sectionOf(e.id)));
+const holds = (prefix: string) =>
+  current !== undefined && current.startsWith(prefix + "/");
+---
+
+<ul class:list={["tree", { index }]}>
+  {
+    sections.map((dir) => (
+      <li>
+        <details open={index || holds(dir)} id={index ? dir : undefined}>
+          <summary>{dir}</summary>
+          {index && SECTIONS[dir] && <p class="desc">{SECTIONS[dir]}</p>}
+          <ul>
+            {groupsOf(dir, notes).map(([sub, group]) => {
+              const items = group.map((note) => (
+                <li>
+                  <a
+                    href={noteHref(note.id)}
+                    aria-current={note.id === current ? "page" : undefined}
+                  >
+                    {note.data.title}
+                  </a>
+                  {index && note.data.type !== "note" && (
+                    <span class="type">{note.data.type}</span>
+                  )}
+                </li>
+              ));
+              return sub ? (
+                <li>
+                  <details open={index || holds(`${dir}/${sub}`)}>
+                    <summary>{sub}</summary>
+                    <ul>{items}</ul>
+                  </details>
+                </li>
+              ) : (
+                items
+              );
+            })}
+          </ul>
+        </details>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .tree,
+  .tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tree ul {
+    margin-left: 0.4rem;
+    padding-left: 0.75rem;
+    border-left: 1px solid var(--border);
+  }
+  summary {
+    cursor: pointer;
+    list-style: none;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 0.15rem 0;
+    user-select: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::before {
+    content: "›";
+    display: inline-block;
+    width: 1rem;
+    color: var(--dim);
+    transition: transform 0.15s ease;
+  }
+  details[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  summary:hover {
+    color: var(--text);
+  }
+  .tree a {
+    display: inline-block;
+    padding: 0.1rem 0;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .tree a:hover {
+    color: var(--accent-bright);
+    text-decoration: underline;
+  }
+  .tree a[aria-current="page"] {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .desc {
+    margin: 0 0 0.35rem 1rem;
+    color: var(--dim);
+    font-size: 0.85rem;
+  }
+  .type {
+    margin-left: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.05rem 0.3rem;
+    vertical-align: middle;
+  }
+  .index > li + li {
+    margin-top: 0.75rem;
+  }
+  .index > li > details > summary {
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+</style>

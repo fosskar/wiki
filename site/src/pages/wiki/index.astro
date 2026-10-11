@@ -1,16 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import WikiTree from "../../components/WikiTree.astro";
 import { getCollection } from "astro:content";
-import {
-  SECTIONS,
-  groupsOf,
-  noteHref,
-  orderedSections,
-  sectionOf,
-} from "../../lib/notes";
 
 const all = await getCollection("wiki");
-const sections = orderedSections(all.map((e) => sectionOf(e.id)));
 ---
 
 <Layout
@@ -24,87 +17,16 @@ const sections = orderedSections(all.map((e) => sectionOf(e.id)));
     the useful part — what worked, why it worked, and what tradeoff was being
     made.
   </p>
-  <div class="stack">
-    {
-      sections.map((dir) => (
-        <section class="card" id={dir}>
-          <h2>{dir}</h2>
-          {SECTIONS[dir] && <p class="muted desc">{SECTIONS[dir]}</p>}
-          {groupsOf(dir, all).map(([sub, notes]) => (
-            <>
-              {sub && <h3 class="subgroup">{sub}</h3>}
-              <ul class="notes">
-                {notes.map((note) => (
-                  <li>
-                    <a href={noteHref(note.id)}>{note.data.title}</a>
-                    {note.data.type !== "note" && (
-                      <span class="type">{note.data.type}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ))}
-        </section>
-      ))
-    }
-  </div>
+  <nav class="wiki-index" aria-label="wiki notes">
+    <WikiTree notes={all} index />
+  </nav>
 </Layout>
 
 <style>
   .muted {
     color: var(--muted);
   }
-  .stack {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  .wiki-index {
     margin-top: 1.5rem;
-  }
-  .card h2 {
-    margin: 0 0 0.25rem;
-    font-size: 1.2rem;
-  }
-  .desc {
-    margin: 0 0 0.5rem;
-    font-size: 0.9rem;
-  }
-  .subgroup {
-    margin: 0.75rem 0 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--dim);
-  }
-  .notes {
-    list-style: none;
-    padding: 0;
-    margin: 0.25rem 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-  .notes a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.95rem;
-  }
-  .notes a:hover {
-    color: var(--accent);
-  }
-  .notes li::before {
-    content: "·";
-    color: var(--dim);
-    margin-right: 0.5rem;
-  }
-  .type {
-    margin-left: 0.5rem;
-    font-size: 0.7rem;
-    color: var(--dim);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.05rem 0.3rem;
-    vertical-align: middle;
   }
 </style>

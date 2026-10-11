@@ -18,7 +18,7 @@ export function noteHref(id: string): string {
   return `/wiki/${slugOf(id)}/`;
 }
 
-/** sections render as anchored cards on the wiki index */
+/** sections render as anchored tree nodes on the wiki index */
 export function sectionHref(section: string): string {
   return `/wiki/#${section}`;
 }
