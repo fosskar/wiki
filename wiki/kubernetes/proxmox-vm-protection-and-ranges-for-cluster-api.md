@@ -20,13 +20,13 @@ for safety, rely on rbac and separate proxmox users instead of vm protection on 
 
 ## network ranges
 
-node ips come from a fixed range on the lab lan:
+node ips come from a fixed range on the lab lan (example addresses):
 
 ```yaml
 # cluster/values.yaml (this setup)
 network:
-  ipRange: "10.10.10.101-10.10.10.110"
-  gateway: 10.10.10.1
+  ipRange: "172.16.20.101-172.16.20.110"
+  gateway: 172.16.20.1
 ```
 
 ## vm id ranges

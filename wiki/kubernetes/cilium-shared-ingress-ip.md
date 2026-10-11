@@ -5,7 +5,7 @@ date: 2025-08-20
 type: guide
 ---
 
-this setup uses one shared load balancer ip for all ingress traffic. that keeps local dns simple: every `*.kube-prd.lan` name points at one address, and ingress routes by host header after the request lands.
+this setup uses one shared load balancer ip for all ingress traffic. that keeps local dns simple: every `*.kube-prd.lan` name points at one address, and ingress routes by host header after the request lands. the ip addresses below are examples.
 
 ## shared ippool
 
@@ -14,7 +14,7 @@ this setup uses one shared load balancer ip for all ingress traffic. that keeps 
 loadBalancerIPPool:
   enabled: true
   name: kube-prd-lb-pool
-  cidr: "10.10.10.120/32"
+  cidr: "172.16.20.120/32"
 
 ingressController:
   loadbalancerMode: shared
@@ -41,8 +41,8 @@ l2 announcements matter because they make the chosen node answer for the service
 
 configure local dns so service names resolve to the shared ingress ip (a wildcard record covers the whole zone):
 
-- `hubble.kube-prd.lan` → `10.10.10.120`
-- `grafana.kube-prd.lan` → `10.10.10.120`
+- `hubble.kube-prd.lan` → `172.16.20.120`
+- `grafana.kube-prd.lan` → `172.16.20.120`
 
 ## example ingress
 
@@ -91,7 +91,7 @@ check the router dns entry and make sure it points at the same ip from the ippoo
 kubectl get svc cilium-ingress
 ```
 
-expected: `EXTERNAL-IP` shows `10.10.10.120` (the single ip from the pool). then any `*.kube-prd.lan` name should resolve to that ip and the corresponding page should load.
+expected: `EXTERNAL-IP` shows `172.16.20.120` (the single ip from the pool). then any `*.kube-prd.lan` name should resolve to that ip and the corresponding page should load.
 
 ## related
 
