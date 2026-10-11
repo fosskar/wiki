@@ -82,4 +82,3 @@ the most ui-friendly option, but you lose wildcard support and have to add every
 ## related
 
 - [[cilium-shared-ingress-ip|cilium shared ingress ip]]
-- [[opnsense-vlan-networking-for-a-kubernetes-lab|OPNsense vlan networking for a kubernetes lab]]
