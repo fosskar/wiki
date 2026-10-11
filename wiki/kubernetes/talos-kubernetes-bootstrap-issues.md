@@ -49,7 +49,9 @@ nothing approves kubelet serving certs on its own. talos config includes `kubele
 
 ```yaml
 # talos machine config (this setup)
-- https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
+cluster:
+  extraManifests:
+    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
 ```
 
 but the approver itself needs a working cluster, so it cannot help once bootstrap is already wedged.
@@ -59,7 +61,7 @@ but the approver itself needs a working cluster, so it cannot help once bootstra
 approve the pending serving csrs manually:
 
 ```bash
-kubectl certificate approve $(kubectl get csr -o name | grep kubelet-serving)
+kubectl certificate approve $(kubectl get csr --field-selector spec.signerName=kubernetes.io/kubelet-serving -o name)
 ```
 
 ## coredns crashes when cilium restarts

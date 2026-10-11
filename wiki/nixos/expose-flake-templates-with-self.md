@@ -12,10 +12,10 @@ if your flake exports templates, `self` is the part that points back at the curr
 templates = import "${self}/templates" { inherit self; };
 ```
 
-then you can initialize from that flake with:
+`self` only exists inside `flake.nix`; on the command line, refer to the flake by its flake reference:
 
 ```bash
-nix flake init -t self#templates.<name-of-template>
+nix flake init -t <flake-ref>#<name-of-template>
 ```
 
 that copies the selected template into the current directory.

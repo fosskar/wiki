@@ -66,7 +66,7 @@ pcrs `0`–`3` cover firmware and option roms, `7` covers secure boot state. mor
 if it worked, you should see:
 
 ```text
-new TPM2 token enrolled as key slot 1.
+New TPM2 token enrolled as key slot 1.
 ```
 
 ## recovery
