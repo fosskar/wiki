@@ -1,13 +1,14 @@
 ---
 title: pi-pack
-description: shareable pi agent assets — skills, prompts, extensions
+description: skills, extensions, prompts and themes for the pi coding agent
 repo: https://github.com/fosskar/pi-pack
 tags: [pi, nix, agents]
-order: 2
+order: 4
 ---
 
-Installable pack of assets for the pi coding agent: skills (jj workflow, OSM
-queries, paperless search, plan grilling), prompt templates for atomic jj
-commits, and extensions like a safety net for dangerous tool calls and a
-two-model convergence loop. Consumable via `pi install` or as a nix flake
-input.
+Installable pack for the pi coding agent. Extensions add things like a
+second-model review (`/oracle`), OSC52 clipboard copy and a git-backed wiki;
+skills cover research against primary sources, security audits, OSM and
+Paperless lookups and cross-model review loops; prompts handle atomic commits
+and publishing. Install it with `pi install`, or with the Home Manager module
+on Nix, which also pulls in the CLI tools the resources need.
