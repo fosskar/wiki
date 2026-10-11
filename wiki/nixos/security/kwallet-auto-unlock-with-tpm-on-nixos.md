@@ -111,6 +111,7 @@ systemd.user.services.kwallet-tpm-unlock = {
 2. seal the wallet password into a user credential
 
 ```bash
+mkdir -p ~/.config/kwallet-tpm
 echo -n '<kwallet-password>' | systemd-creds encrypt --user - ~/.config/kwallet-tpm/password.cred
 ```
 

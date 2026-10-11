@@ -99,7 +99,7 @@ age-plugin-yubikey --list
 
 ## test it
 
-`<recipient>` is the recipient printed by `age-plugin-yubikey --list`.
+`<recipient>` is the recipient printed by `age-plugin-yubikey --list`. `age-plugin-yubikey` numbers the 20 retired piv slots from 1, so its `--slot 1` is the slot `ykman` calls `82`.
 
 ```bash
 age-plugin-yubikey --identity --serial <serial> --slot 1 > age-identity.txt

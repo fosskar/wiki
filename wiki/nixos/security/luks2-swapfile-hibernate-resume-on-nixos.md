@@ -8,7 +8,7 @@ type: note
 if the swapfile lives inside the already-unlocked root filesystem, you do not need a separate encrypted swap device. the important extra bit is hibernate resume: the kernel needs both the unlocked device and the file's physical offset so it can find the image again during early boot.
 
 ```nix
-# configuration.nix — device and offset are from this setup's machine
+# configuration.nix — offset is from this setup's machine
 swapDevices = [
   {
     device = "/var/swapfile";
@@ -16,13 +16,13 @@ swapDevices = [
   }
 ];
 
-boot.resumeDevice = "/dev/dm-0";
+boot.resumeDevice = "/dev/mapper/<name>";
 boot.kernelParams = [
   "resume_offset=372736"
 ];
 ```
 
-`/dev/dm-0` is the unlocked luks mapping on this machine; get `resume_offset` from the `physical_offset` of the first extent (row `0`) reported by:
+`size` is in MiB, so `32 * 1024` is a 32 GiB swapfile. `/dev/mapper/<name>` is the unlocked luks mapping; use it rather than `/dev/dm-N`, whose number depends on activation order. get `resume_offset` from the `physical_offset` of the first extent (row `0`) reported by:
 
 ```bash
 filefrag -v /var/swapfile

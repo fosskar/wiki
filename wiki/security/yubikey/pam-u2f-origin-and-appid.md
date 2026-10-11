@@ -33,6 +33,8 @@ if you also want to set `appid` explicitly:
 pamu2fcfg -u <username> -o pam://yubikey -i pam://yubikey > u2f_keys
 ```
 
+without an `authfile` setting, pam-u2f reads `~/.config/Yubico/u2f_keys` (`$XDG_CONFIG_HOME/Yubico/u2f_keys` if that is set), so move the file there or point `settings.authfile` at it.
+
 ### use the same value in nixos
 
 ```nix
