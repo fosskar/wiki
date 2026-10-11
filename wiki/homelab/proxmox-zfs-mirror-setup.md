@@ -53,3 +53,7 @@ zpool status rpool
 ```
 
 expected: `mirror-0` with both `-part3` devices listed and pool state `ONLINE` once the resilver finishes. also check `proxmox-boot-tool status` lists both esp partitions as boot targets.
+
+## related
+
+- [[borg-backups-of-zfs-snapshots-come-out-empty|borg backups of zfs snapshots come out empty]]
