@@ -76,7 +76,7 @@ const holds = (prefix: string) =>
     list-style: none;
     color: var(--muted);
     font-weight: 600;
-    padding: 0.15rem 0;
+    padding: 0.125rem 0;
     user-select: none;
   }
   summary::-webkit-details-marker {
@@ -86,18 +86,23 @@ const holds = (prefix: string) =>
     content: "›";
     display: inline-block;
     width: 1rem;
-    color: var(--dim);
+    color: var(--muted);
     transition: transform 0.15s ease;
   }
   details[open] > summary::before {
     transform: rotate(90deg);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    summary::before {
+      transition: none;
+    }
   }
   summary:hover {
     color: var(--text);
   }
   .tree a {
     display: inline-block;
-    padding: 0.1rem 0;
+    padding: 0.125rem 0;
     color: var(--text);
     text-decoration: none;
   }
@@ -110,17 +115,17 @@ const holds = (prefix: string) =>
     font-weight: 600;
   }
   .desc {
-    margin: 0 0 0.35rem 1rem;
-    color: var(--dim);
+    margin: 0 0 0.25rem 1rem;
+    color: var(--muted);
     font-size: 0.85rem;
   }
   .type {
     margin-left: 0.5rem;
     font-size: 0.7rem;
-    color: var(--dim);
+    color: var(--muted);
     border: 1px solid var(--border);
     border-radius: 4px;
-    padding: 0.05rem 0.3rem;
+    padding: 0.125rem 0.25rem;
     vertical-align: middle;
   }
   .index > li + li {
