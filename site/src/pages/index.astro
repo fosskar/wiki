@@ -14,7 +14,6 @@ const notes = (await getCollection("wiki"))
 
 <Layout title="fosskar" description="half blog, half wiki — notes on kubernetes, homelab, and nixos">
   <section class="hero">
-    <img src="/icon.svg" alt="" class="avatar" width="88" height="88" />
     <h1>hi, i'm fosskar</h1>
     <p class="tagline">
       this site is half blog, half wiki about kubernetes, homelab, and nixos:
@@ -72,14 +71,6 @@ const notes = (await getCollection("wiki"))
     align-items: center;
     text-align: center;
     padding: 1.5rem 0 1rem;
-  }
-  .avatar {
-    width: 5.5rem;
-    height: 5.5rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--bg-alt);
-    padding: 0.6rem;
   }
   .hero h1 {
     font-size: 2rem;
