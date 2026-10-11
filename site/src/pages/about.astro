@@ -5,19 +5,26 @@ import Layout from "../layouts/Layout.astro";
 <Layout title="about — fosskar" description="about fosskar">
   <h1>about</h1>
   <p>
-    infrastructure person. everything i run — daily-driver desktop, framework
-    laptop, home servers, a hetzner vps, even the openwrt router and access
-    points — is declared in one nixos flake managed with
-    <a href="https://docs.clan.lol/">clan-core</a>: machine inventory, secrets
-    via sops-nix/age, disko partitioning, ephemeral roots with opt-in state
-    persistence.
+    i'm a devops engineer. most of my working day goes into kubernetes:
+    keeping clusters healthy, rolling out changes the gitops way so that git
+    stays the single source of truth, and building the ci pipelines that get
+    code there — mostly gitlab ci, with some github actions on the side.
   </p>
   <p>
-    this site is where the operational knowledge lands: the
-    <a href="/wiki/">wiki</a> keeps terse notes on what broke and how it was
-    fixed, the <a href="/blog/">blog</a> is for longer-form writing.
+    at home i do much the same thing for fun. i run a homelab full of
+    self-hosted services, experiment with local llms, and describe every
+    machine declaratively in nixos, with nixbot building and checking the
+    result. when something annoys me often enough, it turns into a small tool;
+    those end up on the <a href="/projects/">projects</a> page.
   </p>
   <p>
-    find me on <a href="https://codeberg.org/fosskar">codeberg</a>.
+    this site is where the lessons land. the <a href="/wiki/">wiki</a> keeps
+    short notes on what broke and how it was fixed; the
+    <a href="/blog/">blog</a> is for topics that need more room.
+  </p>
+  <p>
+    my code lives on <a href="https://github.com/fosskar">github</a>, mirrored
+    to <a href="https://radicle.fosskar.eu">radicle</a>. for anything else,
+    find me on <a href="https://matrix.to/#/@fosskar:fosskar.de">matrix</a>.
   </p>
 </Layout>
