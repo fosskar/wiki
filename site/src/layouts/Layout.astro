@@ -4,8 +4,9 @@ import Social from "../components/Social.astro";
 interface Props {
   title: string;
   description?: string;
+  lang?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, lang = "en" } = Astro.props;
 const nav = [
   { href: "/", label: "home" },
   { href: "/blog/", label: "blog" },
@@ -17,7 +18,7 @@ const path = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -1,26 +1,49 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import AboutHead from "../components/AboutHead.astro";
 ---
 
 <Layout title="about — fosskar" description="about fosskar">
-  <h1>about</h1>
+  <AboutHead lang="en" />
   <p>
-    i'm a devops engineer. at work that means kubernetes and gitops, plus ci
-    pipelines in gitlab ci and the occasional github actions workflow.
+    i'm simon. i work as a devops engineer and sre on kubernetes and gitops,
+    and outside of work i'm deep into open source: nix and nixos,
+    self-hosting, and running and benchmarking (local) llms.
   </p>
   <p>
-    at home i run a homelab with self-hosted services and play with local
-    llms. my machines run nixos. if something bugs me long enough, i write a
-    small tool for it; those are on the <a href="/projects/">projects</a> page.
+    there has always been a linux box running somewhere around me. for years it
+    was a hobby: break something, read until it works again, move on to the
+    next thing. in 2022 i went through a bootcamp to turn that into a job, and
+    i've been working in devops since 2023.
   </p>
   <p>
-    the <a href="/wiki/">wiki</a> is where i write down how i fixed things, so
-    i don't have to figure them out twice. the <a href="/blog/">blog</a> is for
-    the longer stuff.
+    the hobby taught me to think in whole systems rather than single machines.
+    the job taught me how much i dislike doing the same thing twice by hand,
+    and that is what brought me to nixos: describe a machine once, rebuild it
+    whenever.
   </p>
   <p>
-    code: <a href="https://github.com/fosskar">github</a>, mirrored to <a
-      href="https://radicle.fosskar.eu">radicle</a
-    >. chat: <a href="https://matrix.to/#/@fosskar:fosskar.de">matrix</a>.
+    what usually gets me going is annoyance. when something bugs me long
+    enough, i fix it properly instead of working around it, and i like that the
+    result is mine. most of my side projects started that way; they're on the
+    <a href="/projects/">projects</a> page.
+  </p>
+  <p>
+    i don't try to understand everything. software is too big for that, and if
+    you try, you stop making progress. i learn the parts i actually use, deep
+    enough to fix them.
+  </p>
+  <p>
+    i write things down when i want to remember them, when i want to show them
+    to other people, or to document an experience or a process. that's what
+    the <a href="/wiki/">wiki</a> is for. the <a href="/blog/">blog</a> is for
+    longer pieces.
+  </p>
+  <p>
+    i'd like to work with nix professionally. if you're hiring for that, have
+    freelance work, or want to talk nix or kubernetes, write me on <a
+      href="https://matrix.to/#/@fosskar:fosskar.de">matrix</a
+    >. code is on <a href="https://github.com/fosskar">github</a>, mirrored to
+    <a href="https://radicle.fosskar.eu">radicle</a>.
   </p>
 </Layout>

@@ -1,0 +1,58 @@
+---
+interface Props {
+  lang: "en" | "de";
+}
+const { lang } = Astro.props;
+const langs = [
+  { lang: "en", href: "/about/" },
+  { lang: "de", href: "/about/de/" },
+];
+---
+
+<div class="about-head">
+  <h1>about</h1>
+  <nav class="lang-switch" aria-label="language">
+    {
+      langs.map((l) => (
+        <a
+          href={l.href}
+          hreflang={l.lang}
+          aria-current={l.lang === lang ? "page" : undefined}
+        >
+          {l.lang}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<style>
+  .about-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .lang-switch {
+    display: flex;
+    gap: 0.15rem;
+  }
+  .lang-switch a {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.2rem 0.6rem;
+    border-radius: 8px;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
+  }
+  .lang-switch a:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--text) 7%, transparent);
+  }
+  .lang-switch a[aria-current="page"] {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+</style>
