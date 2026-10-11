@@ -18,6 +18,8 @@ sgdisk -G /dev/nvme0n1
 
 ## 2. grow the zfs partition on the new disk
 
+the cloned partition 3 has the old disk's size. recreating it through the end of the disk lets the new disk use all of its space:
+
 ```bash
 sgdisk -d 3 /dev/nvme0n1
 sgdisk -n 3:0:0 /dev/nvme0n1
@@ -28,6 +30,8 @@ sgdisk -t 3:BF01 /dev/nvme0n1
 - `-t 3:BF01`: mark it as a zfs partition
 
 ## 3. make the second disk bootable
+
+partition 2 is the esp cloned in step 1. format it and register it with proxmox-boot-tool so the new disk can boot on its own:
 
 ```bash
 proxmox-boot-tool format /dev/nvme0n1p2 --force

@@ -5,18 +5,22 @@ date: 2025-08-20
 type: note
 ---
 
+cluster api creates and deletes proxmox vms on its own, so proxmox has to let it, and its vms need ids, ips, and disks that never collide with hand-made ones.
+
 ## disable protection for cluster api vms
 
 proxmox protection is useful for pets. cluster api nodes are cattle. if protection is on, cluster api can shut a vm down but proxmox will refuse to delete it, which leaves dead clusters half-cleaned up.
 
 disable protection for any vm or template that cluster api owns:
 
-1. proxmox ui → vm → options → protection → uncheck
-2. or make templates default to protection disabled
+- per vm: proxmox ui → vm → options → protection → uncheck
+- or make templates default to protection disabled
 
 for safety, rely on rbac and separate proxmox users instead of vm protection on disposable worker and control plane nodes.
 
 ## network ranges
+
+node ips come from a fixed range on the lab lan:
 
 ```yaml
 # cluster/values.yaml (this setup)

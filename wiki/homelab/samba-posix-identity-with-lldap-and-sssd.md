@@ -5,6 +5,8 @@ date: 2026-02-26
 type: guide
 ---
 
+one LLDAP directory can give Samba shares consistent linux users, groups, and home paths, so share ownership and `[homes]` follow the directory. it cannot give them a shared password: SMB passwords stay in Samba's own `tdbsam`. this note keeps those two halves apart.
+
 ## model
 
 ```text
@@ -13,15 +15,15 @@ lldap custom attributes -> sssd nss -> linux uid/gid/home/shell -> samba file ac
                                                       -> samba tdbsam password
 ```
 
-`lldap` stores the POSIX identity data. `sssd` exposes that data through NSS. `samba` maps SMB sessions to the resulting linux user and group.
+LLDAP stores the POSIX identity data. SSSD exposes that data through NSS. Samba maps SMB sessions to the resulting linux user and group.
 
 `tdbsam` stays separate. LLDAP password verification and Samba SMB password verification use different secrets.
 
 ## ldap attributes
 
-use the attribute names that `sssd` is configured to read. default SSSD LDAP mappings use `uidNumber`, `gidNumber`, `homeDirectory`, and `loginShell`; lowercase custom names require matching SSSD mapping.
+use the attribute names that SSSD is configured to read. default SSSD LDAP mappings use `uidNumber`, `gidNumber`, `homeDirectory`, and `loginShell`; the lowercase custom names below need a matching SSSD attribute mapping (see `sssd-ldap-attributes(5)` in references).
 
-user attributes:
+user attributes (this setup):
 
 | attribute       | value                                              |
 | --------------- | -------------------------------------------------- |
@@ -30,7 +32,7 @@ user attributes:
 | `homedirectory` | unix home path used by `[homes]`                   |
 | `unixshell`     | login shell; `/sbin/nologin` for SMB-only accounts |
 
-group attributes:
+group attributes (this setup):
 
 | attribute   | value                                |
 | ----------- | ------------------------------------ |
@@ -43,15 +45,15 @@ group attributes:
 - every `uidnumber` is unique
 - every `gidnumber` used by a user exists on a group
 - user `gidnumber` equals the intended primary group `gidnumber`
-- shared filesystem paths use the same gid that LLDAP exposes through `sssd`
+- shared filesystem paths use the same gid that LLDAP exposes through SSSD
 - `homedirectory` points at the path Samba exposes through `[homes]`
 - SMB-only users use a non-login shell such as `/sbin/nologin`
 
 ## samba boundary
 
-Samba needs a linux identity and an SMB password entry.
+Samba needs two things per user: a linux identity and an SMB password entry.
 
-`sssd` supplies the linux identity:
+SSSD supplies the linux identity:
 
 ```bash
 getent passwd <user>
@@ -64,9 +66,22 @@ Samba supplies the SMB password entry:
 sudo smbpasswd -a <user>
 ```
 
-`smbpasswd -a` requires the user to exist through NSS first. If `getent passwd <user>` fails, the Samba password entry cannot be added cleanly.
+`smbpasswd -a` requires the user to exist through NSS first. if `getent passwd <user>` fails, the Samba password entry cannot be added cleanly.
 
-## why lldap userPassword is not the SMB password
+once a user is logged in, file access follows the linux identity: `[homes]` uses the home directory from it, and shared folders use filesystem ownership and mode bits from the resolved uid/gid.
+
+### home directory creation
+
+Samba logins need the home directory to exist. on NixOS:
+
+```nix
+# configuration.nix (this setup)
+security.pam.services.samba.makeHomeDir = true;
+```
+
+same mechanism elsewhere: enable `pam_mkhomedir` for the Samba PAM service.
+
+## why the LLDAP userPassword is not the SMB password
 
 Samba can use LDAP for SMB accounts. `passdb backend = ldapsam` stores Samba account data in LDAP instead of `tdbsam`.
 
@@ -81,48 +96,13 @@ that does not mean generic LDAP `userPassword` is enough:
 
 SSSD does not change that boundary. SSSD exposes identity through NSS/PAM; `smbd` still verifies SMB authentication through its passdb backend.
 
-`getent passwd <user>` and `id <user>` prove identity lookup. `pdbedit -L` proves SMB password state.
-
 LLDAP + SSSD + `tdbsam` is identity sharing, not password sharing. single-password setups need Samba AD DC, external AD/kerberos with winbind, or `ldapsam` against an LDAP server that supports Samba schema and NT hash attributes.
-
-`[homes]` uses the home directory from the linux identity. shared folders use filesystem ownership and mode bits from the resolved uid/gid.
-
-NixOS home creation for Samba logins:
-
-```nix
-# configuration.nix (this setup)
-security.pam.services.samba.makeHomeDir = true;
-```
-
-same mechanism elsewhere: enable `pam_mkhomedir` for the Samba PAM service.
-
-## verify
-
-linux identity:
-
-```bash
-getent passwd <user>
-getent group <group>
-id <user>
-```
-
-Samba passdb:
-
-```bash
-pdbedit -L | grep '^<user>:'
-```
-
-expected split:
-
-- `getent passwd <user>` shows uid, gid, home, shell from SSSD
-- `id <user>` shows primary and supplementary groups from SSSD
-- `pdbedit -L` shows the separate SMB password account
 
 ## failure modes
 
 ### `smbpasswd -a <user>` fails
 
-missing linux identity. fix `sssd` lookup first:
+missing linux identity. fix the SSSD lookup first:
 
 ```bash
 getent passwd <user>
@@ -148,6 +128,28 @@ pdbedit -L | grep '^<user>:'
 ### file permissions look numeric or wrong
 
 uid/gid mismatch between LLDAP attributes and existing filesystem ownership.
+
+## verify
+
+`getent` and `id` prove identity lookup; `pdbedit -L` proves SMB password state. linux identity:
+
+```bash
+getent passwd <user>
+getent group <group>
+id <user>
+```
+
+Samba passdb:
+
+```bash
+pdbedit -L | grep '^<user>:'
+```
+
+expected split:
+
+- `getent passwd <user>` shows uid, gid, home, shell from SSSD
+- `id <user>` shows primary and supplementary groups from SSSD
+- `pdbedit -L` shows the separate SMB password account
 
 ## references
 

@@ -5,7 +5,18 @@ date: 2025-08-20
 type: troubleshooting
 ---
 
-## cilium 1.18.x regression
+three ways a talos cluster with cilium failed to come up cleanly on this setup. each section is symptom → cause → fix.
+
+## cilium 1.18.x bootstrap deadlock
+
+### symptom
+
+- cilium pods stuck in `Init:0/5`
+- nodes stuck `NotReady`
+- kubelet tls errors
+- pending kubelet-serving csrs
+
+### cause
 
 on this setup, cilium `1.18.x` can deadlock talos bootstrap:
 
@@ -13,12 +24,9 @@ on this setup, cilium `1.18.x` can deadlock talos bootstrap:
 - the approver needs the cluster networking stack running
 - cilium needs kubelet tls working first
 
-symptoms:
+upstream: [cilium issue #40983](https://github.com/cilium/cilium/issues/40983)
 
-- cilium pods stuck in `Init:0/5`
-- nodes stuck `NotReady`
-- kubelet tls errors
-- pending kubelet-serving csrs
+### fix
 
 pin cilium to `1.17.7`:
 
@@ -29,24 +37,38 @@ cni:
     version: "1.17.7"
 ```
 
-reference: [cilium issue #40983](https://github.com/cilium/cilium/issues/40983)
+## pending kubelet-serving csrs
 
-## certificate approval
+### symptom
 
-talos config includes `kubelet-serving-cert-approver`:
+kubelet-serving csrs stay pending and bootstrap does not progress.
+
+### cause
+
+nothing approves kubelet serving certs on its own. talos config includes `kubelet-serving-cert-approver` for that:
 
 ```yaml
 # talos machine config (this setup)
 - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
 ```
 
-if bootstrap is already wedged, approve the pending serving csrs manually:
+but the approver itself needs a working cluster, so it cannot help once bootstrap is already wedged.
+
+### fix
+
+approve the pending serving csrs manually:
 
 ```bash
 kubectl certificate approve $(kubectl get csr -o name | grep kubelet-serving)
 ```
 
-## coredns and host dns
+## coredns crashes when cilium restarts
+
+### symptom
+
+coredns crashes when cilium restarts with bpf masquerading.
+
+### fix
 
 worker config:
 
@@ -58,8 +80,6 @@ machine:
       enabled: true
       forwardKubeDNSToHost: false
 ```
-
-this avoids coredns crashing when cilium restarts with bpf masquerading.
 
 ## related
 

@@ -9,7 +9,7 @@ by default, `age-plugin-yubikey` generates a different key on each device. that 
 
 if you generate the p-256 key once and import that same key into multiple yubikeys, all of them end up with the same age identity. one recipient, multiple physical keys.
 
-the tradeoff is obvious: the private key exists briefly as a file during setup.
+the tradeoff: the private key exists as a file during setup, so it can be backed up, and can also leak, until it is shredded.
 
 ## why the certificate matters
 
@@ -45,10 +45,9 @@ openssl ec -in age-key.pem -pubout -out age-key.pub
 
 ## create the certificate
 
-important: newer `age-plugin-yubikey` (e.g. `0.5.1`) ignores identities that have unrecognized **critical** cert extensions.
-in practice, `openssl req -x509` may add `basicConstraints: critical` via defaults, which breaks identity discovery (`--identity` / `--list` output empty).
+important: newer `age-plugin-yubikey` (e.g. `0.5.1`) ignores identities that have unrecognized **critical** cert extensions. in practice, `openssl req -x509` may add `basicConstraints: critical` via defaults, which breaks identity discovery (`--identity` / `--list` output empty).
 
-use an explicit config so only the needed extensions are present:
+use an explicit config so only the needed extensions are present. `<pin-policy>` and `<touch-policy>` are bytes from the table above; the import below uses `NEVER`/`NEVER`, which means `01:01`:
 
 ```bash
 cat > age-cert.cnf <<'EOF'
@@ -58,7 +57,7 @@ x509_extensions = v3
 prompt = no
 
 [dn]
-CN = <cn-name>
+CN = <name>
 OU = <version>
 O = age-plugin-yubikey
 
@@ -99,6 +98,8 @@ age-plugin-yubikey --list
 ```
 
 ## test it
+
+`<recipient>` is the recipient printed by `age-plugin-yubikey --list`.
 
 ```bash
 age-plugin-yubikey --identity --serial <serial> --slot 1 > age-identity.txt

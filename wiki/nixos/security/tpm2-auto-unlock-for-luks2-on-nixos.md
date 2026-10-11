@@ -44,6 +44,7 @@ lsblk -f
 enrollment alone does nothing at boot. the initrd has to be systemd-based and told to try the tpm for the luks device:
 
 ```nix
+# NixOS host configuration; <name> is the existing boot.initrd.luks.devices entry for the root device
 boot.initrd.systemd.enable = true;
 boot.initrd.systemd.tpm2.enable = true;
 
@@ -68,14 +69,6 @@ if it worked, you should see:
 new TPM2 token enrolled as key slot 1.
 ```
 
-## verify
-
-```bash
-sudo systemd-cryptenroll <luks2-partition>
-```
-
-expected: a slot table listing `password` (slot 0) and `tpm2` (slot 1). then reboot — the volume should open without a passphrase prompt.
-
 ## recovery
 
 after a firmware or secure boot change the pcr values no longer match, unlock falls back to the passphrase, and the stale slot needs replacing:
@@ -84,6 +77,14 @@ after a firmware or secure boot change the pcr values no longer match, unlock fa
 sudo systemd-cryptenroll --wipe-slot=tpm2 <luks2-partition>
 sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+1+2+3+7 <luks2-partition>
 ```
+
+## verify
+
+```bash
+sudo systemd-cryptenroll <luks2-partition>
+```
+
+expected: a slot table listing `password` (slot 0) and `tpm2` (slot 1). then reboot — the volume should open without a passphrase prompt.
 
 ## related
 

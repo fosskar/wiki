@@ -5,7 +5,7 @@ date: 2026-04-06
 type: guide
 ---
 
-this swaps out gnome-keyring for kwallet and removes the extra password prompt at login. the idea is simple: store the wallet password as a tpm-sealed credential, decrypt it in the user session, derive the hash kwallet expects, then ask `kwalletd6` to unlock the wallet over dbus.
+this swaps out gnome-keyring for kwallet and removes the extra password prompt at login: store the wallet password as a tpm-sealed credential, decrypt it in the user session, derive the hash kwallet expects, then ask `kwalletd6` to unlock the wallet over dbus.
 
 ## why this route
 
@@ -53,6 +53,8 @@ environment.systemPackages = [
 
 ### unlock helper
 
+kwalletd6 does not take the plain password; it takes the pbkdf2 hash derived from the password and the wallet's salt file. the helper decrypts the credential, derives that hash with kwallet's parameters, and passes it to `pamOpen`.
+
 ```python
 # kwallet-tpm-unlock helper, inlined in modules/nixos/common/workstation/keyring.nix (this setup)
 import hashlib, subprocess, sys, dbus
@@ -84,6 +86,8 @@ if __name__ == "__main__":
 ```
 
 ### systemd user service
+
+runs the helper once the graphical session is up and retries every 2 seconds if the unlock fails.
 
 ```nix
 # modules/nixos/common/workstation/keyring.nix (this setup)
@@ -120,7 +124,7 @@ busctl --user call org.kde.kwalletd6 /modules/kwalletd6 org.kde.KWallet isOpen s
 
 expected: `b true` after login, without a kwallet password prompt having appeared.
 
-## credits
+## references
 
 based on [mic92's dotfiles](https://github.com/Mic92/dotfiles/tree/main/nixosModules/niri/kwallet-tpm) and [autokdewallet](https://github.com/Himalian/autokdewallet).
 

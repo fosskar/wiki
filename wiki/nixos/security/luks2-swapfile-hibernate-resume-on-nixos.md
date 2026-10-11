@@ -22,7 +22,7 @@ boot.kernelParams = [
 ];
 ```
 
-`/dev/dm-0` is the unlocked luks mapping on this machine; get `resume_offset` from the first `physical_offset` reported by:
+`/dev/dm-0` is the unlocked luks mapping on this machine; get `resume_offset` from the `physical_offset` of the first extent (row `0`) reported by:
 
 ```bash
 filefrag -v /var/swapfile

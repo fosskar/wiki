@@ -5,9 +5,9 @@ date: 2024-05-11
 type: reference
 ---
 
-steam launch strings for cs2 on AMD/Mesa with a Wayland desktop.
+Steam launch strings for cs2 on AMD/Mesa with a Wayland desktop. every part of a launch string belongs to one layer, so when something breaks after an update you can strip one layer at a time instead of guessing (see [debug order](#debug-order)).
 
-layer split:
+layers:
 
 - Wayland: desktop session
 - gamescope: nested microcompositor
@@ -15,11 +15,12 @@ layer split:
 - mangoapp: gamescope overlay
 - vkBasalt: Vulkan post-processing
 - Mesa/RADV variables: driver overrides
+- `gamemoderun`: GameMode wrapper
 - `%command% -vulkan`: cs2 command
 
 ## with gamescope
 
-for fixed virtual resolution, ultrawide output, FSR upscaling, fullscreen isolation, or gamescope overlay data. the resolutions and refresh rate below come from this setup's 3440x1440@165 display.
+use this for a fixed virtual resolution, ultrawide output, FSR upscaling, fullscreen isolation, or gamescope overlay data. the resolutions and refresh rate below come from this setup's 3440x1440@165 display.
 
 ```bash
 # Steam > cs2 > Properties > Launch Options
@@ -48,7 +49,7 @@ MESA_VK_WSI_PRESENT_MODE=immediate RADV_DEBUG=nogpl gamescope \
 
 ## without gamescope
 
-for direct launch into the desktop session.
+use this to launch cs2 directly into the desktop session, with no compositor in between.
 
 ```bash
 # Steam > cs2 > Properties > Launch Options
@@ -88,6 +89,8 @@ normal MangoHud wraps the game process. gamescope needs mangoapp for the composi
 `ENABLE_VKBASALT=1` enables Vulkan post-processing. remove it unless the visual filter is intentional.
 
 ## debug order
+
+remove one item at a time and retest after each, most experimental knob first:
 
 1. remove `LD_BIND_NOW=1`
 2. remove `ENABLE_VKBASALT=1`

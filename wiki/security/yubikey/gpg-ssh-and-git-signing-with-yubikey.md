@@ -5,7 +5,7 @@ date: 2025-08-23
 type: guide
 ---
 
-this setup keeps the offline master key out of daily use, moves the working subkeys onto yubikeys, and lets `gpg-agent` act as the ssh agent. the reason to do it this way is simple: ssh and git signing end up using hardware-backed keys without scattering private key files around the machine.
+this setup keeps the offline master key out of daily use, moves the working subkeys onto yubikeys, and lets `gpg-agent` act as the ssh agent. that way ssh and git signing use hardware-backed keys without scattering private key files around the machine.
 
 ## key layout
 
@@ -252,17 +252,6 @@ gpg for verified commits:
 gpg --armor --export $KEYID
 ```
 
-## verify
-
-```bash
-gpg --card-status | grep Serial
-gpg -K
-ssh-add -L
-ssh -T git@github.com
-```
-
-swap yubikeys and run the same checks again. both devices should expose the same ssh key.
-
 ## recovery
 
 ### new machine
@@ -307,6 +296,16 @@ ssh-add -L
 ### `unusable secret key` on the second yubikey
 
 you backed up after moving keys to the first yubikey. restore from the backup made before any `keytocard` step.
+
+## verify
+
+with one yubikey inserted:
+
+```bash
+ssh-add -L
+```
+
+expected: the same public key as in `~/.ssh/id_yubikey.pub`. swap yubikeys and run it again; both devices should expose the same ssh key. for a fuller check, `gpg --card-status | grep Serial` shows which yubikey is inserted, `gpg -K` marks the subkeys with `>` (on the smartcard), and `ssh -T git@github.com` should authenticate.
 
 ## references
 

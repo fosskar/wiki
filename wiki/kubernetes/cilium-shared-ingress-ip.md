@@ -39,7 +39,7 @@ l2 announcements matter because they make the chosen node answer for the service
 
 ## dns
 
-configure local dns so service names resolve to the shared ingress ip:
+configure local dns so service names resolve to the shared ingress ip (a wildcard record covers the whole zone):
 
 - `hubble.kube-prd.lan` → `10.10.10.120`
 - `grafana.kube-prd.lan` → `10.10.10.120`
@@ -96,4 +96,5 @@ expected: `EXTERNAL-IP` shows `10.10.10.120` (the single ip from the pool). then
 ## related
 
 - [[local-ingress-dns-across-routers|local ingress dns across routers]]
+- [[order-cilium-resources-with-argocd-sync-waves|order cilium resources with argocd sync waves]]
 - [[talos-kubernetes-bootstrap-issues|talos kubernetes bootstrap issues]]
