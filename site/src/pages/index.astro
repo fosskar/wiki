@@ -14,7 +14,7 @@ const notes = (await getCollection("wiki"))
 
 <Layout title="fosskar" description="half blog, half wiki — notes on kubernetes, homelab, and nixos">
   <section class="hero">
-    <h1>hi, i'm fosskar</h1>
+    <h1>hi, i’m fosskar</h1>
     <p class="tagline">
       this site is half blog, half wiki about kubernetes, homelab, and nixos:
       most pages start from a real problem, and
@@ -49,6 +49,7 @@ const notes = (await getCollection("wiki"))
       <h2>recent wiki notes</h2>
       <a class="view-all" href="/wiki/">view all →</a>
     </div>
+    {notes.length === 0 && <p class="muted">nothing here yet.</p>}
     <div class="stack">
       {
         notes.map((note) => (

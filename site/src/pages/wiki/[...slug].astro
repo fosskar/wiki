@@ -47,9 +47,9 @@ const toc = (entry.data.enableToc ?? true)
       date={entry.data.date}
       datePrefix="last verified"
     >
-      <Fragment slot="topline">
+      <nav slot="topline" aria-label="breadcrumb">
         <a href="/wiki/">wiki</a> / <a href={sectionHref(section)}>{section}</a>
-      </Fragment>
+      </nav>
       <Fragment slot="chips">
         {entry.data.type !== "note" && <span class="chip">{entry.data.type}</span>}
       </Fragment>
@@ -114,6 +114,8 @@ const toc = (entry.data.enableToc ?? true)
     /* right gutter: main column is 46rem centered */
     left: calc(50% + 24rem);
     width: 15rem;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
     font-size: 0.85rem;
     line-height: 1.5;
   }

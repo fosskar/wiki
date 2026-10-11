@@ -11,7 +11,7 @@ const { title, description, date, datePrefix = "" } = Astro.props;
 ---
 
 <header class="article-head">
-  <p class="topline"><slot name="topline" /></p>
+  <div class="topline"><slot name="topline" /></div>
   <h1>{title}</h1>
   {description && <p class="desc">{description}</p>}
   <div class="meta">

@@ -29,7 +29,11 @@ const rendered = await Promise.all(
           <p class="muted desc">{project.data.description}</p>
           <Content />
           {project.data.repo && (
-            <a class="source" href={project.data.repo}>
+            <a
+              class="source"
+              href={project.data.repo}
+              aria-label={`${project.data.title} source`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

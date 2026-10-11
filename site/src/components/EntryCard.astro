@@ -16,7 +16,9 @@ const { href, title, description, date, compact = false } = Astro.props;
   {
     date && (
       <span class="meta">
-        <time>{date.toISOString().slice(0, 10)}</time>
+        <time datetime={date.toISOString().slice(0, 10)}>
+          {date.toISOString().slice(0, 10)}
+        </time>
       </span>
     )
   }
@@ -41,6 +43,7 @@ const { href, title, description, date, compact = false } = Astro.props;
   }
   .entry .meta {
     margin: 0;
+    font-variant-numeric: tabular-nums;
   }
   .entry.compact {
     flex-direction: row;
@@ -48,5 +51,12 @@ const { href, title, description, date, compact = false } = Astro.props;
     align-items: baseline;
     gap: 1rem;
     padding: 0.75rem 1.25rem;
+  }
+  .entry.compact .entry-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .entry.compact .meta {
+    flex-shrink: 0;
   }
 </style>

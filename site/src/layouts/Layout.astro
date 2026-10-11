@@ -24,6 +24,16 @@ const path = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta
+      name="theme-color"
+      content="#202020"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#fafafa"
+      media="(prefers-color-scheme: light)"
+    />
     {description && <meta name="description" content={description} />}
     <title>{title}</title>
   </head>
@@ -31,7 +41,7 @@ const path = Astro.url.pathname;
     <a class="skip" href="#content">skip to content</a>
     <header>
       <nav>
-        <a href="/" class="brand">fosskar</a>
+        <a href="/" class="brand" translate="no">fosskar</a>
         <div class="links">
           {
             nav.map((item) => (
@@ -79,7 +89,12 @@ const path = Astro.url.pathname;
       };
       window.addEventListener("scroll", toggle, { passive: true });
       toggle();
-      btn.addEventListener("click", () => window.scrollTo({ top: 0 }));
+      btn.addEventListener("click", () => {
+        window.scrollTo({ top: 0 });
+        document
+          .querySelector<HTMLElement>(".skip")!
+          .focus({ preventScroll: true });
+      });
     </script>
     <script>
       // hover "#" anchors on article body headings
@@ -129,9 +144,18 @@ const path = Astro.url.pathname;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
   }
+  /* header nav wraps to two rows on narrow screens */
+  @media (max-width: 30rem) {
+    html {
+      scroll-padding-top: 8rem;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+    }
+    .heading-anchor {
+      transition: none;
     }
   }
   :focus-visible {
@@ -148,7 +172,7 @@ const path = Astro.url.pathname;
     border: 1px solid var(--border);
     border-radius: 8px;
   }
-  .skip:focus {
+  .skip:focus-visible {
     top: 0.5rem;
   }
   * {
@@ -159,6 +183,12 @@ const path = Astro.url.pathname;
     background: var(--bg);
     color: var(--text);
     line-height: 1.65;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: color-mix(
+      in srgb,
+      var(--accent) 20%,
+      transparent
+    );
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -229,6 +259,7 @@ const path = Astro.url.pathname;
     padding: 2rem 1rem 3rem;
     width: 100%;
     flex: 1;
+    overflow-wrap: break-word;
   }
 
   /* ---- footer ---- */
@@ -252,6 +283,7 @@ const path = Astro.url.pathname;
   h3 {
     line-height: 1.25;
     letter-spacing: -0.01em;
+    text-wrap: balance;
   }
   h1 {
     font-size: 2rem;
@@ -316,8 +348,9 @@ const path = Astro.url.pathname;
     margin: 2rem 0;
   }
   table {
+    display: block;
+    overflow-x: auto;
     border-collapse: collapse;
-    width: 100%;
     font-size: 0.95rem;
   }
   th,

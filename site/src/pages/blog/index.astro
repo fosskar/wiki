@@ -9,6 +9,7 @@ const posts = published(await getCollection("blog"));
 
 <Layout title="blog — fosskar" description="posts by fosskar">
   <h1>blog</h1>
+  {posts.length === 0 && <p class="muted">nothing here yet.</p>}
   <div class="stack">
     {
       posts.map((post) => (
